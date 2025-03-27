@@ -5,6 +5,10 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/auth-page";
 import Dashboard from "@/pages/dashboard";
+import TrafficPage from "@/pages/traffic-page";
+import HealthcarePage from "@/pages/healthcare-page";
+import SafetyPage from "@/pages/safety-page";
+import MapPage from "@/pages/map-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "./hooks/use-auth";
 
@@ -12,6 +16,10 @@ function Router() {
   return (
     <Switch>
       <ProtectedRoute path="/" component={Dashboard} />
+      <ProtectedRoute path="/traffic" component={TrafficPage} />
+      <ProtectedRoute path="/healthcare" component={HealthcarePage} />
+      <ProtectedRoute path="/safety" component={SafetyPage} />
+      <ProtectedRoute path="/map" component={MapPage} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>

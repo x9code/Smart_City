@@ -1,0 +1,641 @@
+import { useState } from "react";
+import { Sidebar } from "@/components/layout/sidebar";
+import { MobileNavigation } from "@/components/layout/mobile-navigation";
+import { Header } from "@/components/layout/header";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Heart, 
+  Activity, 
+  Clock, 
+  Calendar, 
+  Phone, 
+  MapPin, 
+  Search,
+  Info,
+  PlusCircle,
+  ArrowRight,
+  Star,
+  Users,
+  Stethoscope,
+  User,
+  Pill,
+  Thermometer,
+  FileText,
+  CheckCircle
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+
+// Sample data for healthcare facilities
+const healthcareFacilities = [
+  {
+    id: 1,
+    name: "City General Hospital",
+    type: "Hospital",
+    rating: 4.7,
+    reviews: 128,
+    address: "123 Main Street, Downtown",
+    distance: "1.2 miles",
+    waitTime: "45 min",
+    openingHours: "24/7",
+    phone: "(555) 123-4567",
+    services: ["Emergency", "Surgery", "Maternity", "Pediatrics", "Oncology"],
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 2,
+    name: "Community Health Center",
+    type: "Clinic",
+    rating: 4.5,
+    reviews: 86,
+    address: "456 Oak Avenue, Westside",
+    distance: "0.8 miles",
+    waitTime: "15 min",
+    openingHours: "8:00 AM - 8:00 PM",
+    phone: "(555) 987-6543",
+    services: ["Primary Care", "Vaccinations", "Laboratory", "Mental Health"],
+    image: "https://images.unsplash.com/photo-1516549655724-990a13792167?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 3,
+    name: "Riverside Medical Plaza",
+    type: "Medical Center",
+    rating: 4.8,
+    reviews: 215,
+    address: "789 River Road, Eastside",
+    distance: "2.5 miles",
+    waitTime: "30 min",
+    openingHours: "7:00 AM - 10:00 PM",
+    phone: "(555) 456-7890",
+    services: ["Cardiology", "Orthopedics", "Neurology", "Radiology", "Physical Therapy"],
+    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 4,
+    name: "Wellness Family Clinic",
+    type: "Family Practice",
+    rating: 4.6,
+    reviews: 64,
+    address: "234 Pine Street, Northside",
+    distance: "1.6 miles",
+    waitTime: "20 min",
+    openingHours: "9:00 AM - 6:00 PM",
+    phone: "(555) 234-5678",
+    services: ["Family Medicine", "Pediatrics", "Senior Care", "Preventive Medicine"],
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+];
+
+// Sample data for health programs
+const healthPrograms = [
+  {
+    id: 1,
+    title: "Vaccination Drive",
+    description: "Free and subsidized vaccinations for all residents, with a focus on seasonal flu shots and child immunizations.",
+    date: "October 15-30, 2023",
+    location: "Multiple centers across the city",
+    icon: "local_hospital",
+    color: "primary"
+  },
+  {
+    id: 2,
+    title: "Mental Health Awareness Week",
+    description: "Workshops, counseling sessions, and community events focused on mental health awareness and support.",
+    date: "November 2-8, 2023",
+    location: "Community Center & Online",
+    icon: "psychology",
+    color: "purple"
+  },
+  {
+    id: 3,
+    title: "Senior Wellness Program",
+    description: "Health checkups, fitness classes, and nutrition guidance specially designed for senior citizens.",
+    date: "Year-round program",
+    location: "Senior Centers & Home Visits",
+    icon: "elderly",
+    color: "teal"
+  },
+  {
+    id: 4,
+    title: "Maternal Care Initiative",
+    description: "Comprehensive support for expectant mothers including prenatal care, nutrition advice, and childbirth classes.",
+    date: "Ongoing",
+    location: "Women's Health Centers",
+    icon: "pregnant_woman",
+    color: "pink"
+  }
+];
+
+// Sample data for emergency services
+const emergencyServices = [
+  {
+    id: 1,
+    name: "Ambulance Services",
+    phone: "911",
+    response: "5-10 minutes",
+    available: true
+  },
+  {
+    id: 2,
+    name: "Fire Department Medical Unit",
+    phone: "911",
+    response: "7-12 minutes",
+    available: true
+  },
+  {
+    id: 3,
+    name: "Emergency Helicopter",
+    phone: "911",
+    response: "15-20 minutes",
+    available: true
+  },
+  {
+    id: 4,
+    name: "Poison Control Center",
+    phone: "(800) 222-1222",
+    response: "Immediate phone consultation",
+    available: true
+  }
+];
+
+// Sample data for health stats
+const healthStats = [
+  { name: "Healthcare Coverage", value: "92%", change: "+3%", trend: "up" },
+  { name: "Hospital Bed Occupancy", value: "76%", change: "-4%", trend: "down" },
+  { name: "Average Response Time", value: "8 min", change: "-1.5 min", trend: "down" },
+  { name: "Vaccination Rate", value: "87%", change: "+5%", trend: "up" }
+];
+
+// Sample data for recent health activities
+const healthActivities = [
+  {
+    id: 1,
+    type: "Emergency Call",
+    location: "Main Street & 5th Avenue",
+    time: "25 minutes ago",
+    status: "Resolved",
+    details: "Medical emergency responded to by Ambulance #103"
+  },
+  {
+    id: 2,
+    type: "Hospital Update",
+    location: "City General Hospital",
+    time: "1 hour ago",
+    status: "Active",
+    details: "Additional ICU beds made available"
+  },
+  {
+    id: 3,
+    type: "Health Advisory",
+    location: "Citywide",
+    time: "3 hours ago",
+    status: "Active",
+    details: "Heat wave warning for vulnerable populations"
+  }
+];
+
+const specialistList = [
+  {
+    id: 1,
+    name: "Dr. Sarah Johnson",
+    specialty: "Cardiologist",
+    hospital: "City General Hospital",
+    availability: "Next available: Tomorrow, 2:30 PM",
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    id: 2,
+    name: "Dr. Michael Chen",
+    specialty: "Pediatrician",
+    hospital: "Community Health Center",
+    availability: "Next available: Today, 4:15 PM",
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    id: 3,
+    name: "Dr. Emily Rodriguez",
+    specialty: "Neurologist",
+    hospital: "Riverside Medical Plaza",
+    availability: "Next available: Thursday, 10:00 AM",
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  }
+];
+
+export default function HealthcarePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>("facilities");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  return (
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar - desktop navigation */}
+      <Sidebar />
+      
+      {/* Mobile Navigation */}
+      <MobileNavigation />
+      
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <Header onMobileMenuToggle={toggleMobileMenu} title="Healthcare Services" />
+        
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto p-6 bg-slate-50">
+          {/* Health Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+            {healthStats.map((stat, index) => (
+              <Card key={index} className="bg-white">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-slate-500 mb-1">{stat.name}</p>
+                      <h3 className="text-2xl font-bold text-slate-800">{stat.value}</h3>
+                    </div>
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                      index === 0 ? "bg-blue-100 text-blue-600" : 
+                      index === 1 ? "bg-purple-100 text-purple-600" : 
+                      index === 2 ? "bg-green-100 text-green-600" : 
+                      "bg-amber-100 text-amber-600"
+                    }`}>
+                      {index === 0 ? <Users className="h-6 w-6" /> : 
+                       index === 1 ? <Thermometer className="h-6 w-6" /> :
+                       index === 2 ? <Clock className="h-6 w-6" /> :
+                       <Pill className="h-6 w-6" />}
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center text-sm">
+                    {stat.trend === "up" ? (
+                      <span className={stat.name === "Healthcare Coverage" || stat.name === "Vaccination Rate" ? "text-green-600" : "text-red-600"}>
+                        {stat.change} <ArrowRight className="h-3 w-3 ml-1 rotate-45 inline" />
+                      </span>
+                    ) : (
+                      <span className={stat.name === "Hospital Bed Occupancy" || stat.name === "Average Response Time" ? "text-green-600" : "text-red-600"}>
+                        {stat.change} <ArrowRight className="h-3 w-3 ml-1 -rotate-45 inline" />
+                      </span>
+                    )}
+                    <span className="text-slate-500 ml-2">from last month</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Search and Filters */}
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
+                <Input 
+                  placeholder="Search healthcare services, facilities, or programs..." 
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button variant="outline" className="flex items-center">
+                  <MapPin className="mr-2 h-4 w-4" />
+                  Near Me
+                </Button>
+                <Button variant="outline" className="flex items-center">
+                  <Clock className="mr-2 h-4 w-4" />
+                  Open Now
+                </Button>
+                <Button className="flex items-center">
+                  <Search className="mr-2 h-4 w-4" />
+                  Search
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs for Different Healthcare Sections */}
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full flex bg-white p-1 rounded-lg shadow mb-6">
+              <TabsTrigger value="facilities" className="flex-1 py-3">
+                <Stethoscope className="h-4 w-4 mr-2" />
+                Facilities
+              </TabsTrigger>
+              <TabsTrigger value="specialists" className="flex-1 py-3">
+                <User className="h-4 w-4 mr-2" />
+                Specialists
+              </TabsTrigger>
+              <TabsTrigger value="programs" className="flex-1 py-3">
+                <Calendar className="h-4 w-4 mr-2" />
+                Programs
+              </TabsTrigger>
+              <TabsTrigger value="emergency" className="flex-1 py-3">
+                <Activity className="h-4 w-4 mr-2" />
+                Emergency
+              </TabsTrigger>
+            </TabsList>
+            
+            {/* Healthcare Facilities */}
+            <TabsContent value="facilities" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {healthcareFacilities.map((facility) => (
+                  <Card key={facility.id} className="bg-white overflow-hidden hover:shadow-lg transition-shadow">
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={facility.image} 
+                        alt={facility.name} 
+                        className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                      />
+                    </div>
+                    <CardContent className="p-5">
+                      <Badge className="mb-2">{facility.type}</Badge>
+                      <h3 className="text-lg font-semibold text-slate-800 mb-2">{facility.name}</h3>
+                      <div className="flex items-center mb-2">
+                        <div className="flex text-amber-400 mr-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} fill={i < Math.floor(facility.rating) ? "currentColor" : "none"} className="h-4 w-4" />
+                          ))}
+                        </div>
+                        <span className="text-sm text-slate-500">{facility.rating} ({facility.reviews} reviews)</span>
+                      </div>
+                      <p className="text-sm text-slate-600 flex items-center mb-1">
+                        <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                        {facility.address}
+                      </p>
+                      <p className="text-sm text-slate-600 flex items-center mb-1">
+                        <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                        Wait time: {facility.waitTime}
+                      </p>
+                      <p className="text-sm text-slate-600 flex items-center mb-3">
+                        <Phone className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                        {facility.phone}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {facility.services.slice(0, 3).map((service, index) => (
+                          <Badge key={index} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                            {service}
+                          </Badge>
+                        ))}
+                        {facility.services.length > 3 && (
+                          <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200">
+                            +{facility.services.length - 3} more
+                          </Badge>
+                        )}
+                      </div>
+                    </CardContent>
+                    <CardFooter className="p-4 bg-slate-50 border-t border-slate-100">
+                      <Button className="w-full">Book Appointment</Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+            
+            {/* Specialists */}
+            <TabsContent value="specialists" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {specialistList.map((specialist) => (
+                  <Card key={specialist.id} className="bg-white overflow-hidden">
+                    <CardContent className="p-6">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 mr-4">
+                          <img 
+                            src={specialist.image} 
+                            alt={specialist.name} 
+                            className="h-16 w-16 rounded-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-slate-800">{specialist.name}</h3>
+                          <p className="text-sm text-blue-600 font-medium">{specialist.specialty}</p>
+                          <p className="text-sm text-slate-500">{specialist.hospital}</p>
+                          <div className="flex text-amber-400 mt-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} fill={i < Math.floor(specialist.rating) ? "currentColor" : "none"} className="h-3 w-3" />
+                            ))}
+                            <span className="text-xs text-slate-500 ml-1">{specialist.rating}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-4 bg-blue-50 text-blue-700 p-2 rounded-md text-sm flex items-center">
+                        <Calendar className="h-4 w-4 mr-2 text-blue-500" />
+                        {specialist.availability}
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mt-4">
+                        <Button variant="outline">View Profile</Button>
+                        <Button>Book Now</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+                <Card className="bg-white overflow-hidden border-dashed border-2 border-slate-300">
+                  <CardContent className="p-6 flex flex-col items-center justify-center h-full text-center">
+                    <PlusCircle className="h-12 w-12 text-slate-400 mb-3" />
+                    <h3 className="text-lg font-semibold text-slate-700">Find More Specialists</h3>
+                    <p className="text-sm text-slate-500 mt-2 mb-4">
+                      Search our database of medical professionals by specialty, location, or availability
+                    </p>
+                    <Button>Search Directory</Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+            
+            {/* Health Programs */}
+            <TabsContent value="programs" className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {healthPrograms.map((program) => (
+                  <Card key={program.id} className="bg-white overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className={`p-6 flex items-center justify-center md:w-1/4 ${
+                        program.color === "primary" ? "bg-blue-100" : 
+                        program.color === "purple" ? "bg-purple-100" : 
+                        program.color === "teal" ? "bg-teal-100" : 
+                        "bg-pink-100"
+                      }`}>
+                        <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                          program.color === "primary" ? "bg-blue-500 text-white" : 
+                          program.color === "purple" ? "bg-purple-500 text-white" : 
+                          program.color === "teal" ? "bg-teal-500 text-white" : 
+                          "bg-pink-500 text-white"
+                        }`}>
+                          <span className="material-icons text-2xl">{program.icon}</span>
+                        </div>
+                      </div>
+                      <div className="p-6 md:w-3/4">
+                        <h3 className="text-lg font-semibold text-slate-800 mb-2">{program.title}</h3>
+                        <p className="text-sm text-slate-600 mb-4">{program.description}</p>
+                        <div className="flex flex-col sm:flex-row sm:justify-between">
+                          <div>
+                            <p className="text-sm flex items-center mb-2">
+                              <Calendar className="h-4 w-4 mr-2 text-slate-400" />
+                              <span className="text-slate-700">{program.date}</span>
+                            </p>
+                            <p className="text-sm flex items-center">
+                              <MapPin className="h-4 w-4 mr-2 text-slate-400" />
+                              <span className="text-slate-700">{program.location}</span>
+                            </p>
+                          </div>
+                          <div className="mt-4 sm:mt-0">
+                            <Button>Register</Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
+            
+            {/* Emergency Services */}
+            <TabsContent value="emergency" className="mt-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2">
+                  <Card className="bg-white overflow-hidden mb-6">
+                    <CardHeader className="bg-red-50">
+                      <CardTitle className="text-red-700 flex items-center">
+                        <Activity className="h-5 w-5 mr-2" />
+                        Emergency Services
+                      </CardTitle>
+                      <CardDescription className="text-red-600">
+                        Dial 911 for immediate emergency assistance
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="border-b border-slate-200">
+                              <th className="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Service</th>
+                              <th className="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Contact</th>
+                              <th className="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Avg. Response</th>
+                              <th className="py-3 px-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-200">
+                            {emergencyServices.map((service) => (
+                              <tr key={service.id} className="hover:bg-slate-50">
+                                <td className="py-4 px-4 text-sm text-slate-800 font-medium">{service.name}</td>
+                                <td className="py-4 px-4 text-sm text-slate-600">{service.phone}</td>
+                                <td className="py-4 px-4 text-sm text-slate-600">{service.response}</td>
+                                <td className="py-4 px-4">
+                                  <Badge className="bg-green-100 text-green-800">
+                                    <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                                    Available
+                                  </Badge>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white">
+                    <CardHeader>
+                      <CardTitle>Recent Emergency Activities</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {healthActivities.map((activity) => (
+                          <div key={activity.id} className="p-4 bg-slate-50 rounded-lg">
+                            <div className="flex justify-between">
+                              <h4 className="font-medium text-slate-800">{activity.type}</h4>
+                              <Badge variant="outline" className={
+                                activity.status === "Resolved" 
+                                  ? "bg-green-100 text-green-700 border-green-200" 
+                                  : "bg-amber-100 text-amber-700 border-amber-200"
+                              }>
+                                {activity.status}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-slate-600 flex items-center mt-2">
+                              <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {activity.location}
+                            </p>
+                            <p className="text-sm text-slate-600 flex items-center mt-1">
+                              <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {activity.time}
+                            </p>
+                            <p className="text-sm text-slate-700 mt-2">{activity.details}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div>
+                  <Card className="bg-white mb-6">
+                    <CardHeader className="pb-0">
+                      <CardTitle>Emergency Guidelines</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="space-y-4">
+                        <div className="bg-slate-50 p-4 rounded-lg border-l-4 border-blue-500">
+                          <h4 className="font-medium text-slate-800 flex items-center">
+                            <Info className="h-4 w-4 mr-2 text-blue-500" />
+                            When to Call 911
+                          </h4>
+                          <ul className="mt-2 text-sm text-slate-600 space-y-1">
+                            <li>• Difficulty breathing or shortness of breath</li>
+                            <li>• Chest or upper abdominal pain or pressure</li>
+                            <li>• Fainting, sudden dizziness, weakness</li>
+                            <li>• Changes in vision</li>
+                            <li>• Confusion or changes in mental status</li>
+                            <li>• Any sudden or severe pain</li>
+                            <li>• Uncontrolled bleeding</li>
+                            <li>• Severe or persistent vomiting or diarrhea</li>
+                          </ul>
+                        </div>
+
+                        <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
+                          <h4 className="font-medium text-slate-800 flex items-center">
+                            <Info className="h-4 w-4 mr-2 text-red-500" />
+                            While Waiting for Help
+                          </h4>
+                          <ul className="mt-2 text-sm text-slate-600 space-y-1">
+                            <li>• Stay on the line with 911</li>
+                            <li>• Stay calm and reassuring to the patient</li>
+                            <li>• Don't move the person unless necessary</li>
+                            <li>• If trained, provide first aid or CPR</li>
+                            <li>• Clear space for emergency responders</li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="mt-6">
+                        <Button className="w-full">Download Emergency Guide</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-white">
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-center bg-slate-50 p-4 rounded-xl mb-4">
+                        <img 
+                          src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                          alt="Emergency Services Map" 
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                      </div>
+                      <h3 className="text-lg font-semibold text-slate-800 mb-2">Find Emergency Services Near You</h3>
+                      <p className="text-sm text-slate-600 mb-4">
+                        Use our interactive map to locate the nearest emergency facilities, including hospitals, urgent care, and fire stations.
+                      </p>
+                      <Button className="w-full">Open Emergency Map</Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    </div>
+  );
+}
