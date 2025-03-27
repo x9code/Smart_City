@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -82,3 +82,28 @@ export type EmergencyAlert = {
   description: string;
   type: string;
 };
+
+// Scrapbook Memory Entries Schema
+export const scrapbookEntries = pgTable("scrapbook_entries", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  location: text("location").notNull(),
+  locationCoordinates: json("location_coordinates").$type<{ lat: number; lng: number }>(),
+  date: timestamp("date").defaultNow().notNull(),
+  imageUrl: text("image_url"),
+  tags: text("tags").array(),
+  rating: integer("rating"),
+  isPublic: boolean("is_public").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Create insert schema for scrapbook entries
+export const insertScrapbookEntrySchema = createInsertSchema(scrapbookEntries).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertScrapbookEntry = z.infer<typeof insertScrapbookEntrySchema>;
+export type ScrapbookEntry = typeof scrapbookEntries.$inferSelect;

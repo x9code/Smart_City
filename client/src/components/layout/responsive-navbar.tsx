@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  LayoutDashboard, Map, Car, Building, School, Shield, Landmark, Menu, X, UserCircle
+  LayoutDashboard, Map, Car, Building, School, Shield, Landmark, Menu, X, UserCircle, BookOpen
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
@@ -31,6 +31,7 @@ export function ResponsiveNavbar() {
     { label: "Education", href: "/education", icon: <School className="h-5 w-5" /> },
     { label: "Safety", href: "/safety", icon: <Shield className="h-5 w-5" /> },
     { label: "Tourism", href: "/tourism", icon: <Landmark className="h-5 w-5" /> },
+    { label: "Scrapbook", href: "/scrapbook", icon: <BookOpen className="h-5 w-5" /> },
     { 
       label: "Admin", 
       href: "/admin/users", 

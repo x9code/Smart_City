@@ -1,8 +1,9 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { services, EmergencyAlert, Activity } from "@shared/schema";
+import { services, EmergencyAlert, Activity, insertScrapbookEntrySchema } from "@shared/schema";
+import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication routes
@@ -411,6 +412,148 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(mapData);
   });
   
+  // Interactive City Memory Scrapbook API
+  
+  // Middleware to check if user is authenticated
+  const isAuthenticated = (req: Request, res: Response, next: Function) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.status(401).json({ error: "Unauthorized" });
+  };
+
+  // Get all public scrapbook entries
+  app.get("/api/scrapbook/public", async (req, res) => {
+    try {
+      const entries = await storage.getPublicScrapbookEntries();
+      res.json(entries);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch public scrapbook entries" });
+    }
+  });
+
+  // Get user's scrapbook entries (authenticated)
+  app.get("/api/scrapbook/my-entries", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      const entries = await storage.getScrapbookEntriesByUserId(userId);
+      res.json(entries);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch your scrapbook entries" });
+    }
+  });
+
+  // Get a specific scrapbook entry
+  app.get("/api/scrapbook/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID format" });
+      }
+
+      const entry = await storage.getScrapbookEntryById(id);
+      if (!entry) {
+        return res.status(404).json({ error: "Entry not found" });
+      }
+
+      // If entry is not public, only the owner can view it
+      if (!entry.isPublic && (!req.isAuthenticated() || req.user?.id !== entry.userId)) {
+        return res.status(403).json({ error: "You don't have permission to view this entry" });
+      }
+
+      res.json(entry);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch scrapbook entry" });
+    }
+  });
+
+  // Create a new scrapbook entry (authenticated)
+  app.post("/api/scrapbook", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+
+      // Validate the request body
+      const result = insertScrapbookEntrySchema.safeParse({
+        ...req.body,
+        userId
+      });
+
+      if (!result.success) {
+        return res.status(400).json({ 
+          error: "Invalid entry data", 
+          details: result.error.format() 
+        });
+      }
+
+      const entry = await storage.createScrapbookEntry(result.data);
+      res.status(201).json(entry);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to create scrapbook entry" });
+    }
+  });
+
+  // Update a scrapbook entry (authenticated, owner only)
+  app.put("/api/scrapbook/:id", isAuthenticated, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID format" });
+      }
+
+      const entry = await storage.getScrapbookEntryById(id);
+      if (!entry) {
+        return res.status(404).json({ error: "Entry not found" });
+      }
+
+      // Check if the user is the owner of the entry
+      if (req.user?.id !== entry.userId) {
+        return res.status(403).json({ error: "You don't have permission to update this entry" });
+      }
+
+      // Update the entry
+      const updatedEntry = await storage.updateScrapbookEntry(id, req.body);
+      res.json(updatedEntry);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update scrapbook entry" });
+    }
+  });
+
+  // Delete a scrapbook entry (authenticated, owner only)
+  app.delete("/api/scrapbook/:id", isAuthenticated, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID format" });
+      }
+
+      const entry = await storage.getScrapbookEntryById(id);
+      if (!entry) {
+        return res.status(404).json({ error: "Entry not found" });
+      }
+
+      // Check if the user is the owner of the entry
+      if (req.user?.id !== entry.userId) {
+        return res.status(403).json({ error: "You don't have permission to delete this entry" });
+      }
+
+      // Delete the entry
+      const success = await storage.deleteScrapbookEntry(id);
+      if (success) {
+        res.status(204).end();
+      } else {
+        res.status(500).json({ error: "Failed to delete scrapbook entry" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Failed to delete scrapbook entry" });
+    }
+  });
+
   // Tourism API - Bhubaneswar
   app.get("/api/tourism", (req, res) => {
     const tourismData = {
