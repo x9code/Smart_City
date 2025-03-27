@@ -1,38 +1,61 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
-import { Redirect, Route } from "wouter";
+import { Redirect } from "wouter";
+import { motion } from "framer-motion";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export function ProtectedRoute({
-  path,
   component: Component,
 }: {
-  path: string;
-  component: () => React.JSX.Element;
+  component: React.ComponentType;
 }) {
   const { user, isLoading } = useAuth();
 
+  // Page transition animation
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeInOut"
+      }
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.3
+      }
+    }
+  };
+
   if (isLoading) {
     return (
-      <Route path={path}>
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-      </Route>
+      <div className="flex flex-col items-center justify-center min-h-[80vh]">
+        <LoadingSpinner variant="city" size="lg" />
+        <p className="mt-4 text-muted-foreground">Loading your smart city...</p>
+      </div>
     );
   }
 
   if (!user) {
-    return (
-      <Route path={path}>
-        <Redirect to="/auth" />
-      </Route>
-    );
+    return <Redirect to="/auth" />;
   }
 
-  // The fix is wrapping the Component in a Route with the specified path
   return (
-    <Route path={path}>
+    <motion.div
+      className="page-container"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <Component />
-    </Route>
+    </motion.div>
   );
 }

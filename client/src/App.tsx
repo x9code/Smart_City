@@ -16,20 +16,42 @@ import UsersPage from "@/pages/admin/users-page";
 import SettingsPage from "@/pages/admin/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
 import { AuthProvider } from "./hooks/use-auth";
+import { ResponsiveNavbar } from "@/components/layout/responsive-navbar";
+import { AnimatePresence } from "framer-motion";
 
 function Router() {
   return (
     <Switch>
-      <ProtectedRoute path="/" component={Dashboard} />
-      <ProtectedRoute path="/traffic" component={TrafficPage} />
-      <ProtectedRoute path="/healthcare" component={HealthcarePage} />
-      <ProtectedRoute path="/safety" component={SafetyPage} />
-      <ProtectedRoute path="/map" component={MapPage} />
-      <ProtectedRoute path="/tourism" component={TourismPage} />
-      <ProtectedRoute path="/education" component={EducationPage} />
-      <ProtectedRoute path="/onboarding" component={OnboardingPage} />
-      <ProtectedRoute path="/admin/users" component={UsersPage} />
-      <ProtectedRoute path="/admin/settings" component={SettingsPage} />
+      <Route path="/">
+        <ProtectedRoute component={Dashboard} />
+      </Route>
+      <Route path="/traffic">
+        <ProtectedRoute component={TrafficPage} />
+      </Route>
+      <Route path="/healthcare">
+        <ProtectedRoute component={HealthcarePage} />
+      </Route>
+      <Route path="/safety">
+        <ProtectedRoute component={SafetyPage} />
+      </Route>
+      <Route path="/map">
+        <ProtectedRoute component={MapPage} />
+      </Route>
+      <Route path="/tourism">
+        <ProtectedRoute component={TourismPage} />
+      </Route>
+      <Route path="/education">
+        <ProtectedRoute component={EducationPage} />
+      </Route>
+      <Route path="/onboarding">
+        <ProtectedRoute component={OnboardingPage} />
+      </Route>
+      <Route path="/admin/users">
+        <ProtectedRoute component={UsersPage} />
+      </Route>
+      <Route path="/admin/settings">
+        <ProtectedRoute component={SettingsPage} />
+      </Route>
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
@@ -40,7 +62,19 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router />
+        <div className="flex flex-col min-h-screen">
+          <ResponsiveNavbar />
+          <main className="flex-1">
+            <AnimatePresence mode="wait">
+              <Router />
+            </AnimatePresence>
+          </main>
+          <footer className="py-4 text-center text-sm text-muted-foreground bg-background border-t">
+            <div className="container mx-auto">
+              <p>© {new Date().getFullYear()} Smart City Management System. All rights reserved.</p>
+            </div>
+          </footer>
+        </div>
         <Toaster />
       </AuthProvider>
     </QueryClientProvider>
