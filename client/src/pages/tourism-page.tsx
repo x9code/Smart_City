@@ -219,32 +219,70 @@ export default function TourismPage() {
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
           {/* Hero Section */}
           <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden relative">
-            <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0 opacity-30">
               <img 
-                src="https://www.odishatourism.gov.in/sites/default/files/2020-09/Lingaraj%20Temple.jpg" 
+                src="https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-1.jpg" 
                 alt="Bhubaneswar Temples" 
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="p-8 md:p-12 relative z-10">
               <div className="max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">Discover Bhubaneswar</h1>
-                <p className="text-lg md:text-xl mb-6 text-blue-100">Experience the 'Temple City of India' with its ancient architecture, vibrant culture, and modern attractions.</p>
+                <span className="bg-indigo-800 text-white px-3 py-1 rounded-full text-sm font-medium inline-block mb-4">The Temple City of India</span>
+                <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience Magical Bhubaneswar</h1>
+                <p className="text-lg md:text-xl mb-6 text-blue-50">Explore ancient temples with stunning Kalinga architecture, vibrant festivals, rich cultural heritage, and modern attractions in Odisha's capital city.</p>
                 
                 <form onSubmit={handleSearch} className="flex items-center max-w-md">
                   <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <Input 
                       placeholder="Search attractions, events, restaurants..." 
-                      className="pl-10 bg-white text-slate-800 border-0"
+                      className="pl-10 bg-white text-slate-800 border-0 shadow-lg"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
                   </div>
-                  <Button type="submit" className="ml-2 bg-indigo-800 hover:bg-indigo-900">
+                  <Button type="submit" className="ml-2 bg-indigo-800 hover:bg-indigo-900 shadow-lg">
+                    <Search className="h-4 w-4 mr-2" />
                     Search
                   </Button>
                 </form>
+              </div>
+            </div>
+          </div>
+          
+          {/* Highlights Gallery */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
+              <img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2022/10/Mukteshwar-Temple-Bhubaneswar.jpg?resize=800%2C600&ssl=1" 
+                   alt="Temples of Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                <span className="text-white font-medium p-3">Temples</span>
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
+              <img src="https://odishatourism.gov.in/sites/default/files/2022-03/ekamra_2.jpg" 
+                   alt="Festivals of Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                <span className="text-white font-medium p-3">Festivals</span>
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
+              <img src="https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/odisha-food/images/Odisha-Food-Khaja.jpg" 
+                   alt="Odia Cuisine" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                <span className="text-white font-medium p-3">Cuisine</span>
+              </div>
+            </div>
+            <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
+              <img src="https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/heritage-crafts/heritage-crafts-pattachitra/gallery/Pattachitra_01.jpg" 
+                   alt="Handicrafts" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                <span className="text-white font-medium p-3">Handicrafts</span>
               </div>
             </div>
           </div>

@@ -507,7 +507,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "6:00 AM - 12:00 PM, 4:00 PM - 8:00 PM",
           price: "Free",
           tags: ["Religious", "Architecture", "Cultural"],
-          image: "https://www.holidify.com/images/cmsuploads/compressed/shutterstock_1038091188_20191024174904.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-2.jpg"
         },
         {
           id: 2,
@@ -520,7 +520,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "7:30 AM - 5:30 PM (Closed on Mondays)",
           price: "₹50 for adults, ₹25 for children",
           tags: ["Wildlife", "Family-Friendly", "Outdoor"],
-          image: "https://www.nandankanan.org/wp-content/uploads/2016/07/nkzp-overview.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/wildlife/nandankanan-zoo/gallery/Nandankanan-Zoological-Park-Gallery-1.jpg"
         },
         {
           id: 3,
@@ -533,7 +533,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "8:00 AM - 5:00 PM",
           price: "₹25 for Indians, ₹300 for foreigners",
           tags: ["History", "Architecture", "Cultural"],
-          image: "https://www.holidify.com/images/cmsuploads/compressed/Udayagiri_and_Khandagiri_Caves_20190430140600.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/caves/khandagiri-udayagiri-jain-caves/gallery/Khandagiri_udayagiri_caves_01.jpg"
         },
         {
           id: 4,
@@ -559,7 +559,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "4:30 AM - 1:00 PM, 4:00 PM - 9:00 PM",
           price: "Free",
           tags: ["Religious", "Architecture", "Spiritual"],
-          image: "https://www.templepurohit.com/wp-content/uploads/2016/04/ISKCON-Temple-Bhubaneswar-Odisha.jpg"
+          image: "https://www.iskconbhubaneswar.org/wp-content/uploads/2020/05/iskon-bhubaneswar-live-darshanb-1024x768.jpg"
         }
       ],
       events: [
@@ -693,7 +693,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Guided tour of Bhubaneswar's famous temples including Lingaraj, Mukteswar, Rajarani, and Parsurameswar temples with historical insights.",
           includes: ["Professional guide", "Transportation", "Bottled water", "Historical insights"],
           startTimes: ["9:00 AM", "2:00 PM"],
-          image: "https://www.holidify.com/images/cmsuploads/compressed/shutterstock_407828901_20190911115428.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/parsurameswartemple/gallery/Parsurameswar-Temple-Gallery-2.jpg"
         },
         {
           id: 2,
@@ -705,7 +705,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Comprehensive tour covering Bhubaneswar temples, Konark Sun Temple (UNESCO site), and Jagannath Temple in Puri.",
           includes: ["Air-conditioned vehicle", "Professional guide", "Lunch", "Monument entrance fees", "Hotel pickup and drop-off"],
           startTimes: ["7:00 AM"],
-          image: "https://www.odishatourism.in/wp-content/uploads/2023/03/Konark-Sun-Temple.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/konark-sun-temple/gallery/Konark-Sun-Temple-Gallery-7.jpg"
         },
         {
           id: 3,
@@ -717,7 +717,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Nature and cultural tour combining wildlife exploration at Chandaka Sanctuary with visits to tribal villages to experience local culture.",
           includes: ["Naturalist guide", "Transportation", "Village visit", "Traditional snacks", "Bottled water"],
           startTimes: ["8:30 AM", "1:00 PM"],
-          image: "https://media-cdn.tripadvisor.com/media/photo-s/16/e0/99/40/chandaka-elephant-sanctuary.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/wildlife/chandaka-wildlife-sanctuary/gallery/Chandaka-Wildlife-Sanctuary-Gallery-1.jpg"
         }
       ],
       facilities: [
@@ -730,7 +730,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amenities: ["Taxi Services", "Restaurants", "Lounges", "Shopping"],
           rating: 4.4,
           reviews: 3452,
-          image: "https://www.bpiairport.com/images/terminal-building.jpg"
+          image: "https://www.airports-india.org.in/wp-content/uploads/2018/02/Biju-Patnaik-International-Airport-Bhubaneswar.jpg"
         },
         {
           id: 2,
@@ -752,7 +752,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amenities: ["Waiting Rooms", "Food Stalls", "Booking Counters", "Taxi Stand"],
           rating: 4.0,
           reviews: 3921,
-          image: "https://static.toiimg.com/thumb/msid-70108063,width-400,resizemode-4/70108063.jpg"
+          image: "https://assets.traveltriangle.com/blog/wp-content/uploads/2019/01/Bhubaneshwar-Railway-Station.jpg"
         },
         {
           id: 4,
