@@ -36,6 +36,8 @@ import {
   Volume2,
   Vibrate,
   History,
+  Download,
+  Home,
   HelpCircle as QuestionCircle
 } from "lucide-react";
 
