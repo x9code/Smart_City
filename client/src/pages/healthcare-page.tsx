@@ -250,6 +250,33 @@ export default function HealthcarePage() {
         
         {/* Page Content */}
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
+          {/* Hero Banner */}
+          <div className="relative mb-6 rounded-lg overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1516549655724-990a13792167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
+              alt="Healthcare Services" 
+              className="w-full h-48 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-slate-800/70 flex items-center">
+              <div className="p-8 text-white max-w-3xl">
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">Smart City Healthcare</h1>
+                <p className="text-lg text-white/90 mb-6">
+                  Find healthcare facilities, specialists, and services across the city for all your medical needs.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button className="bg-white text-blue-700 hover:bg-white hover:text-blue-800" size="lg">
+                    <Phone className="mr-2 h-5 w-5" />
+                    Emergency Hotline
+                  </Button>
+                  <Button className="bg-blue-600 text-white hover:bg-blue-700" size="lg">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Book Appointment
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           {/* Health Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
             {healthStats.map((stat, index) => (
@@ -447,9 +474,25 @@ export default function HealthcarePage() {
             
             {/* Health Programs */}
             <TabsContent value="programs" className="mt-0">
+              <div className="relative mb-6 overflow-hidden rounded-lg">
+                <img 
+                  src="https://images.unsplash.com/photo-1631815588090-915d438549e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
+                  alt="Health Programs" 
+                  className="w-full h-36 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-blue-900/70 flex items-center">
+                  <div className="p-6 text-white">
+                    <h2 className="text-2xl font-bold mb-2">City Health Programs</h2>
+                    <p className="text-white/90">
+                      Free and subsidized health programs to improve public wellness
+                    </p>
+                  </div>
+                </div>
+              </div>
+            
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {healthPrograms.map((program) => (
-                  <Card key={program.id} className="bg-white overflow-hidden">
+                  <Card key={program.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     <div className="flex flex-col md:flex-row">
                       <div className={`p-6 flex items-center justify-center md:w-1/4 ${
                         program.color === "primary" ? "bg-blue-100" : 
@@ -463,7 +506,10 @@ export default function HealthcarePage() {
                           program.color === "teal" ? "bg-teal-500 text-white" : 
                           "bg-pink-500 text-white"
                         }`}>
-                          <span className="material-icons text-2xl">{program.icon}</span>
+                          {program.color === "primary" ? <Pill className="h-8 w-8" /> : 
+                           program.color === "purple" ? <Heart className="h-8 w-8" /> :
+                           program.color === "teal" ? <Users className="h-8 w-8" /> :
+                           <Activity className="h-8 w-8" />}
                         </div>
                       </div>
                       <div className="p-6 md:w-3/4">
@@ -488,6 +534,22 @@ export default function HealthcarePage() {
                     </div>
                   </Card>
                 ))}
+                
+                <Card className="bg-white overflow-hidden border-2 border-dashed border-slate-200 p-6 flex flex-col items-center justify-center text-center">
+                  <img 
+                    src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80" 
+                    alt="Community Health" 
+                    className="w-48 h-36 object-cover rounded-lg mb-4"
+                  />
+                  <h3 className="text-lg font-semibold text-slate-800 mb-2">Your Health Matters</h3>
+                  <p className="text-sm text-slate-600 mb-4">
+                    Explore all health programs and events available in your community
+                  </p>
+                  <Button variant="outline">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    View All Programs
+                  </Button>
+                </Card>
               </div>
             </TabsContent>
             

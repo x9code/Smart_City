@@ -283,6 +283,33 @@ export default function SafetyPage() {
         
         {/* Page Content */}
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
+          {/* Hero Banner */}
+          <div className="relative mb-6 rounded-lg overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1516834474-48c0abc2a902?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
+              alt="Women's Safety" 
+              className="w-full h-48 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-pink-800/70 flex items-center">
+              <div className="p-8 text-white max-w-3xl">
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">Women's Safety Network</h1>
+                <p className="text-lg text-white/90 mb-6">
+                  Empowering women with safety resources, emergency assistance, and community support.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button className="bg-white text-purple-700 hover:bg-white hover:text-purple-800" size="lg">
+                    <Phone className="mr-2 h-5 w-5" />
+                    Emergency Helpline
+                  </Button>
+                  <Button className="bg-purple-600 text-white hover:bg-purple-700" size="lg">
+                    <Shield className="mr-2 h-5 w-5" />
+                    Safety Resources
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        
           {/* Emergency Action Card */}
           <Card className="mb-6 bg-gradient-to-r from-purple-600 to-pink-500 text-white">
             <CardContent className="p-6">
