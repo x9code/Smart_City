@@ -28,6 +28,8 @@ import {
   Building,
   TreePine,
   Coffee,
+  Map as MapIcon,
+  Plane,
   ShoppingBag,
   Utensils,
   Home,
@@ -40,8 +42,6 @@ import {
   Image,
   Eye,
   CircleHelp,
-  Map,
-  LocateFixed,
   ParkingCircle,
   Loader2
 } from "lucide-react";
@@ -49,59 +49,114 @@ import {
 const mapMarkersData = [
   {
     id: 1,
-    name: "City Hall",
+    name: "Bhubaneswar Municipal Corporation",
     category: "government",
-    address: "123 Main Street, Downtown",
-    coordinates: { lat: 40.7128, lng: -74.006 },
-    amenities: ["Public Restrooms", "Visitor Information", "Parking"],
-    phone: "(555) 123-4567",
-    website: "www.cityhall.gov",
-    description: "The central administrative building of the city government."
+    address: "BMC Bhawani Mall, Saheed Nagar, Bhubaneswar",
+    coordinates: { lat: 20.2961, lng: 85.8245 },
+    amenities: ["Public Services", "Information Center", "Administrative Offices"],
+    phone: "0674-2430038",
+    website: "www.bmc.gov.in",
+    description: "The central municipal corporation that manages civic amenities in Bhubaneswar."
   },
   {
     id: 2,
-    name: "Central Park",
+    name: "Nandankanan Zoological Park",
     category: "parks",
-    address: "Park Avenue & 5th Street",
-    coordinates: { lat: 40.7821, lng: -73.9654 },
-    amenities: ["Picnic Areas", "Playgrounds", "Trails", "Sports Fields"],
-    phone: "(555) 789-0123",
-    website: "www.centralpark.org",
-    description: "A large urban park offering recreational activities and natural beauty."
+    address: "Nandankanan Road, Barang, Bhubaneswar",
+    coordinates: { lat: 20.3957, lng: 85.8228 },
+    amenities: ["Wildlife Sanctuary", "Botanical Garden", "Boating", "Safari"],
+    phone: "0674-2460255",
+    website: "www.nandankanan.org",
+    description: "Famous zoological park with a large variety of animals and botanical garden."
   },
   {
     id: 3,
-    name: "Metro Station",
+    name: "Biju Patnaik International Airport",
     category: "transit",
-    address: "Union Square",
-    coordinates: { lat: 40.7359, lng: -73.9911 },
-    amenities: ["Ticketing", "Restrooms", "Food Court"],
-    phone: "(555) 456-7890",
-    website: "www.metrotransit.org",
-    description: "Major transit hub connecting various subway and bus lines."
+    address: "Airport Road, Bhubaneswar",
+    coordinates: { lat: 20.2489, lng: 85.8176 },
+    amenities: ["Terminal", "Food Court", "Parking", "Taxi Service"],
+    phone: "0674-2596494",
+    website: "www.bhubaneswarairport.com",
+    description: "The main international airport serving Bhubaneswar and Odisha."
   },
   {
     id: 4,
-    name: "Central Hospital",
+    name: "AIIMS Bhubaneswar",
     category: "healthcare",
-    address: "789 Medical Drive",
-    coordinates: { lat: 40.7489, lng: -73.9680 },
-    amenities: ["Emergency Room", "Pharmacy", "Cafeteria", "Parking"],
-    phone: "(555) 911-0000",
-    website: "www.centralhospital.org",
-    description: "Full-service medical facility providing comprehensive healthcare services."
+    address: "Sijua, Patrapada, Bhubaneswar",
+    coordinates: { lat: 20.2264, lng: 85.7838 },
+    amenities: ["Emergency Department", "Outpatient Department", "Diagnostics", "Pharmacy"],
+    phone: "0674-2476789",
+    website: "www.aiimsbhubaneswar.nic.in",
+    description: "Premier government medical institute providing comprehensive healthcare services."
   },
   {
     id: 5,
-    name: "Downtown Shopping Mall",
+    name: "Esplanade One Mall",
     category: "shopping",
-    address: "500 Retail Avenue",
-    coordinates: { lat: 40.7529, lng: -73.9942 },
-    amenities: ["Food Court", "Restrooms", "ATMs", "Parking"],
-    phone: "(555) 222-3333",
-    website: "www.downtownmall.com",
-    description: "Major shopping center with numerous retail stores and restaurants."
+    address: "Rasulgarh Square, Bhubaneswar",
+    coordinates: { lat: 20.2791, lng: 85.8426 },
+    amenities: ["Food Court", "Cinemas", "Retail Stores", "Parking"],
+    phone: "0674-2463700",
+    website: "www.esplanadeone.com",
+    description: "Popular shopping mall with multiple retail stores, food outlets, and entertainment."
   },
+  {
+    id: 6,
+    name: "Lingaraj Temple",
+    category: "tourism",
+    address: "Lingaraj Temple Road, Old Town, Bhubaneswar",
+    coordinates: { lat: 20.2359, lng: 85.8388 },
+    amenities: ["Temple Complex", "Gardens", "Religious Site"],
+    phone: "0674-2430142",
+    website: "www.odishatourism.gov.in",
+    description: "Ancient Hindu temple dedicated to Lord Shiva, one of Bhubaneswar's most iconic landmarks."
+  },
+  {
+    id: 7,
+    name: "KIIT University",
+    category: "education",
+    address: "KIIT Road, Patia, Bhubaneswar",
+    coordinates: { lat: 20.3565, lng: 85.8193 },
+    amenities: ["Campus", "Library", "Sports Complex", "Cafeteria"],
+    phone: "0674-2742103",
+    website: "www.kiit.ac.in",
+    description: "Leading private university known for engineering, management, and medical education."
+  },
+  {
+    id: 8,
+    name: "Kalinga Stadium",
+    category: "sports",
+    address: "Nayapalli, Bhubaneswar",
+    coordinates: { lat: 20.2725, lng: 85.8128 },
+    amenities: ["Sports Fields", "Stadium", "Training Centers", "Parking"],
+    phone: "0674-2390618",
+    website: "www.sportssandculture.odisha.gov.in",
+    description: "Major sports complex and stadium hosting national and international events."
+  },
+  {
+    id: 9,
+    name: "Ekamra Haat",
+    category: "culture",
+    address: "Unit 1, Bhubaneswar",
+    coordinates: { lat: 20.2688, lng: 85.8353 },
+    amenities: ["Handicraft Market", "Cultural Performances", "Food Stalls"],
+    phone: "0674-2536869",
+    website: "www.odishatourism.gov.in",
+    description: "Traditional market showcasing Odisha's handicrafts, textiles, and cultural performances."
+  },
+  {
+    id: 10,
+    name: "Dhauli Shanti Stupa",
+    category: "tourism",
+    address: "Dhauli Hills, Bhubaneswar",
+    coordinates: { lat: 20.1951, lng: 85.8382 },
+    amenities: ["Peace Pagoda", "Historical Site", "Gardens", "Viewpoint"],
+    phone: "0674-2430764",
+    website: "www.odishatourism.gov.in",
+    description: "Buddhist peace pagoda built at the site of the historic Kalinga War, offering panoramic views."
+  }
 ];
 
 const pointsOfInterest = [
@@ -204,6 +259,20 @@ const routes = [
   },
 ];
 
+const categoryBgColors = {
+  government: "bg-blue-100",
+  parks: "bg-green-100",
+  transit: "bg-purple-100",
+  healthcare: "bg-red-100",
+  shopping: "bg-amber-100",
+  restaurants: "bg-orange-100",
+  culture: "bg-indigo-100",
+  tourism: "bg-pink-100",
+  education: "bg-cyan-100",
+  sports: "bg-orange-100",
+  landmarks: "bg-teal-100"
+};
+
 const categoryColors = {
   government: "bg-blue-100 text-blue-800 border-blue-200",
   parks: "bg-green-100 text-green-800 border-green-200",
@@ -212,6 +281,9 @@ const categoryColors = {
   shopping: "bg-amber-100 text-amber-800 border-amber-200",
   restaurants: "bg-orange-100 text-orange-800 border-orange-200",
   culture: "bg-indigo-100 text-indigo-800 border-indigo-200",
+  tourism: "bg-pink-100 text-pink-800 border-pink-200",
+  education: "bg-cyan-100 text-cyan-800 border-cyan-200",
+  sports: "bg-orange-100 text-orange-800 border-orange-200",
   landmarks: "bg-teal-100 text-teal-800 border-teal-200",
 };
 
@@ -219,10 +291,13 @@ const categoryIcons = {
   government: <Landmark />,
   parks: <TreePine />,
   transit: <Bus />,
-  healthcare: <Building />,
+  healthcare: <Building className="text-red-600" />,
   shopping: <ShoppingBag />,
   restaurants: <Utensils />,
-  culture: <Landmark />,
+  culture: <MapIcon />,
+  tourism: <MapPin />,
+  education: <Building />,
+  sports: <MapPin />,
   landmarks: <Landmark />,
 };
 
@@ -350,7 +425,7 @@ export default function MapPage() {
                           onClick={() => handleMarkerSelect(marker.id)}
                         >
                           <div className="flex items-start">
-                            <div className={`p-2 rounded-lg mr-3 ${categoryColors[marker.category as keyof typeof categoryColors].split(" ")[0]}`}>
+                            <div className={`p-2 rounded-lg mr-3 ${categoryBgColors[marker.category as keyof typeof categoryBgColors] || "bg-gray-100"}`}>
                               {categoryIcons[marker.category as keyof typeof categoryIcons]}
                             </div>
                             <div className="flex-1">
@@ -378,6 +453,16 @@ export default function MapPage() {
                           <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
                           <Input placeholder="Your current location" className="pl-10" />
                         </div>
+                        <div className="flex mt-1 gap-1">
+                          <Button variant="ghost" size="sm" className="text-xs px-2 py-0 h-6 text-blue-600">
+                            <LocateFixed className="h-3 w-3 mr-1" />
+                            Current Location
+                          </Button>
+                          <Button variant="ghost" size="sm" className="text-xs px-2 py-0 h-6 text-blue-600">
+                            <Home className="h-3 w-3 mr-1" />
+                            Home
+                          </Button>
+                        </div>
                       </div>
                       <div>
                         <label className="text-xs text-slate-500 block mb-1">Destination</label>
@@ -387,6 +472,79 @@ export default function MapPage() {
                         </div>
                       </div>
                       <Button className="w-full">Get Directions</Button>
+                    </div>
+                  </div>
+                  
+                  {/* Quick destination selector */}
+                  <div className="p-4 border-b border-slate-200">
+                    <h3 className="text-sm font-medium text-slate-800 mb-2">Popular Destinations</h3>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to Lingaraj Temple
+                        }}
+                      >
+                        <Landmark className="h-3 w-3 mr-2 text-pink-600" />
+                        Lingaraj Temple
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to Nandankanan
+                        }}
+                      >
+                        <TreePine className="h-3 w-3 mr-2 text-green-600" />
+                        Nandankanan Zoo
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to KIIT University
+                        }}
+                      >
+                        <MapPin className="h-3 w-3 mr-2 text-cyan-600" />
+                        KIIT University
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to Esplanade Mall
+                        }}
+                      >
+                        <ShoppingBag className="h-3 w-3 mr-2 text-amber-600" />
+                        Esplanade Mall
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to Airport
+                        }}
+                      >
+                        <Plane className="h-3 w-3 mr-2 text-purple-600" />
+                        Biju Patnaik Airport
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="justify-start text-left text-xs"
+                        onClick={() => {
+                          // Set destination to AIIMS
+                        }}
+                      >
+                        <Building className="h-3 w-3 mr-2 text-red-600" />
+                        AIIMS Hospital
+                      </Button>
                     </div>
                   </div>
                   
@@ -621,6 +779,37 @@ export default function MapPage() {
               <Button variant="outline" size="icon" className="bg-white">
                 <Layers className="h-4 w-4" />
               </Button>
+              <div className="border-t border-slate-200 my-1"></div>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="bg-white text-blue-600" 
+                onClick={() => {
+                  // Would handle geolocation
+                  alert("Finding your location in Bhubaneswar...");
+                }} 
+                title="Find my location"
+              >
+                <LocateFixed className="h-4 w-4" />
+              </Button>
+            </div>
+            
+            {/* Location finder popup */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+              <div className="bg-white py-2 px-4 rounded-full shadow-lg flex items-center space-x-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="flex items-center text-xs text-blue-600 h-8 px-3"
+                  onClick={() => {
+                    // Would handle geolocation
+                    alert("Finding your location in Bhubaneswar...");
+                  }}
+                >
+                  <LocateFixed className="h-3.5 w-3.5 mr-1.5" />
+                  Find my location in Bhubaneswar
+                </Button>
+              </div>
             </div>
             
             {/* Selected Marker Info Panel */}
