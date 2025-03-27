@@ -43,7 +43,7 @@ const healthcareFacilities = [
     openingHours: "24/7",
     phone: "0674-2476789",
     services: ["Emergency", "Surgery", "Neurology", "Cardiology", "Oncology", "Orthopedics"],
-    image: "https://pbs.twimg.com/media/FAlOxHPVgAQ7MT8?format=jpg&name=large"
+    image: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 2,
@@ -71,7 +71,7 @@ const healthcareFacilities = [
     openingHours: "24/7",
     phone: "0674-2391983",
     services: ["Emergency", "General Medicine", "Surgery", "Obstetrics", "Pediatrics", "Orthopedics"],
-    image: "https://sambadenglish.com/wp-content/uploads/2020/09/capital-hospital.jpg"
+    image: "https://images.unsplash.com/photo-1538108149393-fbbd81895907?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 4,
@@ -85,7 +85,7 @@ const healthcareFacilities = [
     openingHours: "24/7",
     phone: "0674-2725466",
     services: ["Emergency", "Cardiology", "Neurology", "Gastroenterology", "Nephrology", "Urology"],
-    image: "https://www.kims.ac.in/wp-content/uploads/2022/01/kims-3.jpg"
+    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 5,
@@ -99,7 +99,7 @@ const healthcareFacilities = [
     openingHours: "24/7",
     phone: "0674-2970100",
     services: ["Emergency", "Cardiology", "Neuroscience", "Gastroenterology", "Orthopedics", "Oncology"],
-    image: "https://sumhospital.com/wp-content/uploads/2019/06/IMG_9446-870x440.jpg"
+    image: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 6,
@@ -332,7 +332,7 @@ export default function HealthcarePage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <Header onMobileMenuToggle={toggleMobileMenu} title="Healthcare Services" />
+        <Header onMobileMenuToggle={toggleMobileMenu} title="Bhubaneswar Healthcare Services" />
         
         {/* Page Content */}
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
@@ -340,14 +340,14 @@ export default function HealthcarePage() {
           <div className="relative mb-6 rounded-lg overflow-hidden">
             <img 
               src="https://images.unsplash.com/photo-1516549655724-990a13792167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
-              alt="Healthcare Services" 
+              alt="Bhubaneswar Healthcare Services" 
               className="w-full h-48 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-slate-800/70 flex items-center">
               <div className="p-8 text-white max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-bold mb-3">Bhubaneswar Healthcare Services</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">Bhubaneswar Healthcare</h1>
                 <p className="text-lg text-white/90 mb-6">
-                  Find world-class healthcare facilities, specialists, and services across Bhubaneswar for all your medical needs.
+                  Find world-class healthcare facilities and services in Bhubaneswar.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button className="bg-white text-blue-700 hover:bg-white hover:text-blue-800" size="lg">
