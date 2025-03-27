@@ -14,7 +14,7 @@ import { Mail, Lock, User, UserPlus, Shield } from "lucide-react";
 
 // Extended schema for login with remember me option
 const loginSchema = z.object({
-  username: z.string().email({ message: "Please enter a valid email address" }),
+  username: z.string().min(3, { message: "Username must be at least 3 characters" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
   rememberMe: z.boolean().optional(),
 });

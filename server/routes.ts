@@ -3,11 +3,15 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
 import { services, EmergencyAlert, Activity, insertScrapbookEntrySchema, TrafficData } from "@shared/schema";
+import { setupProxy } from "./proxy";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication routes
   setupAuth(app);
+  
+  // Setup Spring Boot proxy middleware
+  setupProxy(app);
 
   // City services API
   app.get("/api/services", (req, res) => {

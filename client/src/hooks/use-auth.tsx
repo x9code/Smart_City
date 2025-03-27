@@ -1,45 +1,100 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import {
   useQuery,
   useMutation,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { insertUserSchema, User as SelectUser, InsertUser, LoginUser } from "@shared/schema";
-import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
+import { User as SelectUser, InsertUser, LoginUser } from "@shared/schema";
+import { apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { authService } from "@/lib/auth-service";
+
+// For Spring Boot JWT response
+interface JwtResponse {
+  token: string;
+  type: string;
+  id: number;
+  username: string;
+  email: string;
+  name: string;
+  roles: string[];
+}
+
+// Spring Boot login request
+interface SpringLoginRequest {
+  username: string;
+  password: string;
+}
+
+// Spring Boot register request
+interface SpringRegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+  name: string;
+  roles?: string[];
+}
+
+// User type for auth context state
+interface AuthUser {
+  id: number;
+  username: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 type AuthContextType = {
-  user: SelectUser | null;
+  user: AuthUser | null;
   isLoading: boolean;
   error: Error | null;
-  loginMutation: UseMutationResult<SelectUser, Error, LoginUser>;
+  loginMutation: UseMutationResult<JwtResponse, Error, LoginUser>;
   logoutMutation: UseMutationResult<void, Error, void>;
-  registerMutation: UseMutationResult<SelectUser, Error, InsertUser>;
+  registerMutation: UseMutationResult<any, Error, InsertUser>;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery<SelectUser | null, Error>({
-    queryKey: ["/api/user"],
-    queryFn: getQueryFn({ on401: "returnNull" }),
-  });
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
 
+  // Initialize user from local storage
+  useEffect(() => {
+    try {
+      const storedUser = authService.getUser();
+      setUser(storedUser);
+    } catch (err) {
+      console.error("Error loading user from storage:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Login mutation using Spring Boot endpoint
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginUser) => {
-      const res = await apiRequest("POST", "/api/login", credentials);
-      return await res.json();
+      const springLoginRequest: SpringLoginRequest = {
+        username: credentials.username,
+        password: credentials.password
+      };
+      
+      const res = await apiRequest("POST", "/auth/login", springLoginRequest);
+      return await res.json() as JwtResponse;
     },
-    onSuccess: (user: SelectUser) => {
-      queryClient.setQueryData(["/api/user"], user);
+    onSuccess: (jwtResponse: JwtResponse) => {
+      // Store JWT token in localStorage
+      authService.setAuth(jwtResponse);
+      
+      // Update user state with user data returned from auth service
+      const userData = authService.getUser();
+      setUser(userData);
+      
       toast({
         title: "Login Successful",
-        description: `Welcome back, ${user.name}!`,
+        description: `Welcome back, ${userData?.name}!`,
       });
     },
     onError: (error: Error) => {
@@ -51,16 +106,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Register mutation using Spring Boot endpoint
   const registerMutation = useMutation({
     mutationFn: async (userData: InsertUser) => {
-      const res = await apiRequest("POST", "/api/register", userData);
+      const springRegisterRequest: SpringRegisterRequest = {
+        username: userData.username,
+        email: userData.username, // Using username as email
+        password: userData.password,
+        name: userData.name,
+        roles: userData.role === "admin" ? ["admin"] : ["user"]
+      };
+      
+      const res = await apiRequest("POST", "/auth/register", springRegisterRequest);
       return await res.json();
     },
-    onSuccess: (user: SelectUser) => {
-      queryClient.setQueryData(["/api/user"], user);
+    onSuccess: (response) => {
       toast({
         title: "Registration Successful",
-        description: `Welcome to Smart City, ${user.name}!`,
+        description: "Your account has been created. Please log in.",
       });
     },
     onError: (error: Error) => {
@@ -72,12 +135,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
+  // Logout function (clears token and user data)
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/logout");
+      // No server-side logout needed with JWT-based auth
+      // Just clear local tokens and state
+      authService.clearAuth();
     },
     onSuccess: () => {
-      queryClient.setQueryData(["/api/user"], null);
+      setUser(null);
+      // Invalidate any cached queries that might contain user data
+      queryClient.invalidateQueries();
+      
       toast({
         title: "Logged Out",
         description: "You have been successfully logged out.",
@@ -95,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user: user ?? null,
+        user,
         isLoading,
         error,
         loginMutation,

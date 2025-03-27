@@ -17,6 +17,7 @@ import DiscoveryPage from "@/pages/discovery-page";
 import UsersPage from "@/pages/admin/users-page";
 import SettingsPage from "@/pages/admin/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
+import { AdminProtectedRoute } from "./lib/admin-protected-route";
 import { AuthProvider } from "./hooks/use-auth";
 import { ResponsiveNavbar } from "@/components/layout/responsive-navbar";
 import { AnimatePresence } from "framer-motion";
@@ -51,12 +52,15 @@ function Router() {
       <Route path="/discovery">
         <ProtectedRoute component={DiscoveryPage} />
       </Route>
-      <Route path="/scrapbook" component={ScrapbookPage} />
+      <Route path="/scrapbook">
+        <ProtectedRoute component={ScrapbookPage} />
+      </Route>
+      {/* Admin routes with special protection */}
       <Route path="/admin/users">
-        <ProtectedRoute component={UsersPage} />
+        <AdminProtectedRoute component={UsersPage} />
       </Route>
       <Route path="/admin/settings">
-        <ProtectedRoute component={SettingsPage} />
+        <AdminProtectedRoute component={SettingsPage} />
       </Route>
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
