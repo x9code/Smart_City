@@ -77,6 +77,8 @@ export default function AuthPage() {
   function onRegisterSubmit(data: RegisterFormValues) {
     // Omit confirmPassword as it's not in our schema
     const { confirmPassword, ...userData } = data;
+    
+    // Since we don't have an email field in our schema, we just use the data as is
     registerMutation.mutate(userData);
   }
 

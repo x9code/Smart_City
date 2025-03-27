@@ -1,5 +1,4 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
-import { authService } from "./auth-service";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -8,22 +7,14 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
-// Base URLs for frontend and backend APIs
-const SPRING_API_URL = '';   // Spring Boot runs on the same host
-
 /**
- * Add authentication headers if user is authenticated
+ * Add content type header for requests with data
  */
-function getAuthHeaders(contentType = false): HeadersInit {
+function getHeaders(contentType = false): HeadersInit {
   const headers: HeadersInit = {};
   
   if (contentType) {
     headers["Content-Type"] = "application/json";
-  }
-  
-  const authHeader = authService.getAuthHeader();
-  if (authHeader) {
-    headers["Authorization"] = authHeader;
   }
   
   return headers;
@@ -34,25 +25,12 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  // Determine if it's a Spring Boot endpoint
-  const isSpringEndpoint = url.startsWith('/auth') || url.startsWith('/api/java');
-  
-  // Choose the correct base URL
-  const apiUrl = isSpringEndpoint 
-    ? `${SPRING_API_URL}${url}` 
-    : url;
-  
-  const res = await fetch(apiUrl, {
+  const res = await fetch(url, {
     method,
-    headers: getAuthHeaders(!!data),
+    headers: getHeaders(!!data),
     body: data ? JSON.stringify(data) : undefined,
-    credentials: "include",
+    credentials: "include",  // Important for cookie-based session auth
   });
-
-  // If we get a 401 from Spring, clear the auth data
-  if (res.status === 401 && isSpringEndpoint) {
-    authService.clearAuth();
-  }
 
   await throwIfResNotOk(res);
   return res;
@@ -65,27 +43,13 @@ export const getQueryFn: <T>(options: {
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
     const url = queryKey[0] as string;
-    const isSpringEndpoint = url.startsWith('/auth') || url.startsWith('/api/java');
     
-    // Choose the correct base URL
-    const apiUrl = isSpringEndpoint 
-      ? `${SPRING_API_URL}${url}` 
-      : url;
-    
-    const res = await fetch(apiUrl, {
-      headers: getAuthHeaders(),
-      credentials: "include",
+    const res = await fetch(url, {
+      credentials: "include",  // Important for cookie-based session auth
     });
 
-    if (res.status === 401) {
-      // Only clear auth for Spring endpoints
-      if (isSpringEndpoint) {
-        authService.clearAuth();
-      }
-      
-      if (unauthorizedBehavior === "returnNull") {
-        return null;
-      }
+    if (res.status === 401 && unauthorizedBehavior === "returnNull") {
+      return null;
     }
 
     await throwIfResNotOk(res);

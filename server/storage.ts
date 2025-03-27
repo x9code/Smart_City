@@ -46,16 +46,15 @@ export class MemStorage implements IStorage {
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000,
     });
-
-    // Add a default admin user
+    
+    // Add default test users
     this.createUser({
       username: "admin@smartcity.com",
       password: "adminpassword123",
       name: "Admin User",
       role: "admin"
     });
-
-    // Add a default regular user
+    
     this.createUser({
       username: "user@smartcity.com",
       password: "userpassword123",
