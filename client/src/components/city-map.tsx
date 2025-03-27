@@ -138,13 +138,13 @@ export function CityMap() {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '', 
   });
 
-  // Center map on city
+  // Center map on city - Bhubaneswar, India coordinates
   const mapCenter = mapData?.cityBounds 
     ? {
         lat: (mapData.cityBounds.northeast.lat + mapData.cityBounds.southwest.lat) / 2,
         lng: (mapData.cityBounds.northeast.lng + mapData.cityBounds.southwest.lng) / 2
       }
-    : { lat: 40.7128, lng: -74.0060 }; // Default to NYC if no bounds
+    : { lat: 20.2961, lng: 85.8245 }; // Default to Bhubaneswar if no bounds
 
   // Map options based on active view and style
   const mapOptions = {
@@ -307,12 +307,16 @@ export function CityMap() {
     );
   };
 
-  // Point of Interest Info
+  // Point of Interest Info - Bhubaneswar landmarks
   const pointsOfInterest = [
-    { name: "City Hall", category: "Government" },
-    { name: "Central Park", category: "Parks & Recreation" },
-    { name: "Metro Station", category: "Transit" },
-    { name: "Central Hospital", category: "Healthcare" }
+    { name: "Bhubaneswar Municipal Corporation", category: "Government" },
+    { name: "KIIT University", category: "Education" },
+    { name: "Lingaraj Temple", category: "Tourism" },
+    { name: "Nandankanan Zoological Park", category: "Parks & Recreation" },
+    { name: "Biju Patnaik International Airport", category: "Transit" },
+    { name: "AIIMS Bhubaneswar", category: "Healthcare" },
+    { name: "Kalinga Stadium", category: "Sports" },
+    { name: "Janpath Road", category: "Commercial" }
   ];
 
   // Map layer controls popover

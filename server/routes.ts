@@ -99,20 +99,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(activities);
   });
 
-  // Traffic data API
+  // Traffic data API - Bhubaneswar roads
   app.get("/api/traffic", (req, res) => {
     const trafficData = {
       congestion: {
-        downtown: "75%",
-        uptown: "45%",
-        suburban: "30%",
-        highways: "65%"
+        downtown: "65%",
+        uptown: "40%",
+        suburban: "25%",
+        highways: "55%"
       },
       incidents: [
         {
           id: 1,
           type: "Accident",
-          location: "Main St & 5th Ave",
+          location: "Janpath Road & Saheed Nagar",
           severity: "Major",
           reportedTime: "08:45 AM",
           status: "Emergency services on scene"
@@ -120,7 +120,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         {
           id: 2,
           type: "Construction",
-          location: "Highway 101, Mile 34",
+          location: "NH16 near Rasulgarh Square",
           severity: "Moderate",
           reportedTime: "07:30 AM",
           status: "Lane closure"
@@ -128,10 +128,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         {
           id: 3,
           type: "Road Closure",
-          location: "Bridge Street",
+          location: "Master Canteen Road",
           severity: "Major",
           reportedTime: "06:15 AM",
           status: "Closed until further notice"
+        },
+        {
+          id: 4,
+          type: "Construction",
+          location: "Patia - KIIT Road",
+          severity: "Minor",
+          reportedTime: "09:00 AM",
+          status: "Smart city development work"
+        },
+        {
+          id: 5,
+          type: "Accident",
+          location: "Nandankanan Road",
+          severity: "Moderate",
+          reportedTime: "07:15 AM",
+          status: "Traffic regulated"
         }
       ],
       trafficFlowData: [
@@ -315,41 +331,69 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(safetyData);
   });
 
-  // Map API
+  // Map API - Bhubaneswar Smart City
   app.get("/api/map", (req, res) => {
     const mapData = {
       cityBounds: {
-        northeast: { lat: 40.7831, lng: -73.9712 },
-        southwest: { lat: 40.6932, lng: -74.0211 }
+        northeast: { lat: 20.3461, lng: 85.8745 },
+        southwest: { lat: 20.2461, lng: 85.7745 }
       },
       points: [
         {
           id: 1,
-          name: "City Hall",
+          name: "Bhubaneswar Municipal Corporation",
           category: "government",
-          location: { lat: 40.7128, lng: -74.006 },
-          address: "123 Main Street, Downtown"
+          location: { lat: 20.2961, lng: 85.8245 },
+          address: "BMC Bhawani Mall, Saheed Nagar, Bhubaneswar"
         },
         {
           id: 2,
-          name: "Central Park",
-          category: "parks",
-          location: { lat: 40.7821, lng: -73.9654 },
-          address: "Park Avenue & 5th Street"
+          name: "KIIT University",
+          category: "education",
+          location: { lat: 20.3565, lng: 85.8193 },
+          address: "KIIT Road, Patia, Bhubaneswar"
         },
         {
           id: 3,
-          name: "Metro Station",
-          category: "transit",
-          location: { lat: 40.7359, lng: -73.9911 },
-          address: "Union Square"
+          name: "Lingaraj Temple",
+          category: "tourism",
+          location: { lat: 20.2359, lng: 85.8388 },
+          address: "Lingaraj Temple Road, Old Town, Bhubaneswar"
         },
         {
           id: 4,
-          name: "Central Hospital",
+          name: "Nandankanan Zoological Park",
+          category: "parks",
+          location: { lat: 20.3957, lng: 85.8228 },
+          address: "Nandankanan Road, Barang, Bhubaneswar"
+        },
+        {
+          id: 5,
+          name: "Biju Patnaik International Airport",
+          category: "transit",
+          location: { lat: 20.2489, lng: 85.8176 },
+          address: "Airport Road, Bhubaneswar"
+        },
+        {
+          id: 6,
+          name: "AIIMS Bhubaneswar",
           category: "healthcare",
-          location: { lat: 40.7489, lng: -73.9680 },
-          address: "789 Medical Drive"
+          location: { lat: 20.2264, lng: 85.7838 },
+          address: "Sijua, Patrapada, Bhubaneswar"
+        },
+        {
+          id: 7,
+          name: "Kalinga Stadium",
+          category: "sports",
+          location: { lat: 20.2725, lng: 85.8128 },
+          address: "Nayapalli, Bhubaneswar"
+        },
+        {
+          id: 8,
+          name: "Janpath Road",
+          category: "commercial",
+          location: { lat: 20.2708, lng: 85.8424 },
+          address: "Janpath, Bhubaneswar"
         }
       ],
       trafficLayers: {
