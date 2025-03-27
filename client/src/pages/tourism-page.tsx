@@ -218,8 +218,15 @@ export default function TourismPage() {
         {/* Page Content */}
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
           {/* Hero Section */}
-          <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden">
-            <div className="p-8 md:p-12 relative">
+          <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden relative">
+            <div className="absolute inset-0 opacity-20">
+              <img 
+                src="https://www.odishatourism.gov.in/sites/default/files/2020-09/Lingaraj%20Temple.jpg" 
+                alt="Bhubaneswar Temples" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="p-8 md:p-12 relative z-10">
               <div className="max-w-3xl">
                 <h1 className="text-3xl md:text-4xl font-bold mb-4">Discover Bhubaneswar</h1>
                 <p className="text-lg md:text-xl mb-6 text-blue-100">Experience the 'Temple City of India' with its ancient architecture, vibrant culture, and modern attractions.</p>
@@ -608,10 +615,24 @@ export default function TourismPage() {
           
           {/* Featured Hotels Section */}
           <div className="mb-10">
+            <div className="rounded-lg mb-6 overflow-hidden relative">
+              <img 
+                src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/05/9e/60/facade.jpg?w=1400&h=-1&s=1" 
+                alt="Luxury Hotel in Bhubaneswar" 
+                className="w-full h-48 md:h-64 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex items-end">
+                <div className="p-6 text-white w-full">
+                  <h2 className="text-2xl md:text-3xl font-bold mb-2">Featured Hotels</h2>
+                  <p className="text-gray-200 max-w-2xl">Comfortable and luxurious accommodations for your stay in Bhubaneswar</p>
+                </div>
+              </div>
+            </div>
+            
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">Featured Hotels</h2>
-                <p className="text-slate-500">Comfortable stays in Bhubaneswar</p>
+                <h3 className="text-xl font-bold text-slate-800">Top-Rated Properties</h3>
+                <p className="text-slate-500">Handpicked luxury and comfort</p>
               </div>
               <Button variant="outline">
                 View All Hotels
@@ -754,12 +775,41 @@ export default function TourismPage() {
           
           {/* Travel Tips Section */}
           <div className="mb-10">
-            <div className="mb-6">
+            <div className="mb-6 relative">
+              <div className="absolute right-0 top-0 w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg -mt-2 -mr-2 hidden md:block">
+                <img 
+                  src="https://odishatourism.gov.in/sites/default/files/2020-02/Cultural%20Trail.jpg" 
+                  alt="Odisha Culture" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <h2 className="text-2xl font-bold text-slate-800">Travel Tips for Bhubaneswar</h2>
               <p className="text-slate-500">Useful information for your visit</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-3 mb-2">
+                <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col md:flex-row items-center">
+                      <div className="mb-4 md:mb-0 md:mr-6 w-full md:w-1/3 lg:w-1/4">
+                        <img 
+                          src="https://www.gotoorissa.com/wp-content/uploads/2016/12/Odissi-Gotoorissa-1.jpg" 
+                          alt="Odissi Dance Form" 
+                          className="w-full h-48 object-cover rounded-lg shadow-md"
+                        />
+                      </div>
+                      <div className="md:flex-1">
+                        <h3 className="text-xl font-bold text-amber-800 mb-2">Odisha's Rich Cultural Heritage</h3>
+                        <p className="text-amber-900">
+                          Bhubaneswar is not just about temples and monuments - it's the cultural heart of Odisha. During your visit, try to experience an Odissi dance performance, one of the oldest surviving dance forms of India. Visit the Tribal Museum to learn about the 62 different tribal communities living in Odisha. Don't miss trying the local handicrafts - the intricate silver filigree work (Tarakasi), Pattachitra paintings, and handwoven textiles make for wonderful souvenirs.
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              
               {travelTips.map((tip) => (
                 <AnimatedSection key={tip.id} animation="fadeIn" delay={0.1 * tip.id}>
                   <Card className="bg-white hover:shadow-md transition-shadow h-full">
@@ -780,10 +830,17 @@ export default function TourismPage() {
           
           {/* Tourist Facilities Section */}
           <div className="mb-10">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-slate-800">Tourist Facilities</h2>
                 <p className="text-slate-500">Essential services for visitors</p>
+              </div>
+              <div className="mt-4 md:mt-0">
+                <img 
+                  src="https://www.odishatourism.gov.in/sites/default/files/2020-09/Tourist%20Facility%20Centre.jpg" 
+                  alt="Tourist Facility Center" 
+                  className="h-16 rounded shadow"
+                />
               </div>
             </div>
             
@@ -796,46 +853,67 @@ export default function TourismPage() {
                 <p className="text-red-500">Failed to load facilities. Please try again later.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {tourismData?.facilities.map((facility: Facility) => (
-                  <AnimatedSection key={facility.id} animation="slideLeft" delay={0.1 * facility.id}>
-                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                      <div className="flex flex-col md:flex-row">
-                        <div className="md:w-1/3 h-36 md:h-auto overflow-hidden">
-                          <img 
-                            src={facility.image} 
-                            alt={facility.name} 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="p-4 md:w-2/3">
-                          <Badge className="mb-2 bg-slate-100 text-slate-800 border-0">
-                            {facility.type}
-                          </Badge>
-                          <h3 className="font-bold text-lg mb-2">{facility.name}</h3>
-                          <div className="flex items-center text-sm text-slate-500 mb-2">
-                            <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                            {facility.address}
+              <>
+                <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <div className="flex flex-col md:flex-row items-center">
+                    <div className="mb-4 md:mb-0 md:mr-6">
+                      <img 
+                        src="https://odishatourism.gov.in/sites/default/files/2020-02/Helpline%20Number%20Banner.png" 
+                        alt="Odisha Tourism Helpline" 
+                        className="h-24 rounded-lg"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-blue-800 mb-2">24x7 Tourist Helpline</h3>
+                      <p className="text-blue-700">
+                        Odisha Tourism offers round-the-clock assistance to tourists through the dedicated helpline number: <span className="font-bold">1800 208 1234</span>. 
+                        The service provides guidance, emergency support, and information in multiple languages.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {tourismData?.facilities.map((facility: Facility) => (
+                    <AnimatedSection key={facility.id} animation="slideLeft" delay={0.1 * facility.id}>
+                      <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
+                        <div className="flex flex-col md:flex-row">
+                          <div className="md:w-1/3 h-36 md:h-auto overflow-hidden">
+                            <img 
+                              src={facility.image} 
+                              alt={facility.name} 
+                              className="w-full h-full object-cover"
+                            />
                           </div>
-                          <p className="text-sm text-slate-500 mb-3 line-clamp-2">{facility.description}</p>
-                          <div className="flex flex-wrap gap-1 mb-2">
-                            {facility.amenities.slice(0, 3).map((amenity, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {amenity}
-                              </Badge>
-                            ))}
-                            {facility.amenities.length > 3 && (
-                              <Badge variant="outline" className="text-xs">
-                                +{facility.amenities.length - 3} more
-                              </Badge>
-                            )}
+                          <div className="p-4 md:w-2/3">
+                            <Badge className="mb-2 bg-slate-100 text-slate-800 border-0">
+                              {facility.type}
+                            </Badge>
+                            <h3 className="font-bold text-lg mb-2">{facility.name}</h3>
+                            <div className="flex items-center text-sm text-slate-500 mb-2">
+                              <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {facility.address}
+                            </div>
+                            <p className="text-sm text-slate-500 mb-3 line-clamp-2">{facility.description}</p>
+                            <div className="flex flex-wrap gap-1 mb-2">
+                              {facility.amenities.slice(0, 3).map((amenity, index) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {amenity}
+                                </Badge>
+                              ))}
+                              {facility.amenities.length > 3 && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{facility.amenities.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Card>
-                  </AnimatedSection>
-                ))}
-              </div>
+                      </Card>
+                    </AnimatedSection>
+                  ))}
+                </div>
+              </>
             )}
           </div>
           
