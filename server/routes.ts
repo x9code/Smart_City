@@ -507,7 +507,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "6:00 AM - 12:00 PM, 4:00 PM - 8:00 PM",
           price: "Free",
           tags: ["Religious", "Architecture", "Cultural"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-2.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-3.jpg"
         },
         {
           id: 2,
@@ -559,7 +559,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "4:30 AM - 1:00 PM, 4:00 PM - 9:00 PM",
           price: "Free",
           tags: ["Religious", "Architecture", "Spiritual"],
-          image: "https://www.iskconbhubaneswar.org/wp-content/uploads/2020/05/iskon-bhubaneswar-live-darshanb-1024x768.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/spiritual/iskcon-temple-bhubaneshwar/gallery/ISKCON-Temple-Bhubaneshwar-Gallery-2.jpg"
         }
       ],
       events: [
@@ -571,7 +571,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           category: "Heritage",
           price: "Free",
           description: "Guided walk through the temple heritage of Bhubaneswar, covering ancient temples and historic sites.",
-          image: "https://ekamrawalks.com/assets/img/walks.jpg"
+          image: "https://odishatourism.gov.in/sites/default/files/2020-02/Ekamra%20Walks.jpg"
         },
         {
           id: 2,
@@ -591,7 +591,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           category: "Arts & Crafts",
           price: "₹50 entry",
           description: "Annual handicraft exhibition featuring artisans from across India and abroad displaying crafts, textiles, and traditional art forms.",
-          image: "https://www.orissapost.com/wp-content/uploads/2019/11/Toshali-craft-mela.jpg"
+          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/heritage-crafts/heritage-crafts-tribal-craft/gallery/Tribal-craft-04.jpg"
         }
       ],
       hotels: [
@@ -605,7 +605,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           priceRange: "₹7,500-₹25,000",
           amenities: ["Swimming Pool", "Spa", "Multiple Restaurants", "Fitness Center", "Business Center"],
           description: "Luxury resort-style hotel set amidst lush greenery with world-class amenities and Odia architectural influences.",
-          image: "https://www.mayfairhotels.com/wp-content/uploads/2018/01/main-photo-800x533.jpg"
+          image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/c8/3d/b5/mayfair-lagoon.jpg?w=1200&h=-1&s=1"
         },
         {
           id: 2,
