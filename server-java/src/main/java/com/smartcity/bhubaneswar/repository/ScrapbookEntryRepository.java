@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ScrapbookEntryRepository extends JpaRepository<ScrapbookEntry, Long> {
-    List<ScrapbookEntry> findByUser(User user);
-    List<ScrapbookEntry> findByIsPublicTrue();
+    List<ScrapbookEntry> findByUserOrderByCreatedAtDesc(User user);
+    List<ScrapbookEntry> findByIsPublicTrueOrderByCreatedAtDesc();
 }

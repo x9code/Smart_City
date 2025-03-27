@@ -12,6 +12,7 @@ import { Bell, RefreshCw, ThermometerSun, CalendarDays, AlertCircle, InfoIcon } 
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/use-auth";
 import { AnimatedSection } from "@/components/ui/animated-section";
+import { AnimatedCityIntro, CityHighlights } from "@/components/dashboard/animated-city-sections";
 
 export default function Dashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -146,6 +147,9 @@ export default function Dashboard() {
         
         {/* Dashboard Content */}
         <main className="p-6">
+          {/* Animated City Intro */}
+          <AnimatedCityIntro />
+          
           {/* Stats Overview */}
           <CityStats />
           
@@ -158,6 +162,9 @@ export default function Dashboard() {
               <EmergencyAlerts />
             </div>
           </div>
+          
+          {/* Smart City Zones */}
+          <CityHighlights />
           
           {/* Smart City Services */}
           <CityServices />

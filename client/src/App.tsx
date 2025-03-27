@@ -13,6 +13,7 @@ import TourismPage from "@/pages/tourism-page";
 import EducationPage from "@/pages/education-page";
 import OnboardingPage from "@/pages/onboarding-page";
 import ScrapbookPage from "@/pages/scrapbook-page";
+import DiscoveryPage from "@/pages/discovery-page";
 import UsersPage from "@/pages/admin/users-page";
 import SettingsPage from "@/pages/admin/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -46,6 +47,9 @@ function Router() {
       </Route>
       <Route path="/onboarding">
         <ProtectedRoute component={OnboardingPage} />
+      </Route>
+      <Route path="/discovery">
+        <ProtectedRoute component={DiscoveryPage} />
       </Route>
       <Route path="/scrapbook" component={ScrapbookPage} />
       <Route path="/admin/users">
