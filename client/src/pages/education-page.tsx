@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useQuery } from "@tanstack/react-query";
 import { 
   School,
   GraduationCap,
@@ -443,6 +444,60 @@ export default function EducationPage() {
   const [activeTab, setActiveTab] = useState<string>("schools");
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Define interface for education data
+  interface EducationData {
+    schools: typeof schools;
+    colleges: typeof colleges;
+    courses: typeof courses;
+    resources: typeof resources;
+    metrics: typeof educationalMetrics;
+    scholarships: typeof scholarships;
+    events: typeof educationalEvents;
+  }
+
+  // Fetch education data from the backend
+  const { data: educationData, isLoading, error } = useQuery<EducationData>({
+    queryKey: ['/api/education'],
+    refetchOnWindowFocus: false,
+  });
+
+  // Use backend data if available, otherwise use local data
+  const schoolsData = educationData?.schools || schools;
+  const collegesData = educationData?.colleges || colleges;
+  const coursesData = educationData?.courses || courses;
+  const resourcesData = educationData?.resources || resources;
+  const metricsData = educationData?.metrics || educationalMetrics;
+  const scholarshipsData = educationData?.scholarships || scholarships;
+  const eventsData = educationData?.events || educationalEvents;
+
+  // Filter schools based on search query
+  const filteredSchools = schoolsData.filter((school) => 
+    school.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    school.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    school.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filter colleges based on search query
+  const filteredColleges = collegesData.filter((college) => 
+    college.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    college.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    college.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filter courses based on search query
+  const filteredCourses = coursesData.filter((course) => 
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.level.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Filter resources based on search query
+  const filteredResources = resourcesData.filter((resource) => 
+    resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    resource.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    resource.address.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -510,7 +565,12 @@ export default function EducationPage() {
           
           {/* Education Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-            {educationalMetrics.map((metric, index) => (
+            {metricsData.map((metric: {
+              name: string;
+              value: string;
+              trend: string;
+              change: string;
+            }, index: number) => (
               <Card key={index} className="bg-white">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
@@ -571,7 +631,7 @@ export default function EducationPage() {
             {/* Schools Tab */}
             <TabsContent value="schools" className="mt-0">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {schools.map((school) => (
+                {filteredSchools.map((school) => (
                   <Card key={school.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     {school.image && (
                       <div className="h-48 w-full overflow-hidden">
@@ -620,7 +680,7 @@ export default function EducationPage() {
                       <div className="mb-4">
                         <p className="text-sm font-medium text-slate-700 mb-2">Programs Offered:</p>
                         <div className="flex flex-wrap gap-1">
-                          {school.programs.map((program, index) => (
+                          {school.programs.map((program: string, index: number) => (
                             <Badge key={index} variant="outline" className="bg-slate-50">
                               {program}
                             </Badge>
@@ -639,7 +699,7 @@ export default function EducationPage() {
             {/* Colleges Tab */}
             <TabsContent value="colleges" className="mt-0">
               <div className="grid grid-cols-1 gap-6">
-                {colleges.map((college) => (
+                {filteredColleges.map((college) => (
                   <Card key={college.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     <div className="flex flex-col md:flex-row">
                       {college.image && (
@@ -698,7 +758,7 @@ export default function EducationPage() {
                         <div>
                           <h4 className="font-medium text-slate-800 mb-3">Available Programs</h4>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                            {college.programs.map((program, index) => (
+                            {college.programs.map((program: string, index: number) => (
                               <div key={index} className="flex items-center p-2 bg-slate-50 rounded-lg">
                                 <PencilRuler className="h-4 w-4 text-slate-500 mr-2" />
                                 <span className="text-sm">{program}</span>
@@ -782,7 +842,7 @@ export default function EducationPage() {
               </div>
             
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {courses.map((course) => (
+                {filteredCourses.map((course) => (
                   <Card key={course.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     {course.image && (
                       <div className="h-48 w-full overflow-hidden">
@@ -834,7 +894,7 @@ export default function EducationPage() {
                       <div>
                         <p className="text-sm font-medium text-slate-700 mb-2">Upcoming Start Dates:</p>
                         <div className="flex flex-wrap gap-2">
-                          {course.startDates.map((date, index) => (
+                          {course.startDates.map((date: string, index: number) => (
                             <Badge key={index} variant="outline" className="bg-slate-50">
                               <CalendarDays className="h-3 w-3 mr-1" />
                               {date}
@@ -880,7 +940,7 @@ export default function EducationPage() {
                     </div>
                   
                     <div className="space-y-5">
-                      {resources.map((resource) => (
+                      {filteredResources.map((resource) => (
                         <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                           {resource.image && (
                             <div className="h-48 w-full overflow-hidden">
@@ -924,7 +984,7 @@ export default function EducationPage() {
                             <div className="border-t border-slate-100 pt-4 mt-4">
                               <p className="text-sm font-medium text-slate-700 mb-2">Available Resources:</p>
                               <div className="flex flex-wrap gap-2">
-                                {resource.resources.map((item, index) => (
+                                {resource.resources.map((item: string, index: number) => (
                                   <Badge key={index} variant="outline" className="bg-slate-50">
                                     {item}
                                   </Badge>
@@ -951,7 +1011,7 @@ export default function EducationPage() {
                     </div>
                     
                     <div className="space-y-4">
-                      {scholarships.map((scholarship) => (
+                      {scholarshipsData.map((scholarship: any) => (
                         <div key={scholarship.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                           {scholarship.image && (
                             <div className="h-32 w-full overflow-hidden">
@@ -993,7 +1053,7 @@ export default function EducationPage() {
                     </div>
                     
                     <div className="space-y-4">
-                      {educationalEvents.map((event) => (
+                      {eventsData.map((event) => (
                         <div key={event.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                           <div className="relative h-28 overflow-hidden bg-slate-200">
                             <img 
