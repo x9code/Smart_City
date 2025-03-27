@@ -366,6 +366,130 @@ export async function registerRoutes(app: Express): Promise<Server> {
     };
     res.json(mapData);
   });
+  
+  // Tourism API
+  app.get("/api/tourism", (req, res) => {
+    const tourismData = {
+      attractions: [
+        {
+          id: 1,
+          name: "City Art Museum",
+          type: "Museum",
+          rating: 4.8,
+          reviews: 1245,
+          address: "123 Museum Avenue, Downtown",
+          description: "The city's premier art museum featuring permanent and rotating exhibitions from around the world.",
+          openHours: "10:00 AM - 6:00 PM",
+          price: "$15",
+          tags: ["Arts", "Family-Friendly", "Indoor"]
+        },
+        {
+          id: 2,
+          name: "Riverside Gardens",
+          type: "Park",
+          rating: 4.7,
+          reviews: 2156,
+          address: "500 River Road, Northside",
+          description: "Beautiful gardens and walking paths along the scenic river with picnic areas and boat rentals.",
+          openHours: "8:00 AM - Sunset",
+          price: "Free",
+          tags: ["Nature", "Family-Friendly", "Outdoor"]
+        },
+        {
+          id: 3,
+          name: "Historical District",
+          type: "Landmark",
+          rating: 4.6,
+          reviews: 1879,
+          address: "Old City Center",
+          description: "Preserved historical district with architecture dating back to the 19th century, featuring boutique shops and cafes.",
+          openHours: "Always Open",
+          price: "Free",
+          tags: ["History", "Shopping", "Architecture"]
+        }
+      ],
+      events: [
+        {
+          id: 1,
+          name: "Summer Music Festival",
+          date: "July 15-17, 2023",
+          location: "City Park Amphitheater",
+          category: "Music",
+          price: "$45-$120"
+        },
+        {
+          id: 2,
+          name: "Food & Wine Expo",
+          date: "August 5-7, 2023",
+          location: "Convention Center",
+          category: "Food",
+          price: "$25"
+        },
+        {
+          id: 3,
+          name: "International Film Festival",
+          date: "September 10-15, 2023",
+          location: "Various Theaters",
+          category: "Arts",
+          price: "$12 per screening"
+        }
+      ],
+      restaurants: [
+        {
+          id: 1,
+          name: "Riverview Bistro",
+          cuisine: "French",
+          rating: 4.9,
+          reviews: 876,
+          priceRange: "$$$",
+          specialties: ["Coq au Vin", "Beef Bourguignon", "Crème Brûlée"]
+        },
+        {
+          id: 2,
+          name: "Sakura Japanese",
+          cuisine: "Japanese",
+          rating: 4.7,
+          reviews: 654,
+          priceRange: "$$",
+          specialties: ["Sushi Platters", "Ramen", "Teriyaki"]
+        },
+        {
+          id: 3,
+          name: "Trattoria Italiana",
+          cuisine: "Italian",
+          rating: 4.8,
+          reviews: 723,
+          priceRange: "$$",
+          specialties: ["Wood-fired Pizza", "Homemade Pasta", "Tiramisu"]
+        }
+      ],
+      tours: [
+        {
+          id: 1,
+          name: "City Highlights Walking Tour",
+          duration: "2.5 hours",
+          rating: 4.9,
+          reviews: 387,
+          price: "$25",
+          description: "Explore the city's most famous landmarks and hidden gems with a knowledgeable local guide.",
+          includes: ["Professional guide", "Small group (max 10)", "Historical insights"],
+          startTimes: ["9:00 AM", "1:00 PM", "4:00 PM"]
+        },
+        {
+          id: 2,
+          name: "Culinary Delights Food Tour",
+          duration: "3 hours",
+          rating: 4.8,
+          reviews: 256,
+          price: "$65",
+          description: "Sample the city's best cuisine with stops at 5 beloved local eateries and specialty food shops.",
+          includes: ["Food tastings", "Drink samplings", "Food guide", "Recipe cards"],
+          startTimes: ["11:00 AM", "5:00 PM"]
+        }
+      ]
+    };
+    res.json(tourismData);
+  });
 
   const httpServer = createServer(app);
 

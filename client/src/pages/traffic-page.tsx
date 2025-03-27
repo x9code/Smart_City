@@ -211,17 +211,33 @@ export default function TrafficPage() {
                 <CardHeader className="pb-0">
                   <div className="flex items-center justify-between">
                     <CardTitle>Traffic Trends</CardTitle>
-                    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-[400px]">
-                      <TabsList>
-                        <TabsTrigger value="realtime">Real-time</TabsTrigger>
-                        <TabsTrigger value="daily">Daily</TabsTrigger>
-                        <TabsTrigger value="weekly">Weekly</TabsTrigger>
-                      </TabsList>
-                    </Tabs>
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant={activeTab === "realtime" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setActiveTab("realtime")}
+                      >
+                        Real-time
+                      </Button>
+                      <Button 
+                        variant={activeTab === "daily" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setActiveTab("daily")}
+                      >
+                        Daily
+                      </Button>
+                      <Button 
+                        variant={activeTab === "weekly" ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setActiveTab("weekly")}
+                      >
+                        Weekly
+                      </Button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent className="p-6">
-                  <TabsContent value="realtime" className="mt-0">
+                  {activeTab === "realtime" && (
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart
@@ -244,9 +260,9 @@ export default function TrafficPage() {
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
-                  </TabsContent>
+                  )}
                   
-                  <TabsContent value="daily" className="mt-0">
+                  {activeTab === "daily" && (
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
@@ -267,9 +283,9 @@ export default function TrafficPage() {
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
-                  </TabsContent>
+                  )}
                   
-                  <TabsContent value="weekly" className="mt-0">
+                  {activeTab === "weekly" && (
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <BarChart
@@ -291,7 +307,7 @@ export default function TrafficPage() {
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
-                  </TabsContent>
+                  )}
                 </CardContent>
               </Card>
             </div>
