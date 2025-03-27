@@ -1,15 +1,33 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Layers, Settings, AlertCircle, Map as MapIcon } from "lucide-react";
+import { 
+  ExternalLink, 
+  Layers, 
+  Settings, 
+  AlertCircle, 
+  Map as MapIcon,
+  Navigation,
+  LocateFixed,
+  ZoomIn,
+  ZoomOut,
+  PanelTopOpen,
+  Landmark,
+  Hospital,
+  TreePine,
+  Bus,
+  ShoppingBag,
+  Building
+} from "lucide-react";
 import { GoogleMap, useJsApiLoader, TrafficLayer, TransitLayer, MarkerF, InfoWindowF } from '@react-google-maps/api';
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { AnimatedSection } from "@/components/ui/animated-section";
 import { AnimatedIcon } from "@/components/ui/animated-icon";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Define types for map data
 interface LatLng {
@@ -113,6 +131,7 @@ const getMapStyling = (style: string) => {
 
 // Map component
 export function CityMap() {
+  // Map state variables
   const [activeView, setActiveView] = useState("traffic");
   const [mapStyle, setMapStyle] = useState("standard");
   const [showTraffic, setShowTraffic] = useState(true);
@@ -121,6 +140,22 @@ export function CityMap() {
   const [showIncidents, setShowIncidents] = useState(true);
   const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
   const [selectedIncident, setSelectedIncident] = useState<number | null>(null);
+  
+  // Map instance state
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+  const [mapZoom, setMapZoom] = useState(13);
+  
+  // Category icons for the map
+  const categoryIconMap = useMemo(() => ({
+    'government': <Landmark className="h-4 w-4 text-blue-600" />,
+    'healthcare': <Hospital className="h-4 w-4 text-red-600" />,
+    'parks': <TreePine className="h-4 w-4 text-green-600" />,
+    'transit': <Bus className="h-4 w-4 text-purple-600" />,
+    'education': <Building className="h-4 w-4 text-cyan-600" />,
+    'shopping': <ShoppingBag className="h-4 w-4 text-amber-600" />,
+    'tourism': <Landmark className="h-4 w-4 text-pink-600" />,
+    'sports': <Building className="h-4 w-4 text-orange-600" />,
+  }), []);
 
   // Load map data
   const { data: mapData } = useQuery<MapData>({
@@ -201,6 +236,37 @@ export function CityMap() {
     setSelectedPoint(null);
     setSelectedIncident(null);
   }, []);
+  
+  // Callback when map loads
+  const onMapLoad = useCallback((map: google.maps.Map) => {
+    setMapInstance(map);
+  }, []);
+  
+  // Zoom controls
+  const handleZoomIn = useCallback(() => {
+    if (mapInstance) {
+      const currentZoom = mapInstance.getZoom() || 13;
+      mapInstance.setZoom(currentZoom + 1);
+      setMapZoom(currentZoom + 1);
+    }
+  }, [mapInstance]);
+
+  const handleZoomOut = useCallback(() => {
+    if (mapInstance) {
+      const currentZoom = mapInstance.getZoom() || 13;
+      mapInstance.setZoom(Math.max(currentZoom - 1, 1));
+      setMapZoom(Math.max(currentZoom - 1, 1));
+    }
+  }, [mapInstance]);
+
+  // Recenter map
+  const handleRecenter = useCallback(() => {
+    if (mapInstance) {
+      mapInstance.panTo(mapCenter);
+      mapInstance.setZoom(13);
+      setMapZoom(13);
+    }
+  }, [mapInstance, mapCenter]);
 
   // Points of interest render function
   const renderPoints = () => {
@@ -390,7 +456,10 @@ export function CityMap() {
     <Card className="bg-white rounded-lg shadow overflow-hidden">
       <div className="p-4 border-b border-slate-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <h2 className="text-lg font-medium text-slate-800">City Map & Traffic</h2>
+          <div className="flex items-center">
+            <MapIcon className="h-5 w-5 text-blue-600 mr-2" />
+            <h2 className="text-lg font-medium text-slate-800">Bhubaneswar City Map</h2>
+          </div>
           <div className="flex flex-wrap gap-2">
             {renderLayerControls()}
             
@@ -411,14 +480,103 @@ export function CityMap() {
         </div>
       </div>
       <CardContent className="p-4">
-        <div className="relative h-96 bg-slate-100 rounded-lg overflow-hidden">
+        <div className="relative h-[420px] bg-slate-100 rounded-lg overflow-hidden">
+          {/* Map Zoom & Control Tools - Absolute positioned over map */}
+          {isLoaded && (
+            <div className="absolute right-4 top-4 z-10 flex flex-col gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      className="h-8 w-8 bg-white shadow-md hover:bg-slate-50"
+                      onClick={handleZoomIn}
+                    >
+                      <ZoomIn className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Zoom In</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      className="h-8 w-8 bg-white shadow-md hover:bg-slate-50"
+                      onClick={handleZoomOut}
+                    >
+                      <ZoomOut className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Zoom Out</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      className="h-8 w-8 bg-white shadow-md hover:bg-slate-50"
+                      onClick={handleRecenter}
+                    >
+                      <LocateFixed className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Recenter Map</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          )}
+
+          {/* Map Legend - Absolute positioned over map */}
+          {isLoaded && (
+            <div className="absolute left-4 bottom-4 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-md text-xs border border-slate-200 max-w-[200px]">
+              <h4 className="font-medium mb-2 text-sm">Map Legend</h4>
+              <div className="space-y-1.5">
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-blue-500 mr-2"></div>
+                  <span>Government</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-red-500 mr-2"></div>
+                  <span>Healthcare</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-green-500 mr-2"></div>
+                  <span>Parks</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-amber-500 mr-2"></div>
+                  <span>Shopping</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="h-3 w-3 rounded-full bg-purple-500 mr-2"></div>
+                  <span>Transit</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {isLoaded ? (
             <GoogleMap
               mapContainerStyle={{ width: '100%', height: '100%' }}
               center={mapCenter}
-              zoom={13}
+              zoom={mapZoom}
               onClick={handleMapClick}
               options={mapOptions}
+              onLoad={onMapLoad}
             >
               {showTraffic && <TrafficLayer />}
               {showTransit && <TransitLayer />}
@@ -442,25 +600,88 @@ export function CityMap() {
           )}
         </div>
         
+        {/* Categories and Quick Filters */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-blue-600 border-blue-200 bg-blue-50 hover:bg-blue-100"
+            onClick={() => {}}
+          >
+            <Landmark className="h-4 w-4 mr-1" />
+            Government
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-red-600 border-red-200 bg-red-50 hover:bg-red-100"
+            onClick={() => {}}
+          >
+            <Hospital className="h-4 w-4 mr-1" />
+            Healthcare
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-green-600 border-green-200 bg-green-50 hover:bg-green-100"
+            onClick={() => {}}
+          >
+            <TreePine className="h-4 w-4 mr-1" />
+            Parks
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-purple-600 border-purple-200 bg-purple-50 hover:bg-purple-100"
+            onClick={() => {}}
+          >
+            <Bus className="h-4 w-4 mr-1" />
+            Transit
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-amber-600 border-amber-200 bg-amber-50 hover:bg-amber-100"
+            onClick={() => {}}
+          >
+            <ShoppingBag className="h-4 w-4 mr-1" />
+            Shopping
+          </Button>
+        </div>
+        
         {/* Points of Interest Carousel */}
         <AnimatedSection
           animation="slideUp"
           className="mt-4"
         >
-          <h3 className="text-sm font-medium text-slate-700 mb-2">Points of Interest</h3>
-          <div className="flex overflow-x-auto pb-2 space-x-2 hide-scrollbar">
-            {pointsOfInterest.map((poi, index) => (
+          <h3 className="text-sm font-medium text-slate-700 mb-2 flex items-center">
+            <Landmark className="h-4 w-4 mr-1 text-slate-600" /> 
+            Popular Destinations in Bhubaneswar
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+            {pointsOfInterest.slice(0, 4).map((poi, index) => (
               <div 
                 key={index}
-                className="flex-shrink-0 border rounded-lg p-3 bg-slate-50 min-w-[160px]"
+                className="border rounded-lg p-3 bg-white hover:bg-slate-50 transition-colors shadow-sm cursor-pointer"
               >
+                <div className="flex items-center mb-2">
+                  {categoryIconMap[poi.category.toLowerCase() as keyof typeof categoryIconMap] || 
+                   <Landmark className="h-4 w-4 text-slate-600" />}
+                  <Badge className="ml-2" variant="outline">
+                    {poi.category}
+                  </Badge>
+                </div>
                 <h4 className="font-medium text-sm">{poi.name}</h4>
-                <p className="text-xs text-slate-500">{poi.category}</p>
+                <div className="mt-1 flex items-center text-xs text-slate-500">
+                  <Navigation className="h-3 w-3 mr-1" />
+                  <span>Navigate</span>
+                </div>
               </div>
             ))}
           </div>
         </AnimatedSection>
         
+        {/* Traffic Status Indicators */}
         <div className="mt-4 flex flex-wrap gap-3">
           <Badge variant="outline" className="bg-red-500 bg-opacity-20 text-red-600 border-red-600">
             <span className="w-2 h-2 mr-1 bg-red-500 rounded-full"></span>

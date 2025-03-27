@@ -310,21 +310,26 @@ export default function MapPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [preferredTravelMode, setPreferredTravelMode] = useState("car");
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState<typeof mapMarkersData>([]);
   
-  // Fetch map data from Spring Boot backend
+  // Fetch map data from backend
   const { data: mapData, isLoading: isMapDataLoading, error: mapDataError } = useQuery({
     queryKey: ['/api/map'],
     refetchOnWindowFocus: false,
   });
 
+  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  // Handle marker selection
   const handleMarkerSelect = (id: number) => {
     setSelectedMarker(id);
   };
 
+  // Map zoom controls
   const handleZoomIn = () => {
     setMapZoom(prev => Math.min(prev + 1, 20));
   };
@@ -333,6 +338,7 @@ export default function MapPage() {
     setMapZoom(prev => Math.max(prev - 1, 1));
   };
 
+  // Toggle category filters
   const handleCategoryToggle = (category: string) => {
     if (selectedCategories.includes(category)) {
       setSelectedCategories(selectedCategories.filter(c => c !== category));
@@ -341,9 +347,43 @@ export default function MapPage() {
     }
   };
 
+  // Change travel mode for directions
   const handleTravelModeChange = (mode: string) => {
     setPreferredTravelMode(mode);
   };
+  
+  // Handle search for locations
+  const handleSearch = () => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    
+    setIsSearching(true);
+    
+    // Simulate search with a delay
+    setTimeout(() => {
+      const results = mapMarkersData.filter(marker => 
+        marker.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        marker.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        marker.address.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      setSearchResults(results);
+      setIsSearching(false);
+    }, 500);
+  };
+  
+  // Search on input change with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchQuery) {
+        handleSearch();
+      }
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   return (
     <div className="flex h-screen overflow-hidden">
