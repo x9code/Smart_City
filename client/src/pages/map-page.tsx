@@ -43,7 +43,8 @@ import {
   Eye,
   CircleHelp,
   ParkingCircle,
-  Loader2
+  Loader2,
+  LocateFixed
 } from "lucide-react";
 
 const mapMarkersData = [
@@ -966,7 +967,7 @@ export default function MapPage() {
                       Filter
                     </Button>
                     <Button size="sm" variant="ghost" className="h-7 px-2 text-xs">
-                      <Map className="h-3 w-3 mr-1" />
+                      <MapIcon className="h-3 w-3 mr-1" />
                       Show All
                     </Button>
                   </div>
