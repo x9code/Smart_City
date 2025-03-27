@@ -221,9 +221,13 @@ export default function TourismPage() {
           <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden relative">
             <div className="absolute inset-0 opacity-30">
               <img 
-                src="https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-1.jpg" 
+                src="https://images.unsplash.com/photo-1589738305047-1b32d394602e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
                 alt="Bhubaneswar Temples" 
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1616463533319-30e1bd637415?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+                  console.log("Hero image failed to load");
+                }}
               />
             </div>
             <div className="p-8 md:p-12 relative z-10">
@@ -254,35 +258,51 @@ export default function TourismPage() {
           {/* Highlights Gallery */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
-              <img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2022/10/Mukteshwar-Temple-Bhubaneswar.jpg?resize=800%2C600&ssl=1" 
-                   alt="Temples of Bhubaneswar" 
-                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <img src="https://images.unsplash.com/photo-1592456966958-b8ba601a3793?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
+                   alt="Lingaraj Temple, Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                   onError={(e) => {
+                     e.currentTarget.src = "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                     console.log("Temples gallery image failed to load");
+                   }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                <span className="text-white font-medium p-3">Temples</span>
+                <span className="text-white font-medium p-3">Lingaraj Temple</span>
               </div>
             </div>
             <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
-              <img src="https://odishatourism.gov.in/sites/default/files/2022-03/ekamra_2.jpg" 
-                   alt="Festivals of Bhubaneswar" 
-                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <img src="https://images.unsplash.com/photo-1608021584625-34fad842c9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
+                   alt="Udayagiri and Khandagiri Caves, Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                   onError={(e) => {
+                     e.currentTarget.src = "https://images.unsplash.com/photo-1512036849132-48508f294900?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                     console.log("Caves gallery image failed to load");
+                   }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                <span className="text-white font-medium p-3">Festivals</span>
+                <span className="text-white font-medium p-3">Udayagiri Caves</span>
               </div>
             </div>
             <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
-              <img src="https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/odisha-food/images/Odisha-Food-Khaja.jpg" 
-                   alt="Odia Cuisine" 
-                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <img src="https://images.unsplash.com/photo-1590167091916-4a49f1701022?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
+                   alt="Nandankanan Zoological Park, Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                   onError={(e) => {
+                     e.currentTarget.src = "https://images.unsplash.com/photo-1574068468668-a05a11f871da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                     console.log("Zoo gallery image failed to load");
+                   }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                <span className="text-white font-medium p-3">Cuisine</span>
+                <span className="text-white font-medium p-3">Nandankanan Zoo</span>
               </div>
             </div>
             <div className="rounded-lg overflow-hidden h-36 md:h-48 relative group">
-              <img src="https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/heritage-crafts/heritage-crafts-pattachitra/gallery/Pattachitra_01.jpg" 
-                   alt="Handicrafts" 
-                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <img src="https://images.unsplash.com/photo-1576537317591-97c92d8d58fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80" 
+                   alt="Ekamra Haat, Bhubaneswar" 
+                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                   onError={(e) => {
+                     e.currentTarget.src = "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                     console.log("Ekamra Haat gallery image failed to load");
+                   }} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                <span className="text-white font-medium p-3">Handicrafts</span>
+                <span className="text-white font-medium p-3">Ekamra Haat</span>
               </div>
             </div>
           </div>

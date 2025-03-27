@@ -498,6 +498,10 @@ export default function EducationPage() {
                     src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" 
                     alt="Education" 
                     className="rounded-lg shadow-lg border-4 border-white rotate-3 w-80 h-60 object-cover"
+                    onError={(e) => {
+                      // Fallback image for education hero
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80";
+                    }}
                   />
                 </div>
               </div>
@@ -575,6 +579,10 @@ export default function EducationPage() {
                           src={school.image} 
                           alt={school.name} 
                           className="w-full h-full object-cover transition-transform hover:scale-105"
+                          onError={(e) => {
+                            // Fallback image for schools
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          }}
                         />
                       </div>
                     )}
@@ -640,6 +648,10 @@ export default function EducationPage() {
                             src={college.image} 
                             alt={college.name} 
                             className="w-full h-full object-cover md:h-64"
+                            onError={(e) => {
+                              // Fallback image for colleges
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }}
                           />
                         </div>
                       )}

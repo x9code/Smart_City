@@ -520,6 +520,10 @@ export default function SafetyPage() {
               src="https://images.unsplash.com/photo-1516834474-48c0abc2a902?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
               alt="Women's Safety" 
               className="w-full h-48 object-cover"
+              onError={(e) => {
+                // Fallback image for women's safety banner
+                e.currentTarget.src = "https://images.unsplash.com/photo-1591522810850-58128c5fb089?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80";
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-pink-800/70 flex items-center">
               <div className="p-8 text-white max-w-3xl">

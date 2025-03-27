@@ -507,7 +507,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "6:00 AM - 12:00 PM, 4:00 PM - 8:00 PM",
           price: "Free",
           tags: ["Religious", "Architecture", "Cultural"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/lingarajtemple/gallery/Lingaraj-Temple-Gallery-3.jpg"
+          image: "https://images.unsplash.com/photo-1592456966958-b8ba601a3793?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 2,
@@ -520,7 +520,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "7:30 AM - 5:30 PM (Closed on Mondays)",
           price: "₹50 for adults, ₹25 for children",
           tags: ["Wildlife", "Family-Friendly", "Outdoor"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/wildlife/nandankanan-zoo/gallery/Nandankanan-Zoological-Park-Gallery-1.jpg"
+          image: "https://images.unsplash.com/photo-1590167091916-4a49f1701022?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 3,
@@ -533,7 +533,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "8:00 AM - 5:00 PM",
           price: "₹25 for Indians, ₹300 for foreigners",
           tags: ["History", "Architecture", "Cultural"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/caves/khandagiri-udayagiri-jain-caves/gallery/Khandagiri_udayagiri_caves_01.jpg"
+          image: "https://images.unsplash.com/photo-1600000000000-000000000000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 4,
@@ -546,7 +546,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "10:00 AM - 9:00 PM",
           price: "Free entry",
           tags: ["Shopping", "Cultural", "Handicrafts"],
-          image: "https://odishatourism.gov.in/sites/default/files/2020-02/Ekamra%20Haat%20.jpg"
+          image: "https://images.unsplash.com/photo-1607874963930-b4545317b3c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 5,
@@ -571,7 +571,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           category: "Heritage",
           price: "Free",
           description: "Guided walk through the temple heritage of Bhubaneswar, covering ancient temples and historic sites.",
-          image: "https://odishatourism.gov.in/sites/default/files/2020-02/Ekamra%20Walks.jpg"
+          image: "https://images.unsplash.com/photo-1509024644558-2f56ce76c490?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 2,
@@ -581,7 +581,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           category: "Cultural",
           price: "₹100-₹500",
           description: "Annual classical dance festival showcasing Odissi, Bharatanatyam, Kathak and other classical Indian dance forms.",
-          image: "https://odishatourism.gov.in/sites/default/files/2019-04/Konark%20Dance%20Festival.jpg"
+          image: "https://images.unsplash.com/photo-1535359056830-d4badde79747?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 3,
@@ -591,7 +591,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           category: "Arts & Crafts",
           price: "₹50 entry",
           description: "Annual handicraft exhibition featuring artisans from across India and abroad displaying crafts, textiles, and traditional art forms.",
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/experiences/heritage-crafts/heritage-crafts-tribal-craft/gallery/Tribal-craft-04.jpg"
+          image: "https://images.unsplash.com/photo-1572863141204-83031c71bd7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         }
       ],
       hotels: [
@@ -693,7 +693,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Guided tour of Bhubaneswar's famous temples including Lingaraj, Mukteswar, Rajarani, and Parsurameswar temples with historical insights.",
           includes: ["Professional guide", "Transportation", "Bottled water", "Historical insights"],
           startTimes: ["9:00 AM", "2:00 PM"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/parsurameswartemple/gallery/Parsurameswar-Temple-Gallery-2.jpg"
+          image: "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 2,
@@ -705,7 +705,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Comprehensive tour covering Bhubaneswar temples, Konark Sun Temple (UNESCO site), and Jagannath Temple in Puri.",
           includes: ["Air-conditioned vehicle", "Professional guide", "Lunch", "Monument entrance fees", "Hotel pickup and drop-off"],
           startTimes: ["7:00 AM"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/discover/destinations/destinations-culture/temples/konark-sun-temple/gallery/Konark-Sun-Temple-Gallery-7.jpg"
+          image: "https://images.unsplash.com/photo-1589813533338-27f8aa955c43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         },
         {
           id: 3,
@@ -717,7 +717,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           description: "Nature and cultural tour combining wildlife exploration at Chandaka Sanctuary with visits to tribal villages to experience local culture.",
           includes: ["Naturalist guide", "Transportation", "Village visit", "Traditional snacks", "Bottled water"],
           startTimes: ["8:30 AM", "1:00 PM"],
-          image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/wildlife/chandaka-wildlife-sanctuary/gallery/Chandaka-Wildlife-Sanctuary-Gallery-1.jpg"
+          image: "https://images.unsplash.com/photo-1566593284317-76c8dd336ac6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         }
       ],
       facilities: [
@@ -763,7 +763,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amenities: ["Information Desk", "Brochures", "Tour Booking", "Guide Services"],
           rating: 4.3,
           reviews: 562,
-          image: "https://odishatourism.gov.in/sites/default/files/2020-07/TIC_2.jpg"
+          image: "https://images.unsplash.com/photo-1625055930842-b680695e0e46?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
         }
       ]
     };
