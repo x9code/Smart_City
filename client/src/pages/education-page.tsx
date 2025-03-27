@@ -312,26 +312,37 @@ export default function EducationPage() {
         {/* Page Content */}
         <main className="flex-1 overflow-auto p-6 bg-slate-50">
           {/* Hero Section */}
-          <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden">
+          <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden relative">
+            <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80')] bg-cover bg-center"></div>
             <div className="p-8 md:p-12 relative">
-              <div className="max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">Smart Education Platform</h1>
-                <p className="text-lg md:text-xl mb-6 text-blue-100">Discover educational institutions, courses, and resources for lifelong learning.</p>
+              <div className="lg:flex items-center justify-between">
+                <div className="max-w-2xl mb-6 lg:mb-0">
+                  <h1 className="text-3xl md:text-4xl font-bold mb-3">Smart Education Platform</h1>
+                  <p className="text-lg md:text-xl mb-6 text-blue-100">Discover educational institutions, courses, and resources for lifelong learning.</p>
+                  
+                  <form onSubmit={handleSearch} className="flex items-center max-w-md">
+                    <div className="relative flex-1">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                      <Input 
+                        placeholder="Search schools, courses, or resources..." 
+                        className="pl-10 bg-white text-slate-800 border-0"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                    <Button type="submit" className="ml-2 bg-indigo-800 hover:bg-indigo-900">
+                      Search
+                    </Button>
+                  </form>
+                </div>
                 
-                <form onSubmit={handleSearch} className="flex items-center max-w-md">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <Input 
-                      placeholder="Search schools, courses, or resources..." 
-                      className="pl-10 bg-white text-slate-800 border-0"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                  <Button type="submit" className="ml-2 bg-indigo-800 hover:bg-indigo-900">
-                    Search
-                  </Button>
-                </form>
+                <div className="hidden lg:block">
+                  <img 
+                    src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80" 
+                    alt="Education" 
+                    className="rounded-lg shadow-lg border-4 border-white rotate-3 w-80 h-60 object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -517,6 +528,72 @@ export default function EducationPage() {
             
             {/* Courses Tab */}
             <TabsContent value="courses" className="mt-0">
+              <div className="bg-white p-6 rounded-lg mb-6">
+                <h3 className="text-xl font-bold text-slate-800 mb-4">Featured Courses</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="relative rounded-lg overflow-hidden shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=225&q=80" 
+                      alt="Data Science" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-0 left-0 bg-blue-600 text-white px-3 py-1 text-sm font-medium">
+                      Bestseller
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-bold text-slate-800 mb-1">Data Science Masterclass</h4>
+                      <p className="text-sm text-slate-600 mb-3">Learn Python, SQL, ML, and more</p>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-800">$349</span>
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                          <span className="ml-1 text-sm">4.9</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative rounded-lg overflow-hidden shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1601077513836-53dd424a8220?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=225&q=80" 
+                      alt="Web Development" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-0 left-0 bg-green-600 text-white px-3 py-1 text-sm font-medium">
+                      New
+                    </div>
+                    <div className="p-4">
+                      <h4 className="font-bold text-slate-800 mb-1">Full-Stack Developer Course</h4>
+                      <p className="text-sm text-slate-600 mb-3">React, Node.js, MongoDB</p>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-800">$499</span>
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                          <span className="ml-1 text-sm">4.8</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative rounded-lg overflow-hidden shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1573167506956-4060312be78e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=225&q=80" 
+                      alt="UX Design" 
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h4 className="font-bold text-slate-800 mb-1">UX/UI Design Bootcamp</h4>
+                      <p className="text-sm text-slate-600 mb-3">Learn design principles and tools</p>
+                      <div className="flex justify-between items-center">
+                        <span className="font-bold text-slate-800">$399</span>
+                        <div className="flex items-center">
+                          <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                          <span className="ml-1 text-sm">4.7</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {courses.map((course) => (
                   <Card key={course.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
@@ -581,83 +658,128 @@ export default function EducationPage() {
             
             {/* Resources Tab */}
             <TabsContent value="resources" className="mt-0">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="relative mb-8 overflow-hidden rounded-lg">
+                <img 
+                  src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
+                  alt="Library interior" 
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-transparent flex items-center">
+                  <div className="p-8 text-white max-w-xl">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3">Educational Resources</h2>
+                    <p className="text-blue-100">
+                      Discover libraries, learning centers, and digital resources to support your educational journey.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Educational Resources */}
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800 mb-4">Educational Resources</h3>
-                  <div className="space-y-4">
-                    {resources.map((resource) => (
-                      <Card key={resource.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                        <CardContent className="p-6">
-                          <div className="flex items-start">
-                            <div className={`p-3 rounded-lg mr-4 ${
-                              resource.type === "Library" ? "bg-blue-100 text-blue-600" : 
-                              "bg-purple-100 text-purple-600"
-                            }`}>
-                              {resource.type === "Library" ? 
-                                <Library className="h-6 w-6" /> : 
-                                <Laptop className="h-6 w-6" />
-                              }
+                  <div className="bg-white p-6 rounded-lg mb-6">
+                    <div className="flex items-center mb-4">
+                      <Library className="h-6 w-6 text-blue-600 mr-3" />
+                      <h3 className="text-xl font-bold text-slate-800">Learning Resources</h3>
+                    </div>
+                  
+                    <div className="space-y-5">
+                      {resources.map((resource) => (
+                        <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="p-5">
+                            <div className="flex items-start">
+                              <div className={`p-3 rounded-lg mr-4 ${
+                                resource.type === "Library" ? "bg-blue-100 text-blue-600" : 
+                                "bg-purple-100 text-purple-600"
+                              }`}>
+                                {resource.type === "Library" ? 
+                                  <Library className="h-6 w-6" /> : 
+                                  <Laptop className="h-6 w-6" />
+                                }
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-bold text-slate-800">{resource.title}</h4>
+                                <p className="text-sm text-slate-500 mb-3">
+                                  Access: {resource.access}
+                                </p>
+                                <p className="text-sm text-slate-600 mb-3">{resource.description}</p>
+                              </div>
                             </div>
-                            <div className="flex-1">
-                              <h4 className="font-bold text-slate-800">{resource.title}</h4>
-                              <p className="text-sm text-slate-500 mb-3">
-                                Access: {resource.access}
-                              </p>
-                              <p className="text-sm text-slate-600 mb-3">{resource.description}</p>
-                              <div className="flex flex-wrap gap-1">
+                            
+                            <div className="border-t border-slate-100 pt-4 mt-4">
+                              <p className="text-sm font-medium text-slate-700 mb-2">Available Resources:</p>
+                              <div className="flex flex-wrap gap-2">
                                 {resource.resources.map((item, index) => (
                                   <Badge key={index} variant="outline" className="bg-slate-50">
                                     {item}
                                   </Badge>
                                 ))}
                               </div>
-                              <Button className="w-full mt-4" variant="outline">Access Resource</Button>
+                              <div className="mt-4 flex justify-between">
+                                <Button size="sm" variant="outline">Learn More</Button>
+                                <Button size="sm">Access Resource</Button>
+                              </div>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 
                 {/* Scholarships and Events */}
                 <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-800 mb-4">Available Scholarships</h3>
+                  <div className="bg-white p-6 rounded-lg">
+                    <div className="flex items-center mb-4">
+                      <Trophy className="h-6 w-6 text-amber-600 mr-3" />
+                      <h3 className="text-xl font-bold text-slate-800">Scholarships</h3>
+                    </div>
+                    
                     <div className="space-y-4">
                       {scholarships.map((scholarship) => (
-                        <Card key={scholarship.id} className="bg-white">
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <h4 className="font-bold text-slate-800">{scholarship.name}</h4>
-                              <Badge className="bg-green-100 text-green-800 border-0">
-                                {scholarship.amount}
-                              </Badge>
-                            </div>
-                            <p className="text-sm text-slate-500 mb-2">Provider: {scholarship.provider}</p>
-                            <p className="text-sm text-slate-600 mb-2">
-                              <span className="font-medium">Eligibility:</span> {scholarship.eligibility}
+                        <div key={scholarship.id} className="border rounded-lg p-4 hover:shadow-sm transition-shadow">
+                          <div className="flex justify-between items-start mb-2">
+                            <h4 className="font-bold text-slate-800">{scholarship.name}</h4>
+                            <Badge className="bg-green-100 text-green-800 border-0">
+                              {scholarship.amount}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-slate-500 mb-2">Provider: {scholarship.provider}</p>
+                          <p className="text-sm text-slate-600 mb-2">
+                            <span className="font-medium">Eligibility:</span> {scholarship.eligibility}
+                          </p>
+                          <div className="flex justify-between items-center">
+                            <p className="text-sm text-slate-500">
+                              <CalendarDays className="h-3.5 w-3.5 mr-1 inline text-slate-400" />
+                              Deadline: {scholarship.deadline}
                             </p>
-                            <div className="flex justify-between items-center">
-                              <p className="text-sm text-slate-500">
-                                <CalendarDays className="h-3.5 w-3.5 mr-1 inline text-slate-400" />
-                                Deadline: {scholarship.deadline}
-                              </p>
-                              <Button size="sm">Apply</Button>
-                            </div>
-                          </CardContent>
-                        </Card>
+                            <Button size="sm">Apply</Button>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
                   
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-800 mb-4">Upcoming Educational Events</h3>
+                  <div className="bg-white p-6 rounded-lg">
+                    <div className="flex items-center mb-4">
+                      <CalendarDays className="h-6 w-6 text-indigo-600 mr-3" />
+                      <h3 className="text-xl font-bold text-slate-800">Upcoming Events</h3>
+                    </div>
+                    
                     <div className="space-y-4">
                       {educationalEvents.map((event) => (
-                        <Card key={event.id} className="bg-white">
-                          <CardContent className="p-4">
+                        <div key={event.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="relative h-28 overflow-hidden bg-slate-200">
+                            <img 
+                              src={`https://images.unsplash.com/photo-156${event.id}2954031-54121a5e48f94?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=112&q=80`} 
+                              alt={event.title} 
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute top-0 right-0 bg-blue-600 text-white px-3 py-1">
+                              {event.date.split(',')[0]}
+                            </div>
+                          </div>
+                          <div className="p-4">
                             <h4 className="font-bold text-slate-800 mb-2">{event.title}</h4>
                             <div className="flex items-center text-sm text-slate-500 mb-2">
                               <CalendarDays className="h-3.5 w-3.5 mr-1 text-slate-400" />
@@ -669,8 +791,8 @@ export default function EducationPage() {
                             </div>
                             <p className="text-sm text-slate-600 mb-3">{event.description}</p>
                             <Button size="sm" variant="outline" className="w-full">View Details</Button>
-                          </CardContent>
-                        </Card>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>

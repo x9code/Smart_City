@@ -349,7 +349,7 @@ export default function OnboardingWizard() {
             
             <div className="mt-6 p-4 border border-slate-200 rounded-lg bg-white">
               <Label className="text-base flex items-center mb-3">
-                <Globe className="h-4 w-4 mr-2 text-primary/70" />
+                <BookOpen className="h-4 w-4 mr-2 text-primary/70" />
                 Preferred Language
               </Label>
               <RadioGroup 
