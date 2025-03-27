@@ -342,6 +342,10 @@ export default function HealthcarePage() {
               src="https://images.unsplash.com/photo-1516549655724-990a13792167?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
               alt="Bhubaneswar Healthcare Services" 
               className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80";
+                console.log("Healthcare hero image failed to load");
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-slate-800/70 flex items-center">
               <div className="p-8 text-white max-w-3xl">
@@ -462,6 +466,10 @@ export default function HealthcarePage() {
                         src={facility.image} 
                         alt={facility.name} 
                         className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          console.log("Facility image failed to load:", facility.name);
+                        }}
                       />
                     </div>
                     <CardContent className="p-5">
@@ -520,6 +528,10 @@ export default function HealthcarePage() {
                             src={specialist.image} 
                             alt={specialist.name} 
                             className="h-16 w-16 rounded-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80";
+                              console.log("Specialist image failed to load:", specialist.name);
+                            }}
                           />
                         </div>
                         <div>
@@ -565,6 +577,10 @@ export default function HealthcarePage() {
                   src="https://images.unsplash.com/photo-1631815588090-915d438549e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80" 
                   alt="Health Programs" 
                   className="w-full h-36 object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80";
+                    console.log("Health Programs banner image failed to load");
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-blue-900/70 flex items-center">
                   <div className="p-6 text-white">
@@ -626,6 +642,10 @@ export default function HealthcarePage() {
                     src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80" 
                     alt="Community Health" 
                     className="w-48 h-36 object-cover rounded-lg mb-4"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80";
+                      console.log("Community Health image failed to load");
+                    }}
                   />
                   <h3 className="text-lg font-semibold text-slate-800 mb-2">Your Health Matters</h3>
                   <p className="text-sm text-slate-600 mb-4">
@@ -649,6 +669,10 @@ export default function HealthcarePage() {
                         src="https://images.unsplash.com/photo-1616012480717-0166d3a1811a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=200&q=80" 
                         alt="Emergency Services" 
                         className="w-full h-28 object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=200&q=80";
+                          console.log("Emergency Services image failed to load");
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-r from-red-800/80 to-red-900/70">
                         <div className="h-full p-6 flex flex-col justify-center">
@@ -782,6 +806,10 @@ export default function HealthcarePage() {
                           src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                           alt="Emergency Services Map" 
                           className="w-full h-48 object-cover rounded-lg"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80";
+                            console.log("Emergency Services Map image failed to load");
+                          }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-red-900/50 flex items-end">
                           <div className="p-4 text-white">

@@ -405,6 +405,10 @@ export default function TourismPage() {
                           src={attraction.image} 
                           alt={attraction.name} 
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load:", attraction.image);
+                          }}
                         />
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
@@ -449,6 +453,10 @@ export default function TourismPage() {
                             src={attraction.image} 
                             alt={attraction.name} 
                             className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                              console.log("Image failed to load:", attraction.image);
+                            }}
                           />
                         </div>
                         <div className="p-6 md:w-2/3">
@@ -541,6 +549,10 @@ export default function TourismPage() {
                           src={event.image} 
                           alt={event.name} 
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load:", event.image);
+                          }}
                         />
                         <div className="absolute top-3 right-3">
                           <Badge className={`
@@ -607,6 +619,10 @@ export default function TourismPage() {
                           src={tour.image} 
                           alt={tour.name} 
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load:", tour.image);
+                          }}
                         />
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
@@ -695,6 +711,10 @@ export default function TourismPage() {
                           src={hotel.image} 
                           alt={hotel.name} 
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load:", hotel.image);
+                          }}
                         />
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
@@ -772,6 +792,10 @@ export default function TourismPage() {
                           src={restaurant.image} 
                           alt={restaurant.name} 
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load:", restaurant.image);
+                          }}
                         />
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
@@ -819,6 +843,10 @@ export default function TourismPage() {
                   src="https://odishatourism.gov.in/sites/default/files/2020-02/Cultural%20Trail.jpg" 
                   alt="Odisha Culture" 
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                    console.log("Image failed to load: Cultural Trail");
+                  }}
                 />
               </div>
               <h2 className="text-2xl font-bold text-slate-800">Travel Tips for Bhubaneswar</h2>
@@ -835,6 +863,10 @@ export default function TourismPage() {
                           src="https://www.gotoorissa.com/wp-content/uploads/2016/12/Odissi-Gotoorissa-1.jpg" 
                           alt="Odissi Dance Form" 
                           className="w-full h-48 object-cover rounded-lg shadow-md"
+                          onError={(e) => {
+                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            console.log("Image failed to load: Odissi Dance Form");
+                          }}
                         />
                       </div>
                       <div className="md:flex-1">
@@ -878,6 +910,10 @@ export default function TourismPage() {
                   src="https://www.odishatourism.gov.in/sites/default/files/2020-09/Tourist%20Facility%20Centre.jpg" 
                   alt="Tourist Facility Center" 
                   className="h-16 rounded shadow"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                    console.log("Image failed to load: Tourist Facility Centre");
+                  }}
                 />
               </div>
             </div>
@@ -899,6 +935,10 @@ export default function TourismPage() {
                         src="https://odishatourism.gov.in/sites/default/files/2020-02/Helpline%20Number%20Banner.png" 
                         alt="Odisha Tourism Helpline" 
                         className="h-24 rounded-lg"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                          console.log("Image failed to load: Helpline Number Banner");
+                        }}
                       />
                     </div>
                     <div>
@@ -921,6 +961,10 @@ export default function TourismPage() {
                               src={facility.image} 
                               alt={facility.name} 
                               className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                                console.log("Image failed to load:", facility.image);
+                              }}
                             />
                           </div>
                           <div className="p-4 md:w-2/3">
