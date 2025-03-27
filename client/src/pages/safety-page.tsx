@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { Header } from "@/components/layout/header";
@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AnimatedIcon } from "@/components/ui/animated-icon";
+import { AnimatedCard } from "@/components/ui/animated-card";
 import { 
   Shield, 
   Bell, 
@@ -28,210 +30,292 @@ import {
   Smartphone,
   AlertCircle,
   Calendar,
+  Car,
+  Share,
+  Save,
+  Volume2,
+  Vibrate,
+  History,
   HelpCircle as QuestionCircle
 } from "lucide-react";
 
-// Sample data for safety zones
+// Bhubaneswar safety zones data
 const safetyZones = [
   {
     id: 1,
-    name: "Central Police Station",
-    type: "Police",
-    address: "123 Main Street, Downtown",
+    name: "Bhubaneswar Mahila Police Station",
+    type: "Women's Police Station",
+    address: "Rupali Square, Saheed Nagar, Bhubaneswar, 751007",
     status: "Active",
-    contact: "(555) 123-4567",
+    contact: "0674-2544999",
     hours: "24/7",
-    features: ["Surveillance Cameras", "Emergency Phone", "Patrol Officers"],
-    location: { lat: 40.7128, lng: -74.006 }
+    features: ["All-Women Police Staff", "Emergency Response Team", "Counseling Services"],
+    location: { lat: 20.2961, lng: 85.8245 }
   },
   {
     id: 2,
-    name: "Women's Resource Center",
+    name: "Sakhi One Stop Centre",
     type: "Support Center",
-    address: "456 Oak Avenue, Westside",
+    address: "Capital Hospital Campus, Unit-6, Bhubaneswar, 751001",
     status: "Active",
-    contact: "(555) 987-6543",
-    hours: "8:00 AM - 8:00 PM",
-    features: ["Counseling", "Support Groups", "Shelter Services"],
-    location: { lat: 40.7218, lng: -74.015 }
+    contact: "0674-2391983",
+    hours: "24/7",
+    features: ["Medical Aid", "Legal Assistance", "Psycho-social Support", "Temporary Shelter"],
+    location: { lat: 20.2712, lng: 85.8431 }
   },
   {
     id: 3,
-    name: "University Campus Security Hub",
+    name: "KIIT University Women's Safety Zone",
     type: "Campus Safety",
-    address: "789 College Road, University District",
+    address: "KIIT Road, Patia, Bhubaneswar, 751024",
     status: "Active",
-    contact: "(555) 456-7890",
+    contact: "0674-2742103",
     hours: "24/7",
-    features: ["Security Personnel", "Emergency Buttons", "Escort Services"],
-    location: { lat: 40.7148, lng: -74.023 }
+    features: ["Pink Patrol", "Emergency Call Buttons", "Dedicated Security Staff", "CCTV Surveillance"],
+    location: { lat: 20.3548, lng: 85.8246 }
   },
   {
     id: 4,
-    name: "Transit Hub Safe Point",
-    type: "Transit Safety",
-    address: "567 Train Station Plaza, Central District",
+    name: "Esplanade One Mall Safe Center",
+    type: "Public Space Safety",
+    address: "Rasulgarh Square, Bhubaneswar, 751010",
     status: "Active",
-    contact: "(555) 678-1234",
-    hours: "5:00 AM - 1:00 AM",
-    features: ["Security Cameras", "Emergency Phones", "Security Personnel"],
-    location: { lat: 40.7098, lng: -74.009 }
+    contact: "0674-2346700",
+    hours: "10:00 AM - 10:00 PM",
+    features: ["Women Security Guards", "Emergency Help Desk", "CCTV Monitoring", "Direct Police Line"],
+    location: { lat: 20.2956, lng: 85.8736 }
+  },
+  {
+    id: 5,
+    name: "Bhubaneswar Railway Station Safety Point",
+    type: "Transit Safety",
+    address: "Master Canteen Area, Bhubaneswar, 751009",
+    status: "Active",
+    contact: "0674-2531193",
+    hours: "24/7",
+    features: ["Women Help Desk", "RPF Women's Team", "Emergency Response", "CCTV Coverage"],
+    location: { lat: 20.2705, lng: 85.8420 }
   },
 ];
 
-// Sample data for recent alerts
+// Bhubaneswar real-time alerts data
 const recentAlerts = [
   {
     id: 1,
-    title: "Suspicious Activity Reported",
-    location: "Near Central Park, North Entrance",
-    time: "20 minutes ago",
-    description: "Multiple reports of suspicious individual following women in the area. Police have increased patrols.",
+    title: "Suspicious Vehicle Reported",
+    location: "Near Kalinga Stadium, Gate 3, Bhubaneswar",
+    time: "15 minutes ago",
+    description: "Reports of a suspicious white SUV repeatedly circling the area. Mahila Police patrol dispatched for verification.",
     severity: "Warning"
   },
   {
     id: 2,
     title: "Safe Route Advisory",
-    location: "Downtown, 5th & Main Street",
-    time: "2 hours ago",
-    description: "Construction has closed the usual safe path. Temporary alternative route established with additional lighting and security cameras.",
+    location: "Nandankanan Road Construction Zone",
+    time: "1 hour ago",
+    description: "Road work between Damana Square and Nandankanan has limited visibility. Alternative route via Sailashree Vihar recommended with increased lighting and security.",
     severity: "Advisory"
   },
   {
     id: 3,
-    title: "Safety Workshop Announcement",
-    location: "Community Center",
-    time: "5 hours ago",
-    description: "Free self-defense workshop this Saturday from 10 AM - 12 PM. Register online or in person.",
+    title: "Pink Auto Service Extended Hours",
+    location: "Citywide, Bhubaneswar",
+    time: "3 hours ago",
+    description: "Women-only Pink Auto service will now operate until 11 PM throughout the city for safe commute. Book via the Bhubaneswar City App.",
     severity: "Information"
   },
+  {
+    id: 4,
+    title: "Self-Defense Workshop",
+    location: "KIIT Convention Center, Patia",
+    time: "6 hours ago",
+    description: "Free women's self-defense workshop this Saturday from 10 AM - 12 PM. Led by Odisha Police trainers. Register at www.bbsrsafety.org or via City App.",
+    severity: "Information"
+  },
+  {
+    id: 5,
+    title: "Safe Commute Initiative Launched",
+    location: "Bhubaneswar Railway Station & Bus Stand",
+    time: "1 day ago",
+    description: "New 'Safe Commute' initiative launched with dedicated women's help desks at railway station and bus stands. Operating 24/7 with direct police connectivity.",
+    severity: "Information"
+  }
 ];
 
-// Sample data for emergency contacts
+// Bhubaneswar emergency contacts
 const emergencyContacts = [
   {
     id: 1,
-    name: "Emergency Police",
-    phone: "911",
-    description: "For immediate emergencies requiring police",
+    name: "Odisha Police Emergency",
+    phone: "100",
+    description: "For immediate police assistance in emergencies",
     primary: true
   },
   {
     id: 2,
-    name: "Women's Safety Helpline",
-    phone: "(555) 789-4321",
-    description: "24/7 helpline for women in distress",
+    name: "Women's Helpline (Odisha)",
+    phone: "181",
+    description: "24/7 state helpline for women in distress",
     primary: true
   },
   {
     id: 3,
-    name: "Campus Security",
-    phone: "(555) 234-5678",
-    description: "University and college campus security service",
-    primary: false
+    name: "Bhubaneswar Mahila Police",
+    phone: "0674-2544999",
+    description: "Direct line to Bhubaneswar Women's Police Station",
+    primary: true
   },
   {
     id: 4,
-    name: "Safe Transit Helpline",
-    phone: "(555) 876-5432",
-    description: "For safety concerns on public transportation",
+    name: "Sakhi One Stop Center",
+    phone: "0674-2391983",
+    description: "Integrated support for women affected by violence",
     primary: false
   },
   {
     id: 5,
-    name: "Victim Support Services",
-    phone: "(555) 345-6789",
-    description: "Support for victims of harassment or assault",
+    name: "Pink Auto Service",
+    phone: "0674-2547888",
+    description: "Women-only auto service for safe transportation",
     primary: false
   },
+  {
+    id: 6,
+    name: "Railway Protection Force",
+    phone: "0674-2531193",
+    description: "Safety assistance at railway stations",
+    primary: false
+  },
+  {
+    id: 7,
+    name: "Ambulance Service",
+    phone: "108",
+    description: "Emergency medical assistance",
+    primary: false
+  },
+  {
+    id: 8,
+    name: "Odisha State Commission for Women",
+    phone: "0674-2390495",
+    description: "Legal aid and formal complaints for women",
+    primary: false
+  }
 ];
 
-// Sample data for safety tips
+// Bhubaneswar-specific safety tips
 const safetyTips = [
   {
     id: 1,
-    title: "Personal Safety in Public",
+    title: "Safety in Bhubaneswar Public Areas",
     tips: [
-      "Stay alert and aware of your surroundings at all times",
-      "Avoid isolated areas, especially at night",
-      "Keep your phone charged and accessible",
-      "Share your location with trusted contacts when traveling alone",
-      "Trust your instincts - if something feels wrong, leave the area"
+      "Use the designated 'Safe Corridors' in main market areas like Market Building and Esplanade Mall",
+      "Avoid isolated areas in Chandaka Forest side after dark",
+      "Keep your phone charged with the Odisha Police app installed",
+      "Share your auto/cab journey via Pink Auto service provided by the city",
+      "Use the emergency poles located throughout Bhubaneswar parks and public spaces"
     ],
     icon: "personal_safety"
   },
   {
     id: 2,
-    title: "Transportation Safety",
+    title: "Bhubaneswar Transportation Safety",
     tips: [
-      "Use official taxi services or verified rideshare apps",
-      "Check vehicle details before entering a rideshare",
-      "Sit near the driver or conductor on public transportation",
-      "Avoid empty train cars or buses when possible",
-      "Have your keys ready when approaching your vehicle"
+      "Use Pink Auto service available throughout the city for women-only transportation",
+      "Board MO Bus from designated women's priority boarding areas",
+      "Verify auto/cab details with the Smart City app before boarding",
+      "Use railway help desk at Bhubaneswar Railway Station when traveling by train",
+      "Prefer the women's compartment in trains arriving/departing Bhubaneswar"
     ],
     icon: "directions_car"
   },
   {
     id: 3,
-    title: "Digital Safety",
+    title: "Bhubaneswar Event Safety",
     tips: [
-      "Be careful about sharing personal information online",
-      "Review privacy settings on social media regularly",
-      "Avoid posting real-time location updates publicly",
-      "Be cautious with location services on apps",
-      "Don't share travel plans on public platforms"
+      "At Kalinga Stadium events, locate the women's safety booths at all entrances",
+      "During festivals like Durga Puja and Raja, use the designated women's help points",
+      "For cultural events at Rabindra Mandap, use the priority entrance for women",
+      "At exhibitions in Exhibition Ground, locate the security booths marked in pink",
+      "Use buddy system when attending night markets in Khandagiri and Ekamra Haat"
     ],
-    icon: "phone_android"
+    icon: "calendar"
   },
   {
     id: 4,
-    title: "Emergency Preparedness",
+    title: "Bhubaneswar Emergency Response",
     tips: [
-      "Save emergency contacts under ICE (In Case of Emergency)",
-      "Learn basic self-defense techniques",
-      "Carry a personal safety alarm if desired",
-      "Know the locations of safety zones in frequently visited areas",
-      "Download and familiarize yourself with safety apps"
+      "Save Odisha Women's Helpline (181) and Bhubaneswar Mahila Police (0674-2544999)",
+      "Attend free self-defense workshops held at KIIT University monthly",
+      "Download and register on the Durga Shakti app by Odisha Police",
+      "Note locations of Sakhi One Stop Centres at Capital Hospital and AIIMS Bhubaneswar",
+      "Join local women's safety WhatsApp groups organized by Bhubaneswar Municipal Corporation"
     ],
     icon: "emergency"
   },
+  {
+    id: 5,
+    title: "Shopping Areas & Markets Safety",
+    tips: [
+      "At Market Building area, stay in well-lit and crowded sections",
+      "In Saheed Nagar market, use the women's assistance booth if needed",
+      "At Esplanade and DN Regalia malls, locate security help desks on each floor",
+      "Keep valuables secure while shopping in Unit 1 market area",
+      "Use designated women's restrooms with security in all major shopping centers"
+    ],
+    icon: "shopping_bag"
+  },
 ];
 
-// Sample data for safety stats
+// Bhubaneswar safety statistics
 const safetyStats = [
-  { name: "Safety Zones", value: "42", change: "+8", trend: "up" },
-  { name: "Emergency Calls", value: "23", change: "-12%", trend: "down" },
-  { name: "Response Time", value: "4.2 min", change: "-0.5 min", trend: "down" },
-  { name: "Safe Escorts", value: "156", change: "+24%", trend: "up" }
+  { name: "Safety Zones", value: "38", change: "+6", trend: "up" },
+  { name: "Emergency Calls", value: "27", change: "-9%", trend: "down" },
+  { name: "Response Time", value: "3.8 min", change: "-0.7 min", trend: "down" },
+  { name: "Pink Auto Trips", value: "284", change: "+32%", trend: "up" }
 ];
 
-// Sample data for safety apps
+// Bhubaneswar safety apps data
 const safetyApps = [
   {
     id: 1,
-    name: "SafeWalk",
-    description: "GPS tracking app that allows friends or family to monitor your journey in real-time",
-    features: ["Location Sharing", "SOS Button", "Safe Routes"],
-    icon: "directions_walk",
+    name: "Odisha Police Citizen App",
+    description: "Official app from Odisha Police with women's safety features, emergency assistance, and quick reporting",
+    features: ["SOS Alert", "Women's Safety", "Complaint Filing", "Station Locator"],
+    icon: "shield",
     color: "blue"
   },
   {
     id: 2,
-    name: "Emergency Alert",
-    description: "One-touch emergency alerting system that contacts authorities and trusted contacts simultaneously",
-    features: ["Quick Alerts", "Location Sharing", "Siren Activation"],
-    icon: "notifications_active",
-    color: "red"
+    name: "Bhubaneswar Smart City App",
+    description: "City-wide app with women's safety module, Pink Auto booking, and emergency services",
+    features: ["Pink Auto Service", "Emergency Contacts", "Safety Zones Map", "Alert System"],
+    icon: "home",
+    color: "purple"
   },
   {
     id: 3,
-    name: "Community Watch",
-    description: "Community-based safety network that shares verified alerts about incidents in your area",
-    features: ["Local Alerts", "Safety Reports", "Community Verification"],
+    name: "Durga Shakti",
+    description: "App designed specifically for women's safety in Odisha with panic button and location tracking",
+    features: ["Panic Button", "Location Sharing", "Police Connection", "Voice Activation"],
+    icon: "siren",
+    color: "red"
+  },
+  {
+    id: 4,
+    name: "Abhayam",
+    description: "Community safety app for Bhubaneswar residents to report and view safety concerns in neighborhoods",
+    features: ["Incident Reporting", "Safety Alerts", "Community Verification", "Safe Routes"],
     icon: "group",
     color: "green"
   },
+  {
+    id: 5,
+    name: "MO Bus Tracking",
+    description: "Official Bhubaneswar transit app with women's safety features for public transportation",
+    features: ["Bus Tracking", "Women's Section Status", "Emergency Help", "Trip Sharing"],
+    icon: "bus",
+    color: "amber"
+  }
 ];
 
 export default function SafetyPage() {
@@ -243,6 +327,67 @@ export default function SafetyPage() {
     description: "",
     contact: ""
   });
+  const [responseStatus, setResponseStatus] = useState({
+    isActive: false,
+    message: "",
+    type: "info" as "info" | "warning" | "success" | "error",
+    location: "",
+    responder: "",
+    eta: ""
+  });
+  const [liveAlerts, setLiveAlerts] = useState<typeof recentAlerts>(recentAlerts);
+
+  // Simulate real-time updates with periodic updates
+  useEffect(() => {
+    // Function to simulate new alerts coming in
+    const simulateNewAlert = () => {
+      const newAlertTypes = [
+        {
+          title: "Police Patrol Dispatched",
+          location: "Nandankanan Road, Near Zoo",
+          description: "Routine patrol vehicle dispatched for surveillance following recent reports.",
+          severity: "Information"
+        },
+        {
+          title: "Safety Escort Requested",
+          location: "KIIT University Campus",
+          description: "Safety escort service activated for student returning to hostel.",
+          severity: "Information"
+        },
+        {
+          title: "Suspicious Activity",
+          location: "Patia Market Area",
+          description: "Reports of suspicious individuals in the area. Police verifying.",
+          severity: "Warning"
+        }
+      ];
+      
+      const randomType = newAlertTypes[Math.floor(Math.random() * newAlertTypes.length)];
+      const newAlert = {
+        id: Date.now(),
+        title: randomType.title,
+        location: randomType.location,
+        time: "Just now",
+        description: randomType.description,
+        severity: randomType.severity
+      };
+      
+      setLiveAlerts(prev => {
+        const updated = [newAlert, ...prev.slice(0, 4)];
+        return updated;
+      });
+    };
+    
+    // Set interval for simulated real-time updates
+    const alertInterval = setInterval(() => {
+      // 30% chance of new alert coming in
+      if (Math.random() < 0.3) {
+        simulateNewAlert();
+      }
+    }, 10000); // every 10 seconds
+    
+    return () => clearInterval(alertInterval);
+  }, []);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -258,14 +403,62 @@ export default function SafetyPage() {
 
   const handleReportSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would connect to your backend API to submit the report
-    alert("Safety report submitted successfully!");
+    
+    // Simulate a real-time response
+    setResponseStatus({
+      isActive: true,
+      message: "Your report has been received. Emergency services have been notified.",
+      type: "success",
+      location: reportFormData.location,
+      responder: "Bhubaneswar Mahila Police",
+      eta: "5-7 minutes"
+    });
+    
+    // Reset form
     setReportFormData({
       incidentType: "",
       location: "",
       description: "",
       contact: ""
     });
+    
+    // Add new alert to the system
+    const newAlert = {
+      id: Date.now(),
+      title: `${reportFormData.incidentType} Reported`,
+      location: reportFormData.location,
+      time: "Just now",
+      description: "Report submitted and verified. Authorities have been notified.",
+      severity: "Warning"
+    };
+    
+    setLiveAlerts(prev => [newAlert, ...prev.slice(0, 4)]);
+    
+    // After 15 seconds, update the response status
+    setTimeout(() => {
+      setResponseStatus(prev => ({
+        ...prev,
+        message: "Responders have been dispatched to your location.",
+        eta: "3-5 minutes"
+      }));
+      
+      // After another 10 seconds, update to arrival
+      setTimeout(() => {
+        setResponseStatus(prev => ({
+          ...prev,
+          message: "Responders have arrived at the location.",
+          eta: "On site"
+        }));
+        
+        // Clear the status after showing for a while
+        setTimeout(() => {
+          setResponseStatus(prev => ({
+            ...prev,
+            isActive: false
+          }));
+        }, 5000);
+      }, 10000);
+    }, 15000);
   };
 
   return (
@@ -531,28 +724,77 @@ export default function SafetyPage() {
                     <CardContent>
                       <div className="space-y-4">
                         {safetyApps.map((app) => (
-                          <div key={app.id} className="flex border border-slate-200 rounded-lg overflow-hidden">
-                            <div className={`p-4 flex items-center justify-center w-16 ${
-                              app.color === "blue" ? "bg-blue-100" : 
-                              app.color === "red" ? "bg-red-100" : 
-                              "bg-green-100"
-                            }`}>
-                              <span className="material-icons text-2xl">{app.icon}</span>
-                            </div>
-                            <div className="p-4 flex-1">
-                              <h3 className="font-medium text-slate-800">{app.name}</h3>
-                              <p className="text-sm text-slate-600 mt-1">{app.description}</p>
-                              <div className="flex flex-wrap gap-1 mt-2">
-                                {app.features.map((feature, index) => (
-                                  <Badge key={index} variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 text-xs">
-                                    {feature}
-                                  </Badge>
-                                ))}
+                          <AnimatedCard 
+                            key={app.id} 
+                            className="border border-slate-200 rounded-lg overflow-hidden hover:shadow-md transition-all"
+                            animationStyle="hover"
+                          >
+                            <div className="flex">
+                              <div className={`p-4 flex items-center justify-center w-16 ${
+                                app.color === "blue" ? "bg-blue-100" : 
+                                app.color === "purple" ? "bg-purple-100" : 
+                                app.color === "red" ? "bg-red-100" : 
+                                app.color === "green" ? "bg-green-100" : 
+                                app.color === "amber" ? "bg-amber-100" : 
+                                "bg-slate-100"
+                              }`}>
+                                <AnimatedIcon 
+                                  icon={
+                                    app.icon === "shield" ? <Shield className="h-6 w-6" /> : 
+                                    app.icon === "home" ? <Home className="h-6 w-6" /> : 
+                                    app.icon === "siren" ? <Bell className="h-6 w-6" /> : 
+                                    app.icon === "group" ? <Users className="h-6 w-6" /> : 
+                                    app.icon === "bus" ? <Car className="h-6 w-6" /> : 
+                                    <Smartphone className="h-6 w-6" />
+                                  }
+                                  animationStyle={
+                                    app.icon === "shield" ? "pulse" : 
+                                    app.icon === "home" ? "bounce" : 
+                                    app.icon === "siren" ? "shake" : 
+                                    app.icon === "group" ? "pulse" : 
+                                    app.icon === "bus" ? "pingPong" : 
+                                    "rotate"
+                                  }
+                                  color={
+                                    app.color === "blue" ? "text-blue-600" : 
+                                    app.color === "purple" ? "text-purple-600" : 
+                                    app.color === "red" ? "text-red-600" : 
+                                    app.color === "green" ? "text-green-600" : 
+                                    app.color === "amber" ? "text-amber-600" : 
+                                    "text-slate-600"
+                                  }
+                                />
+                              </div>
+                              <div className="p-4 flex-1">
+                                <h3 className="font-medium text-slate-800">{app.name}</h3>
+                                <p className="text-sm text-slate-600 mt-1">{app.description}</p>
+                                <div className="flex flex-wrap gap-1 mt-2">
+                                  {app.features.map((feature, index) => (
+                                    <Badge key={index} variant="outline" className={`
+                                      ${app.color === "blue" ? "bg-blue-50 text-blue-700 border-blue-200" : 
+                                      app.color === "purple" ? "bg-purple-50 text-purple-700 border-purple-200" : 
+                                      app.color === "red" ? "bg-red-50 text-red-700 border-red-200" : 
+                                      app.color === "green" ? "bg-green-50 text-green-700 border-green-200" : 
+                                      app.color === "amber" ? "bg-amber-50 text-amber-700 border-amber-200" : 
+                                      "bg-slate-50 text-slate-700 border-slate-200"} text-xs`}>
+                                      {feature}
+                                    </Badge>
+                                  ))}
+                                </div>
+                                <div className="mt-3 flex justify-end">
+                                  <Button variant="outline" size="sm" className="text-xs">
+                                    <Download className="h-3 w-3 mr-1" />
+                                    Download
+                                  </Button>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          </AnimatedCard>
                         ))}
-                        <Button className="w-full">Download Safety Apps</Button>
+                        <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                          <Smartphone className="h-4 w-4 mr-2" />
+                          View All Safety Apps
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -566,7 +808,16 @@ export default function SafetyPage() {
                 <div className="lg:col-span-2">
                   <Card className="bg-white mb-6">
                     <CardHeader>
-                      <CardTitle>Recent Safety Alerts</CardTitle>
+                      <CardTitle className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <Bell className="h-5 w-5 mr-2 text-purple-600" />
+                          <span>Live Safety Alerts - Bhubaneswar</span>
+                        </div>
+                        <Badge className="bg-green-100 text-green-800 border-0 animate-pulse">
+                          <span className="h-2 w-2 rounded-full bg-green-500 mr-1.5 inline-block"></span>
+                          Live Updates
+                        </Badge>
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
@@ -970,6 +1221,58 @@ export default function SafetyPage() {
             
             {/* Report Tab */}
             <TabsContent value="report" className="mt-0">
+              {responseStatus.isActive && (
+                <Card className="bg-green-50 border border-green-200 mb-6">
+                  <CardContent className="p-4">
+                    <div className="flex flex-col space-y-4">
+                      <div className="flex items-start">
+                        <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                          <Check className="h-6 w-6 text-green-600" />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-green-800">
+                            {responseStatus.message}
+                          </h3>
+                          <div className="mt-2 space-y-2">
+                            <div className="flex items-center">
+                              <MapPin className="h-4 w-4 text-green-600 mr-2" />
+                              <span className="text-sm text-green-700">
+                                Location: {responseStatus.location}
+                              </span>
+                            </div>
+                            <div className="flex items-center">
+                              <Car className="h-4 w-4 text-green-600 mr-2" />
+                              <span className="text-sm text-green-700">
+                                Responder: {responseStatus.responder}
+                              </span>
+                            </div>
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 text-green-600 mr-2" />
+                              <span className="text-sm text-green-700">
+                                ETA: {responseStatus.eta}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="mt-4 flex space-x-2">
+                            <Button variant="outline" size="sm" className="bg-white">
+                              <Phone className="h-4 w-4 mr-2" />
+                              Contact
+                            </Button>
+                            <Button variant="outline" size="sm" className="bg-white">
+                              <Share className="h-4 w-4 mr-2" />
+                              Share
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full bg-green-200 h-1.5 rounded-full overflow-hidden">
+                        <div className="bg-green-500 h-full rounded-full animate-pulse" style={{width: responseStatus.eta === "On site" ? "100%" : "70%"}}></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+              
               <Card className="bg-white">
                 <CardHeader>
                   <CardTitle>Submit Safety Report</CardTitle>
@@ -981,7 +1284,7 @@ export default function SafetyPage() {
                       <div>
                         <h3 className="font-medium text-slate-800 mb-1">Report Safety Concerns</h3>
                         <p className="text-sm text-slate-600">
-                          Use this form to report safety concerns, suspicious activities, or incidents. For emergencies requiring immediate attention, please call 911.
+                          Use this form to report safety concerns, suspicious activities, or incidents. For emergencies requiring immediate attention, please call 181 (Women's Helpline).
                         </p>
                       </div>
                     </div>
@@ -1003,11 +1306,11 @@ export default function SafetyPage() {
                             required
                           >
                             <option value="">Select incident type</option>
-                            <option value="suspicious_activity">Suspicious Activity</option>
-                            <option value="harassment">Harassment</option>
-                            <option value="safety_hazard">Safety Hazard</option>
-                            <option value="lighting_issue">Poor Lighting</option>
-                            <option value="other">Other</option>
+                            <option value="Suspicious Activity">Suspicious Activity</option>
+                            <option value="Harassment">Harassment</option>
+                            <option value="Safety Hazard">Safety Hazard</option>
+                            <option value="Poor Lighting">Poor Lighting</option>
+                            <option value="Other Safety Concern">Other Safety Concern</option>
                           </select>
                         </div>
                         
