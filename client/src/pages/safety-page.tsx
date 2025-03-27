@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { Header } from "@/components/layout/header";
@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatedIcon } from "@/components/ui/animated-icon";
 import { AnimatedCard } from "@/components/ui/animated-card";
+import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF, PolylineF } from '@react-google-maps/api';
+import { useQuery } from "@tanstack/react-query";
 import { 
   Shield, 
   Bell, 
@@ -338,6 +340,40 @@ export default function SafetyPage() {
     eta: ""
   });
   const [liveAlerts, setLiveAlerts] = useState<typeof recentAlerts>(recentAlerts);
+  const [selectedSafetyZone, setSelectedSafetyZone] = useState<number | null>(null);
+  
+  // Load Google Maps API
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '',
+  });
+  
+  // Center map on Bhubaneswar, India
+  const mapCenter = { lat: 20.2961, lng: 85.8245 };
+  
+  // Map options to customize the appearance
+  const mapOptions = {
+    disableDefaultUI: true,
+    zoomControl: true,
+    streetViewControl: true,
+    styles: [
+      {
+        featureType: "poi",
+        elementType: "labels",
+        stylers: [{ visibility: "off" }],
+      },
+    ],
+  };
+  
+  // Handle map marker click
+  const handleMarkerClick = useCallback((zoneId: number) => {
+    setSelectedSafetyZone(zoneId);
+  }, []);
+  
+  // Close info window
+  const handleInfoWindowClose = useCallback(() => {
+    setSelectedSafetyZone(null);
+  }, []);
 
   // Simulate real-time updates with periodic updates
   useEffect(() => {
@@ -602,16 +638,74 @@ export default function SafetyPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="h-96 bg-slate-100 rounded-lg overflow-hidden mb-6 relative">
-                        {/* This would be replaced with an actual map component like Google Maps */}
-                        <div className="absolute inset-0 bg-slate-200 flex items-center justify-center">
-                          <div className="text-center">
-                            <MapPin className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-slate-700">Safety Zone Map</h3>
-                            <p className="text-sm text-slate-500 mt-2">Interactive map showing all safety zones would appear here.</p>
+                        {isLoaded ? (
+                          <GoogleMap
+                            mapContainerStyle={{ width: '100%', height: '100%' }}
+                            center={mapCenter}
+                            zoom={12}
+                            options={mapOptions}
+                          >
+                            {/* Render markers for all safety zones */}
+                            {safetyZones.map((zone) => (
+                              <MarkerF
+                                key={zone.id}
+                                position={zone.location}
+                                onClick={() => handleMarkerClick(zone.id)}
+                                icon={{
+                                  path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                                  fillColor: zone.type === "Women's Police Station" ? '#9c27b0' : 
+                                             zone.type === "Support Center" ? '#e91e63' : 
+                                             zone.type === "Campus Safety" ? '#2196f3' : 
+                                             zone.type === "Public Space Safety" ? '#4caf50' : 
+                                             '#ff9800',
+                                  fillOpacity: 1,
+                                  strokeWeight: 1,
+                                  strokeColor: '#ffffff',
+                                  scale: 2,
+                                }}
+                              />
+                            ))}
+                            
+                            {/* Show info window for selected safety zone */}
+                            {selectedSafetyZone !== null && (
+                              <InfoWindowF
+                                position={safetyZones.find(zone => zone.id === selectedSafetyZone)?.location!}
+                                onCloseClick={handleInfoWindowClose}
+                              >
+                                <div className="p-2 max-w-[240px]">
+                                  <h3 className="font-medium text-sm mb-1">
+                                    {safetyZones.find(zone => zone.id === selectedSafetyZone)?.name}
+                                  </h3>
+                                  <p className="text-xs text-slate-600 mb-1">
+                                    {safetyZones.find(zone => zone.id === selectedSafetyZone)?.type}
+                                  </p>
+                                  <p className="text-xs text-slate-600 mb-1 flex items-center">
+                                    <Phone className="h-3 w-3 mr-1" />
+                                    {safetyZones.find(zone => zone.id === selectedSafetyZone)?.contact}
+                                  </p>
+                                  <p className="text-xs mt-1 font-semibold text-purple-700">
+                                    Open 24/7 for women's assistance
+                                  </p>
+                                </div>
+                              </InfoWindowF>
+                            )}
+                          </GoogleMap>
+                        ) : (
+                          <div className="absolute inset-0 bg-slate-200 flex items-center justify-center">
+                            <div className="text-center">
+                              <AnimatedIcon 
+                                icon={<MapPin className="h-16 w-16" />}
+                                animationStyle="pulse"
+                                size="xl"
+                                color="text-slate-400"
+                              />
+                              <h3 className="text-lg font-medium text-slate-700 mt-4">Loading Map...</h3>
+                              <p className="text-sm text-slate-500 mt-2">Real-time safety zones in Bhubaneswar</p>
+                            </div>
                           </div>
-                        </div>
+                        )}
                         
-                        {/* Map controls that would work with actual map implementation */}
+                        {/* Map controls */}
                         <div className="absolute top-4 right-4 bg-white rounded-lg shadow p-2 flex gap-2">
                           <Button variant="outline" size="sm" className="h-9 w-9 p-0">
                             <Shield className="h-4 w-4" />
@@ -889,14 +983,108 @@ export default function SafetyPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="h-80 bg-slate-100 rounded-lg overflow-hidden mb-6 relative">
-                        {/* This would be replaced with an actual map component with routes */}
-                        <div className="absolute inset-0 bg-slate-200 flex items-center justify-center">
-                          <div className="text-center">
-                            <MapPin className="h-16 w-16 text-slate-400 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-slate-700">Safe Routes Map</h3>
-                            <p className="text-sm text-slate-500 mt-2">Map showing recommended safe routes would appear here.</p>
+                        {isLoaded ? (
+                          <GoogleMap
+                            mapContainerStyle={{ width: '100%', height: '100%' }}
+                            center={mapCenter}
+                            zoom={12}
+                            options={{
+                              ...mapOptions,
+                              styles: [
+                                ...mapOptions.styles,
+                                {
+                                  featureType: "road",
+                                  elementType: "geometry",
+                                  stylers: [{ visibility: "on" }]
+                                },
+                                {
+                                  featureType: "road.arterial",
+                                  elementType: "geometry",
+                                  stylers: [{ color: "#8e24aa" }, { weight: 2 }]
+                                }
+                              ]
+                            }}
+                          >
+                            {/* Render markers for emergency phones and safe points */}
+                            <MarkerF
+                              position={{ lat: 20.2975, lng: 85.8236 }} // Emergency Phone near Rupali Square
+                              icon={{
+                                path: "M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z",
+                                fillColor: '#e91e63',
+                                fillOpacity: 1,
+                                strokeWeight: 1,
+                                strokeColor: '#ffffff',
+                                scale: 1.5,
+                              }}
+                            />
+                            <MarkerF
+                              position={{ lat: 20.3061, lng: 85.8312 }} // Emergency Phone near Master Canteen
+                              icon={{
+                                path: "M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z",
+                                fillColor: '#e91e63',
+                                fillOpacity: 1,
+                                strokeWeight: 1,
+                                strokeColor: '#ffffff',
+                                scale: 1.5,
+                              }}
+                            />
+                            <MarkerF
+                              position={{ lat: 20.2850, lng: 85.8470 }} // Emergency Phone near KIIT University
+                              icon={{
+                                path: "M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z",
+                                fillColor: '#e91e63',
+                                fillOpacity: 1,
+                                strokeWeight: 1,
+                                strokeColor: '#ffffff',
+                                scale: 1.5,
+                              }}
+                            />
+                            
+                            {/* Example Safe Route Polyline - Bhubaneswar Railway Station to KIIT University */}
+                            <PolylineF
+                              path={[
+                                { lat: 20.2705, lng: 85.8420 }, // Bhubaneswar Railway Station
+                                { lat: 20.2710, lng: 85.8450 },
+                                { lat: 20.2740, lng: 85.8480 },
+                                { lat: 20.2790, lng: 85.8490 },
+                                { lat: 20.2840, lng: 85.8500 },
+                                { lat: 20.2890, lng: 85.8490 },
+                                { lat: 20.2950, lng: 85.8480 },
+                                { lat: 20.2980, lng: 85.8475 },
+                                { lat: 20.3010, lng: 85.8465 },
+                                { lat: 20.3040, lng: 85.8460 },
+                                { lat: 20.3300, lng: 85.8246 }, // KIIT University
+                              ]}
+                              options={{
+                                strokeColor: '#9c27b0',
+                                strokeOpacity: 0.8,
+                                strokeWeight: 5,
+                                icons: [{
+                                  icon: {
+                                    path: "M 0,-1 0,1",
+                                    strokeOpacity: 1,
+                                    scale: 4
+                                  },
+                                  offset: '0',
+                                  repeat: '20px'
+                                }],
+                              }}
+                            />
+                          </GoogleMap>
+                        ) : (
+                          <div className="absolute inset-0 bg-slate-200 flex items-center justify-center">
+                            <div className="text-center">
+                              <AnimatedIcon 
+                                icon={<MapPin className="h-16 w-16" />}
+                                animationStyle="pulse"
+                                size="xl"
+                                color="text-slate-400"
+                              />
+                              <h3 className="text-lg font-medium text-slate-700 mt-4">Loading Map...</h3>
+                              <p className="text-sm text-slate-500 mt-2">Safe routes across Bhubaneswar</p>
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                       
                       <div className="bg-slate-50 p-4 rounded-lg border border-slate-200">
