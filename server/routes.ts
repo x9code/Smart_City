@@ -490,6 +490,295 @@ export async function registerRoutes(app: Express): Promise<Server> {
     };
     res.json(tourismData);
   });
+  
+  // Education API
+  app.get("/api/education", (req, res) => {
+    const educationData = {
+      schools: [
+        {
+          id: 1,
+          name: "Central High School",
+          type: "Public",
+          level: "High School",
+          address: "123 Education Blvd, Downtown",
+          rating: 4.5,
+          students: 1250,
+          teachers: 78,
+          programs: ["Advanced Placement", "STEM Focus", "Arts Program"],
+          contact: {
+            phone: "(555) 123-4567",
+            email: "info@centralhigh.edu",
+            website: "www.centralhigh.edu"
+          }
+        },
+        {
+          id: 2,
+          name: "Westside Elementary",
+          type: "Public",
+          level: "Elementary",
+          address: "456 Learning Lane, Westside",
+          rating: 4.7,
+          students: 820,
+          teachers: 45,
+          programs: ["Early Literacy", "Spanish Immersion", "Special Education"],
+          contact: {
+            phone: "(555) 234-5678",
+            email: "info@westsideelem.edu",
+            website: "www.westsideelem.edu"
+          }
+        },
+        {
+          id: 3,
+          name: "Riverside Academy",
+          type: "Private",
+          level: "K-12",
+          address: "789 Scholar Street, Riverside",
+          rating: 4.8,
+          students: 950,
+          teachers: 68,
+          programs: ["International Baccalaureate", "Performing Arts", "Athletics"],
+          contact: {
+            phone: "(555) 345-6789",
+            email: "admissions@riversideacademy.edu",
+            website: "www.riversideacademy.edu"
+          }
+        }
+      ],
+      colleges: [
+        {
+          id: 1,
+          name: "City University",
+          type: "Public",
+          address: "1000 University Ave, Downtown",
+          students: 25000,
+          faculty: 1200,
+          programs: ["Liberal Arts", "Business", "Engineering", "Medicine", "Law"],
+          tuition: "$12,000/year (in-state), $25,000/year (out-of-state)",
+          acceptanceRate: "68%",
+          contact: {
+            phone: "(555) 987-6543",
+            email: "admissions@cityuniversity.edu",
+            website: "www.cityuniversity.edu"
+          }
+        },
+        {
+          id: 2,
+          name: "Technical Institute",
+          type: "Public",
+          address: "500 Technology Parkway, Eastside",
+          students: 12000,
+          faculty: 550,
+          programs: ["Computer Science", "Engineering", "Applied Sciences", "Mathematics"],
+          tuition: "$9,500/year",
+          acceptanceRate: "72%",
+          contact: {
+            phone: "(555) 876-5432",
+            email: "info@techinstitude.edu",
+            website: "www.techinstitute.edu"
+          }
+        },
+        {
+          id: 3,
+          name: "Liberal Arts College",
+          type: "Private",
+          address: "300 Humanities Circle, Northside",
+          students: 4500,
+          faculty: 320,
+          programs: ["Literature", "Philosophy", "Arts", "Social Sciences", "Language Studies"],
+          tuition: "$32,000/year",
+          acceptanceRate: "45%",
+          contact: {
+            phone: "(555) 765-4321",
+            email: "admissions@liberalarts.edu",
+            website: "www.liberalarts.edu"
+          }
+        }
+      ],
+      courses: [
+        {
+          id: 1,
+          title: "Introduction to Data Science",
+          provider: "City University Online",
+          format: "Online",
+          duration: "8 weeks",
+          price: "$300",
+          rating: 4.6,
+          enrolled: 1876,
+          level: "Beginner",
+          description: "Learn the fundamentals of data science, including data analysis, visualization, and basic machine learning concepts.",
+          startDates: ["January 15, 2023", "March 1, 2023", "June 10, 2023"]
+        },
+        {
+          id: 2,
+          title: "Web Development Bootcamp",
+          provider: "Tech Academy",
+          format: "Hybrid",
+          duration: "12 weeks",
+          price: "$1,200",
+          rating: 4.8,
+          enrolled: 3542,
+          level: "Intermediate",
+          description: "Comprehensive web development course covering HTML, CSS, JavaScript, React, and Node.js with hands-on projects.",
+          startDates: ["February 5, 2023", "May 15, 2023", "September 1, 2023"]
+        },
+        {
+          id: 3,
+          title: "Business Management Fundamentals",
+          provider: "Business School Pro",
+          format: "In-person",
+          duration: "6 weeks",
+          price: "$750",
+          rating: 4.3,
+          enrolled: 958,
+          level: "Beginner",
+          description: "Essential business management principles, including leadership, finance, marketing, and operations.",
+          startDates: ["January 10, 2023", "April 5, 2023", "July 20, 2023"]
+        }
+      ],
+      resources: [
+        {
+          id: 1,
+          title: "City Digital Library",
+          type: "Library",
+          access: "Free with Library Card",
+          resources: ["E-books", "Research Journals", "Academic Papers", "Online Courses"],
+          description: "Access thousands of digital resources including books, journals, and academic papers through the city's digital library."
+        },
+        {
+          id: 2,
+          title: "STEM Learning Center",
+          type: "Learning Center",
+          access: "Free for Students, $10/month for Adults",
+          resources: ["Hands-on Labs", "Tutoring", "Workshop Space", "Equipment Access"],
+          description: "Community center focused on STEM education, providing hands-on learning experiences and resources for all ages."
+        },
+        {
+          id: 3,
+          title: "Language Learning Hub",
+          type: "Learning Center",
+          access: "Membership Required ($15/month)",
+          resources: ["Language Software", "Conversation Groups", "Cultural Events", "Teaching Materials"],
+          description: "Dedicated space for language learning with resources for multiple languages and regular conversation practice groups."
+        }
+      ]
+    };
+    res.json(educationData);
+  });
+
+  // Admin API for user management
+  app.get("/api/admin/users", (req, res) => {
+    const usersData = [
+      {
+        id: 1,
+        name: "John Doe",
+        username: "john.doe",
+        email: "john.doe@example.com",
+        role: "admin",
+        department: "IT",
+        status: "active",
+        lastLogin: "2023-03-15T14:30:00Z"
+      },
+      {
+        id: 2,
+        name: "Jane Smith",
+        username: "jane.smith",
+        email: "jane.smith@example.com",
+        role: "user",
+        department: "Finance",
+        status: "active",
+        lastLogin: "2023-03-14T09:45:00Z"
+      },
+      {
+        id: 3,
+        name: "Robert Johnson",
+        username: "robert.johnson",
+        email: "robert.johnson@example.com",
+        role: "user",
+        department: "Operations",
+        status: "inactive",
+        lastLogin: "2023-02-28T11:20:00Z"
+      }
+    ];
+    res.json(usersData);
+  });
+
+  // Admin API for system settings
+  app.get("/api/admin/settings", (req, res) => {
+    const settingsData = {
+      general: {
+        siteName: "Smart City Management System",
+        siteUrl: "https://smartcity.example.com",
+        adminEmail: "admin@smartcity.example.com",
+        dateFormat: "MM/DD/YYYY",
+        timeFormat: "12h",
+        timezone: "UTC-5 (Eastern)"
+      },
+      api: {
+        rateLimit: 100,
+        throttling: true,
+        caching: true,
+        cacheLifetime: 60,
+        loggingLevel: "Info"
+      },
+      database: {
+        status: "Connected",
+        host: "db.smartcity.example.com",
+        name: "smartcity_production",
+        version: "PostgreSQL 14.5",
+        size: "1.2 GB",
+        lastBackup: "2023-03-20T03:00:00Z"
+      },
+      system: {
+        debugMode: false,
+        maintenanceMode: false,
+        sessionTimeout: 30
+      }
+    };
+    res.json(settingsData);
+  });
+
+  // Spring Boot API endpoint info
+  app.get("/api/springboot-endpoints", (req, res) => {
+    const endpointsData = {
+      status: "Ready for Integration",
+      apiBase: "/api/v1",
+      endpoints: [
+        {
+          name: "User Management API",
+          path: "/users",
+          methods: ["GET", "POST", "PUT", "DELETE"],
+          ready: true
+        },
+        {
+          name: "Smart City Data API",
+          path: "/city",
+          methods: ["GET", "POST", "PUT"],
+          ready: true
+        },
+        {
+          name: "Authentication API",
+          path: "/auth",
+          methods: ["POST"],
+          ready: true
+        },
+        {
+          name: "System Settings API",
+          path: "/settings",
+          methods: ["GET", "PUT"],
+          ready: true
+        }
+      ],
+      jpaEntities: [
+        "User", "Role", "Permission", "City", "TrafficData", 
+        "HealthcareData", "SafetyData", "EducationData", "TourismData"
+      ],
+      databaseConnection: {
+        type: "PostgreSQL",
+        status: "Configured"
+      }
+    };
+    res.json(endpointsData);
+  });
 
   const httpServer = createServer(app);
 
