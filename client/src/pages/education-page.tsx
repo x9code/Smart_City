@@ -29,255 +29,412 @@ import {
   Lightbulb,
   Blocks,
   CircleUser,
-  Library
+  Library,
+  Atom,
+  Palette
 } from "lucide-react";
 
-// Sample data for schools
+// Bhubaneswar schools data
 const schools = [
   {
     id: 1,
-    name: "Central High School",
-    type: "Public",
-    level: "High School",
-    address: "123 Education Blvd, Downtown",
-    rating: 4.5,
-    students: 1250,
-    teachers: 78,
-    programs: ["Advanced Placement", "STEM Focus", "Arts Program"],
-    contact: {
-      phone: "(555) 123-4567",
-      email: "info@centralhigh.edu",
-      website: "www.centralhigh.edu"
-    }
-  },
-  {
-    id: 2,
-    name: "Westside Elementary",
-    type: "Public",
-    level: "Elementary",
-    address: "456 Learning Lane, Westside",
-    rating: 4.7,
-    students: 820,
-    teachers: 45,
-    programs: ["Early Literacy", "Spanish Immersion", "Special Education"],
-    contact: {
-      phone: "(555) 234-5678",
-      email: "info@westsideelem.edu",
-      website: "www.westsideelem.edu"
-    }
-  },
-  {
-    id: 3,
-    name: "Riverside Academy",
-    type: "Private",
+    name: "DAV Public School, Chandrasekharpur",
+    type: "CBSE",
     level: "K-12",
-    address: "789 Scholar Street, Riverside",
-    rating: 4.8,
-    students: 950,
-    teachers: 68,
-    programs: ["International Baccalaureate", "Performing Arts", "Athletics"],
+    address: "Chandrasekharpur, Bhubaneswar, Odisha 751016",
+    rating: 4.7,
+    students: 3500,
+    teachers: 165,
+    programs: ["Science Stream", "Commerce Stream", "STEM Education", "Sports Excellence"],
+    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
     contact: {
-      phone: "(555) 345-6789",
-      email: "admissions@riversideacademy.edu",
-      website: "www.riversideacademy.edu"
-    }
-  }
-];
-
-// Sample data for colleges and universities
-const colleges = [
-  {
-    id: 1,
-    name: "City University",
-    type: "Public",
-    address: "1000 University Ave, Downtown",
-    students: 25000,
-    faculty: 1200,
-    programs: ["Liberal Arts", "Business", "Engineering", "Medicine", "Law"],
-    tuition: "$12,000/year (in-state), $25,000/year (out-of-state)",
-    acceptanceRate: "68%",
-    contact: {
-      phone: "(555) 987-6543",
-      email: "admissions@cityuniversity.edu",
-      website: "www.cityuniversity.edu"
+      phone: "0674-2741416",
+      email: "info@davbhubaneswar.org",
+      website: "www.davbhubaneswar.org"
     }
   },
   {
     id: 2,
-    name: "Technical Institute",
-    type: "Public",
-    address: "500 Technology Parkway, Eastside",
-    students: 12000,
-    faculty: 550,
-    programs: ["Computer Science", "Engineering", "Applied Sciences", "Mathematics"],
-    tuition: "$9,500/year",
-    acceptanceRate: "72%",
-    contact: {
-      phone: "(555) 876-5432",
-      email: "info@techinstitude.edu",
-      website: "www.techinstitute.edu"
-    }
-  },
-  {
-    id: 3,
-    name: "Liberal Arts College",
-    type: "Private",
-    address: "300 Humanities Circle, Northside",
-    students: 4500,
-    faculty: 320,
-    programs: ["Literature", "Philosophy", "Arts", "Social Sciences", "Language Studies"],
-    tuition: "$32,000/year",
-    acceptanceRate: "45%",
-    contact: {
-      phone: "(555) 765-4321",
-      email: "admissions@liberalarts.edu",
-      website: "www.liberalarts.edu"
-    }
-  }
-];
-
-// Sample data for courses
-const courses = [
-  {
-    id: 1,
-    title: "Introduction to Data Science",
-    provider: "City University Online",
-    format: "Online",
-    duration: "8 weeks",
-    price: "$300",
-    rating: 4.6,
-    enrolled: 1876,
-    level: "Beginner",
-    description: "Learn the fundamentals of data science, including data analysis, visualization, and basic machine learning concepts.",
-    startDates: ["January 15, 2023", "March 1, 2023", "June 10, 2023"]
-  },
-  {
-    id: 2,
-    title: "Web Development Bootcamp",
-    provider: "Tech Academy",
-    format: "Hybrid",
-    duration: "12 weeks",
-    price: "$1,200",
+    name: "DPS Kalinga",
+    type: "CBSE",
+    level: "K-12",
+    address: "Pitapalli, Bhubaneswar, Odisha 752055",
     rating: 4.8,
-    enrolled: 3542,
-    level: "Intermediate",
-    description: "Comprehensive web development course covering HTML, CSS, JavaScript, React, and Node.js with hands-on projects.",
-    startDates: ["February 5, 2023", "May 15, 2023", "September 1, 2023"]
+    students: 2800,
+    teachers: 140,
+    programs: ["Digital Learning", "STEM Labs", "International Exchange", "Arts Program"],
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-2725136",
+      email: "info@dpskalinga.com",
+      website: "www.dpskalinga.com"
+    }
   },
   {
     id: 3,
-    title: "Business Management Fundamentals",
-    provider: "Business School Pro",
-    format: "In-person",
-    duration: "6 weeks",
-    price: "$750",
-    rating: 4.3,
-    enrolled: 958,
-    level: "Beginner",
-    description: "Essential business management principles, including leadership, finance, marketing, and operations.",
-    startDates: ["January 10, 2023", "April 5, 2023", "July 20, 2023"]
+    name: "SAI International School",
+    type: "CBSE & ICSE",
+    level: "K-12",
+    address: "Patia, Bhubaneswar, Odisha 751024",
+    rating: 4.9,
+    students: 4200,
+    teachers: 210,
+    programs: ["International Curriculum", "Leadership Program", "Digital Learning", "Sports Academy"],
+    image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-7101900",
+      email: "info@saiinternational.edu.in",
+      website: "www.saiinternational.edu.in"
+    }
   },
   {
     id: 4,
-    title: "Creative Writing Workshop",
-    provider: "Writers Guild",
-    format: "Online",
-    duration: "4 weeks",
-    price: "$150",
-    rating: 4.7,
-    enrolled: 740,
-    level: "All Levels",
-    description: "Develop your creative writing skills through guided exercises, peer feedback, and expert instruction.",
-    startDates: ["February 15, 2023", "May 1, 2023", "August 15, 2023"]
+    name: "Mothers Public School",
+    type: "CBSE",
+    level: "K-12",
+    address: "Unit-1, Bhubaneswar, Odisha 751009",
+    rating: 4.6,
+    students: 2500,
+    teachers: 125,
+    programs: ["Science Education", "Math Olympiad Training", "Cultural Programs", "Sports Development"],
+    image: "https://images.unsplash.com/photo-1613896527026-f195d5c818ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-2531355",
+      email: "info@motherspublicschool.org",
+      website: "www.motherspublicschool.org"
+    }
   }
 ];
 
-// Sample data for educational resources
+// Bhubaneswar colleges and universities data
+const colleges = [
+  {
+    id: 1,
+    name: "KIIT University",
+    type: "Deemed University",
+    address: "KIIT Road, Patia, Bhubaneswar, Odisha 751024",
+    students: 30000,
+    faculty: 1800,
+    programs: ["Engineering", "Medicine", "Management", "Law", "Computer Applications", "Science"],
+    tuition: "₹3,50,000 - ₹12,00,000/year",
+    acceptanceRate: "30%",
+    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-2725113",
+      email: "admission@kiit.ac.in",
+      website: "www.kiit.ac.in"
+    }
+  },
+  {
+    id: 2,
+    name: "AIIMS Bhubaneswar",
+    type: "Central Government Institute",
+    address: "Sijua, Patrapada, Bhubaneswar, Odisha 751019",
+    students: 2500,
+    faculty: 320,
+    programs: ["MBBS", "MD/MS", "Super-Specialty Medical Courses", "Nursing", "Paramedical"],
+    tuition: "₹1,350/year (subsidized)",
+    acceptanceRate: "0.1%",
+    image: "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-2476789",
+      email: "info@aiimsbhubaneswar.edu.in",
+      website: "www.aiimsbhubaneswar.edu.in"
+    }
+  },
+  {
+    id: 3,
+    name: "IIT Bhubaneswar",
+    type: "Central Government Institute",
+    address: "Argul, Jatni, Khurda, Odisha 752050",
+    students: 3000,
+    faculty: 250,
+    programs: ["B.Tech", "M.Tech", "M.Sc", "PhD", "Research Programs"],
+    tuition: "₹2,20,000/year",
+    acceptanceRate: "1%",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-7135001",
+      email: "admission@iitbbs.ac.in",
+      website: "www.iitbbs.ac.in"
+    }
+  },
+  {
+    id: 4,
+    name: "Xavier University (XIMB)",
+    type: "Private University",
+    address: "Xavier Square, Nijigada, Kurki, Harirajpur, Bhubaneswar, Odisha 752050",
+    students: 4500,
+    faculty: 180,
+    programs: ["MBA", "Executive MBA", "PhD", "Rural Management", "HR Management"],
+    tuition: "₹9,50,000 - ₹12,00,000/year",
+    acceptanceRate: "12%",
+    image: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-6647777",
+      email: "admission@xub.edu.in",
+      website: "www.xub.edu.in"
+    }
+  },
+  {
+    id: 5,
+    name: "Utkal University",
+    type: "State University",
+    address: "Vani Vihar, Bhubaneswar, Odisha 751004",
+    students: 20000,
+    faculty: 450,
+    programs: ["Arts", "Science", "Commerce", "Law", "Social Science", "Education"],
+    tuition: "₹20,000 - ₹80,000/year",
+    acceptanceRate: "45%",
+    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+    contact: {
+      phone: "0674-2567635",
+      email: "registrar@utkaluniversity.ac.in",
+      website: "www.utkaluniversity.ac.in"
+    }
+  }
+];
+
+// Bhubaneswar educational courses data
+const courses = [
+  {
+    id: 1,
+    title: "AI & Machine Learning Certification",
+    provider: "KIIT University",
+    format: "Hybrid",
+    duration: "12 weeks",
+    price: "₹45,000",
+    rating: 4.8,
+    enrolled: 1250,
+    level: "Intermediate",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Comprehensive AI & ML program covering deep learning, neural networks, computer vision and NLP with hands-on projects guided by industry experts.",
+    startDates: ["April 15, 2023", "July 10, 2023", "October 5, 2023"]
+  },
+  {
+    id: 2,
+    title: "Odissi Dance Foundation Course",
+    provider: "Odisha Dance Academy",
+    format: "In-person",
+    duration: "16 weeks",
+    price: "₹12,000",
+    rating: 4.9,
+    enrolled: 85,
+    level: "Beginner",
+    image: "https://images.unsplash.com/photo-1535525153412-5a42439a210d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Learn the ancient classical dance form of Odisha with expert practitioners. Course covers basic postures, rhythms, expressions and a complete dance piece.",
+    startDates: ["May 1, 2023", "August 15, 2023", "November 10, 2023"]
+  },
+  {
+    id: 3,
+    title: "Medical Entrance Exam Preparation",
+    provider: "AIIMS Bhubaneswar",
+    format: "Hybrid",
+    duration: "24 weeks",
+    price: "₹35,000",
+    rating: 4.7,
+    enrolled: 750,
+    level: "Advanced",
+    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Intensive preparation for NEET and other medical entrance exams with specialized coaching from AIIMS faculty, practice tests, and personalized guidance.",
+    startDates: ["June 1, 2023", "December 15, 2023"]
+  },
+  {
+    id: 4,
+    title: "Smart City Technology & Management",
+    provider: "IIT Bhubaneswar",
+    format: "Online",
+    duration: "8 weeks",
+    price: "₹25,000",
+    rating: 4.6,
+    enrolled: 430,
+    level: "Intermediate",
+    image: "https://images.unsplash.com/photo-1544830281-1d7cc1a06e55?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Learn about smart urban planning, IoT implementation, data analytics for city management and sustainable urban development practices.",
+    startDates: ["April 10, 2023", "July 5, 2023", "October 20, 2023"]
+  },
+  {
+    id: 5,
+    title: "Entrepreneurship & Startup Incubation",
+    provider: "Xavier University (XIMB)",
+    format: "Hybrid",
+    duration: "10 weeks",
+    price: "₹30,000",
+    rating: 4.5,
+    enrolled: 320,
+    level: "All Levels",
+    image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Comprehensive program for aspiring entrepreneurs covering business planning, funding strategies, marketing, legal aspects, and mentorship with successful startup founders.",
+    startDates: ["May 15, 2023", "September 5, 2023"]
+  },
+  {
+    id: 6,
+    title: "Odia Language & Cultural Studies",
+    provider: "Utkal University",
+    format: "In-person",
+    duration: "14 weeks",
+    price: "₹8,000",
+    rating: 4.8,
+    enrolled: 210,
+    level: "Beginner",
+    image: "https://images.unsplash.com/photo-1528605105345-5344ea20e269?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Immersive program in Odia language, literature, history and cultural traditions of Odisha, designed for newcomers to Bhubaneswar and cultural enthusiasts.",
+    startDates: ["April 5, 2023", "August 10, 2023", "December 1, 2023"]
+  }
+];
+
+// Bhubaneswar educational resources data
 const resources = [
   {
     id: 1,
-    title: "City Digital Library",
-    type: "Library",
-    access: "Free with Library Card",
-    resources: ["E-books", "Research Journals", "Academic Papers", "Online Courses"],
-    description: "Access thousands of digital resources including books, journals, and academic papers through the city's digital library."
+    title: "Odisha State Library",
+    type: "Public Library",
+    address: "Sachivalaya Marg, Unit 4, Bhubaneswar, 751001",
+    access: "Free with Library Card (₹50/year)",
+    resources: ["Books Collection", "Digital Archives", "Odisha Heritage Records", "Research Journals"],
+    image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Comprehensive library with over 200,000 books, including rare manuscripts on Odisha history and culture. Offers quiet reading spaces and digital access terminals."
   },
   {
     id: 2,
-    title: "STEM Learning Center",
-    type: "Learning Center",
-    access: "Free for Students, $10/month for Adults",
-    resources: ["Hands-on Labs", "Tutoring", "Workshop Space", "Equipment Access"],
-    description: "Community center focused on STEM education, providing hands-on learning experiences and resources for all ages."
+    title: "Pathani Samanta Planetarium",
+    type: "Science Center",
+    address: "BDA Colony, Acharya Vihar, Bhubaneswar, 751013",
+    access: "₹30 for Students, ₹50 for Adults",
+    resources: ["Astronomy Shows", "Science Exhibits", "Educational Tours", "Workshops"],
+    image: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Educational planetarium named after famous Odia astronomer Pathani Samanta, featuring regular sky shows, astronomy workshops, and scientific exhibitions for students."
   },
   {
     id: 3,
-    title: "Language Learning Hub",
-    type: "Learning Center",
-    access: "Membership Required ($15/month)",
-    resources: ["Language Software", "Conversation Groups", "Cultural Events", "Teaching Materials"],
-    description: "Dedicated space for language learning with resources for multiple languages and regular conversation practice groups."
+    title: "Regional Science Centre",
+    type: "Science & Technology Center",
+    address: "Acharya Vihar, Bhubaneswar, 751013",
+    access: "₹40 for Students, ₹60 for Adults",
+    resources: ["Interactive Exhibits", "Science Park", "Workshops", "3D Theatre"],
+    image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Hands-on science center with exhibits in physics, chemistry, biology, and technology. Regular science demonstrations and student activities to promote scientific thinking."
+  },
+  {
+    id: 4,
+    title: "Bhubaneswar e-Learning Hub",
+    type: "Digital Learning Center",
+    address: "BMC Bhawani Mall, Saheed Nagar, Bhubaneswar, 751007",
+    access: "Free for Students, ₹500/month for Professionals",
+    resources: ["Computer Labs", "Online Courses", "Digital Library", "Mentorship"],
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Modern digital learning center providing access to online courses, high-speed internet, and digital resources. Special programs for coding, data science, and digital skills."
+  },
+  {
+    id: 5,
+    title: "Odisha Traditional Knowledge Centre",
+    type: "Cultural Learning Center",
+    address: "Utkal University Campus, Vani Vihar, Bhubaneswar, 751004",
+    access: "Free (Registration Required)",
+    resources: ["Cultural Workshops", "Handicraft Training", "Traditional Arts", "Folk Knowledge"],
+    image: "https://images.unsplash.com/photo-1604871000636-074fa5117945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Center dedicated to preserving and teaching traditional Odia arts, crafts, and knowledge systems including Pattachitra painting, Odissi dance, and traditional medicinal practices."
   }
 ];
 
-// Sample data for educational achievements
+// Bhubaneswar educational achievements and metrics
 const educationalMetrics = [
-  { name: "Graduation Rate", value: "87%", change: "+3%", trend: "up" },
-  { name: "College Enrollment", value: "72%", change: "+5%", trend: "up" },
-  { name: "Literacy Rate", value: "96.5%", change: "+0.8%", trend: "up" },
-  { name: "STEM Programs", value: "24", change: "+4", trend: "up" }
+  { name: "Literacy Rate", value: "93.2%", change: "+2.1%", trend: "up" },
+  { name: "Higher Education", value: "78%", change: "+4.5%", trend: "up" },
+  { name: "Technical Training", value: "65.8%", change: "+5.3%", trend: "up" },
+  { name: "Education Centers", value: "182", change: "+21", trend: "up" }
 ];
 
-// Sample data for scholarships
+// Bhubaneswar scholarships data
 const scholarships = [
   {
     id: 1,
-    name: "City Merit Scholarship",
-    amount: "$5,000",
-    eligibility: "High school seniors with GPA 3.5+",
-    deadline: "March 15, 2023",
-    provider: "City Education Foundation"
+    name: "Odisha Chief Minister's Scholarship",
+    amount: "₹15,000 - ₹60,000/year",
+    eligibility: "Odisha resident students with 75%+ in Class XII",
+    deadline: "July 31, 2023",
+    image: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    provider: "Odisha Higher Education Department"
   },
   {
     id: 2,
-    name: "STEM Excellence Award",
-    amount: "$3,000",
-    eligibility: "Students pursuing STEM degrees",
-    deadline: "April 1, 2023",
-    provider: "TechFuture Initiative"
+    name: "KIIT Merit Scholarship",
+    amount: "₹50,000 - ₹2,00,000/year",
+    eligibility: "JEE/NEET top rankers and economically disadvantaged students",
+    deadline: "May 30, 2023",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    provider: "KIIT University"
   },
   {
     id: 3,
-    name: "Arts & Humanities Grant",
-    amount: "$2,500",
-    eligibility: "Students in arts, literature, or humanities",
-    deadline: "February 28, 2023",
-    provider: "Cultural Arts Society"
+    name: "Bhubaneswar Municipal Tech Scholarship",
+    amount: "₹25,000/year",
+    eligibility: "Bhubaneswar residents pursuing technology, engineering, or computer science",
+    deadline: "June 15, 2023",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    provider: "Bhubaneswar Smart City Initiative"
+  },
+  {
+    id: 4,
+    name: "Utkal Arts & Cultural Fellowship",
+    amount: "₹10,000/year + Materials",
+    eligibility: "Students pursuing traditional Odisha arts, crafts, dance, or music",
+    deadline: "August 10, 2023",
+    image: "https://images.unsplash.com/photo-1598386651573-9232cc0c2d6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    provider: "Utkal University of Culture"
+  },
+  {
+    id: 5,
+    name: "IIT Bhubaneswar Research Scholarship",
+    amount: "₹31,000/month (Junior) - ₹35,000/month (Senior)",
+    eligibility: "M.Tech/PhD students with research focus in priority technology areas",
+    deadline: "May 5, 2023",
+    image: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    provider: "IIT Bhubaneswar"
   }
 ];
 
-// Sample data for upcoming educational events
+// Bhubaneswar educational events
 const educationalEvents = [
   {
     id: 1,
-    title: "Education Fair 2023",
-    date: "March 25-26, 2023",
-    location: "City Convention Center",
-    description: "Annual education fair featuring colleges, universities, and educational programs from across the region."
+    title: "Bhubaneswar Education Expo 2023",
+    date: "April 22-24, 2023",
+    location: "Janata Maidan, Bhubaneswar",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Comprehensive education fair featuring universities, colleges, vocational institutes, and international education opportunities for Odisha students."
   },
   {
     id: 2,
-    title: "STEM Innovation Conference",
-    date: "April 15, 2023",
-    location: "Technical Institute",
-    description: "Conference showcasing the latest innovations in STEM education and career opportunities."
+    title: "Smart City Innovation Challenge",
+    date: "May 12-14, 2023",
+    location: "KIIT Convention Centre, Bhubaneswar",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Technology competition for students to present innovative solutions to urban challenges faced by Bhubaneswar, with cash prizes and incubation opportunities."
   },
   {
     id: 3,
-    title: "Parent-Teacher Education Summit",
-    date: "May 5, 2023",
-    location: "Central High School",
-    description: "Collaborative event bringing together parents and educators to discuss best practices in supporting student success."
+    title: "Odisha Academic Conference",
+    date: "June 8-10, 2023",
+    location: "Utkal University Campus, Bhubaneswar",
+    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Annual academic conference bringing together educators, researchers, and policymakers to discuss the future of education in Odisha."
+  },
+  {
+    id: 4,
+    title: "Kalinga Literary Festival - Student Edition",
+    date: "July 15-17, 2023",
+    location: "Rabindra Mandap, Bhubaneswar",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Special edition of the renowned literary festival focused on student writers, with workshops, competitions, and interactions with established authors."
+  },
+  {
+    id: 5,
+    title: "NEET/JEE Guidance Workshop",
+    date: "May 28, 2023",
+    location: "AIIMS Bhubaneswar Auditorium",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    description: "Free guidance workshop for medical and engineering aspirants, featuring expert panels, test-taking strategies, and interactive Q&A sessions with successful candidates."
   }
 ];
 
@@ -412,11 +569,20 @@ export default function EducationPage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {schools.map((school) => (
                   <Card key={school.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
+                    {school.image && (
+                      <div className="h-48 w-full overflow-hidden">
+                        <img 
+                          src={school.image} 
+                          alt={school.name} 
+                          className="w-full h-full object-cover transition-transform hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <CardHeader className="pb-3">
                       <div className="flex justify-between items-start">
                         <div>
                           <Badge className={`mb-2 ${
-                            school.type === "Public" ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"
+                            school.type.includes("CBSE") ? "bg-blue-100 text-blue-800" : "bg-purple-100 text-purple-800"
                           } border-0`}>
                             {school.type}
                           </Badge>
@@ -468,6 +634,15 @@ export default function EducationPage() {
                 {colleges.map((college) => (
                   <Card key={college.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     <div className="flex flex-col md:flex-row">
+                      {college.image && (
+                        <div className="md:w-1/3 h-auto overflow-hidden">
+                          <img 
+                            src={college.image} 
+                            alt={college.name} 
+                            className="w-full h-full object-cover md:h-64"
+                          />
+                        </div>
+                      )}
                       <div className="md:w-1/3 bg-slate-100 p-6 flex flex-col">
                         <div>
                           <Badge className={`mb-2 ${
@@ -597,6 +772,15 @@ export default function EducationPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {courses.map((course) => (
                   <Card key={course.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
+                    {course.image && (
+                      <div className="h-48 w-full overflow-hidden">
+                        <img 
+                          src={course.image} 
+                          alt={course.title} 
+                          className="w-full h-full object-cover transition-transform hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <CardHeader className="pb-3">
                       <div className="flex justify-between items-start">
                         <div>
@@ -686,19 +870,38 @@ export default function EducationPage() {
                     <div className="space-y-5">
                       {resources.map((resource) => (
                         <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          {resource.image && (
+                            <div className="h-48 w-full overflow-hidden">
+                              <img 
+                                src={resource.image} 
+                                alt={resource.title} 
+                                className="w-full h-full object-cover transition-transform hover:scale-105"
+                              />
+                            </div>
+                          )}
                           <div className="p-5">
                             <div className="flex items-start">
                               <div className={`p-3 rounded-lg mr-4 ${
-                                resource.type === "Library" ? "bg-blue-100 text-blue-600" : 
-                                "bg-purple-100 text-purple-600"
+                                resource.type.includes("Library") ? "bg-blue-100 text-blue-600" : 
+                                resource.type.includes("Science") ? "bg-green-100 text-green-600" :
+                                resource.type.includes("Digital") ? "bg-purple-100 text-purple-600" :
+                                "bg-amber-100 text-amber-600"
                               }`}>
-                                {resource.type === "Library" ? 
+                                {resource.type.includes("Library") ? 
                                   <Library className="h-6 w-6" /> : 
-                                  <Laptop className="h-6 w-6" />
+                                  resource.type.includes("Science") ?
+                                  <Atom className="h-6 w-6" /> :
+                                  resource.type.includes("Digital") ?
+                                  <Laptop className="h-6 w-6" /> :
+                                  <Palette className="h-6 w-6" />
                                 }
                               </div>
                               <div className="flex-1">
                                 <h4 className="font-bold text-slate-800">{resource.title}</h4>
+                                <p className="text-sm text-slate-500 mb-1">
+                                  <MapPin className="h-3.5 w-3.5 mr-1 inline text-slate-400" />
+                                  {resource.address}
+                                </p>
                                 <p className="text-sm text-slate-500 mb-3">
                                   Access: {resource.access}
                                 </p>
@@ -737,23 +940,34 @@ export default function EducationPage() {
                     
                     <div className="space-y-4">
                       {scholarships.map((scholarship) => (
-                        <div key={scholarship.id} className="border rounded-lg p-4 hover:shadow-sm transition-shadow">
-                          <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-bold text-slate-800">{scholarship.name}</h4>
-                            <Badge className="bg-green-100 text-green-800 border-0">
-                              {scholarship.amount}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-slate-500 mb-2">Provider: {scholarship.provider}</p>
-                          <p className="text-sm text-slate-600 mb-2">
-                            <span className="font-medium">Eligibility:</span> {scholarship.eligibility}
-                          </p>
-                          <div className="flex justify-between items-center">
-                            <p className="text-sm text-slate-500">
-                              <CalendarDays className="h-3.5 w-3.5 mr-1 inline text-slate-400" />
-                              Deadline: {scholarship.deadline}
+                        <div key={scholarship.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          {scholarship.image && (
+                            <div className="h-32 w-full overflow-hidden">
+                              <img 
+                                src={scholarship.image} 
+                                alt={scholarship.name} 
+                                className="w-full h-full object-cover transition-transform hover:scale-105"
+                              />
+                            </div>
+                          )}
+                          <div className="p-4">
+                            <div className="flex justify-between items-start mb-2">
+                              <h4 className="font-bold text-slate-800">{scholarship.name}</h4>
+                              <Badge className="bg-green-100 text-green-800 border-0">
+                                {scholarship.amount}
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-slate-500 mb-2">Provider: {scholarship.provider}</p>
+                            <p className="text-sm text-slate-600 mb-2">
+                              <span className="font-medium">Eligibility:</span> {scholarship.eligibility}
                             </p>
-                            <Button size="sm">Apply</Button>
+                            <div className="flex justify-between items-center">
+                              <p className="text-sm text-slate-500">
+                                <CalendarDays className="h-3.5 w-3.5 mr-1 inline text-slate-400" />
+                                Deadline: {scholarship.deadline}
+                              </p>
+                              <Button size="sm">Apply</Button>
+                            </div>
                           </div>
                         </div>
                       ))}
