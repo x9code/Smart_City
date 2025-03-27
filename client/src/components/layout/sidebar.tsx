@@ -19,6 +19,7 @@ export function Sidebar() {
   const safetyItems = [
     { name: "Women Safety", icon: "shield", path: "/safety" },
     { name: "City Map", icon: "map", path: "/map" },
+    { name: "Onboarding Wizard", icon: "open_in_new", path: "/onboarding" },
   ];
 
   const adminItems = [

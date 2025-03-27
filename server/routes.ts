@@ -737,6 +737,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(settingsData);
   });
 
+  // User Onboarding API
+  app.post("/api/user-onboarding", (req, res) => {
+    // In a real app, this would save to a database
+    // Here we just return success
+    console.log("Saving user onboarding data:", req.body);
+    res.status(200).json({ 
+      success: true, 
+      message: "User onboarding preferences saved successfully"
+    });
+  });
+
+  app.get("/api/user-onboarding/:userId", (req, res) => {
+    // Mock data - in a real app, this would be fetched from a database
+    const { userId } = req.params;
+    
+    res.status(200).json({
+      userId: parseInt(userId),
+      completed: true,
+      personalInfo: {
+        fullName: "John Doe",
+        address: "123 Main St, Smart City, SC 12345",
+        phone: "+1-555-123-4567",
+        email: "john.doe@example.com",
+        preferredLanguage: "english"
+      },
+      services: {
+        traffic: true,
+        healthcare: true,
+        safety: true,
+        education: false,
+        tourism: true,
+        map: true
+      },
+      preferences: {
+        darkMode: false,
+        highContrast: false,
+        textSize: "medium",
+        defaultView: "dashboard"
+      }
+    });
+  });
+
   // Spring Boot API endpoint info
   app.get("/api/springboot-endpoints", (req, res) => {
     const endpointsData = {
@@ -766,11 +808,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           path: "/settings",
           methods: ["GET", "PUT"],
           ready: true
+        },
+        {
+          name: "User Onboarding API",
+          path: "/onboarding",
+          methods: ["GET", "POST", "PUT"],
+          ready: true
         }
       ],
       jpaEntities: [
         "User", "Role", "Permission", "City", "TrafficData", 
-        "HealthcareData", "SafetyData", "EducationData", "TourismData"
+        "HealthcareData", "SafetyData", "EducationData", "TourismData",
+        "UserOnboarding", "UserPreference"
       ],
       databaseConnection: {
         type: "PostgreSQL",

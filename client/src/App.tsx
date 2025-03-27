@@ -11,6 +11,7 @@ import SafetyPage from "@/pages/safety-page";
 import MapPage from "@/pages/map-page";
 import TourismPage from "@/pages/tourism-page";
 import EducationPage from "@/pages/education-page";
+import OnboardingPage from "@/pages/onboarding-page";
 import UsersPage from "@/pages/admin/users-page";
 import SettingsPage from "@/pages/admin/settings-page";
 import { ProtectedRoute } from "./lib/protected-route";
@@ -26,6 +27,7 @@ function Router() {
       <ProtectedRoute path="/map" component={MapPage} />
       <ProtectedRoute path="/tourism" component={TourismPage} />
       <ProtectedRoute path="/education" component={EducationPage} />
+      <ProtectedRoute path="/onboarding" component={OnboardingPage} />
       <ProtectedRoute path="/admin/users" component={UsersPage} />
       <ProtectedRoute path="/admin/settings" component={SettingsPage} />
       <Route path="/auth" component={AuthPage} />

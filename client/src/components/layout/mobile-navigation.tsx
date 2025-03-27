@@ -9,7 +9,7 @@ export function MobileNavigation() {
     { name: "Traffic", icon: "traffic", path: "/traffic" },
     { name: "Map", icon: "map", path: "/map" },
     { name: "Health", icon: "health_and_safety", path: "/healthcare" },
-    { name: "More", icon: "more_horiz", path: "/more" },
+    { name: "Onboarding", icon: "open_in_new", path: "/onboarding" },
   ];
 
   const handleNav = (path: string) => {
