@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { Header } from "@/components/layout/header";
@@ -41,7 +42,8 @@ import {
   CircleHelp,
   Map,
   LocateFixed,
-  ParkingCircle
+  ParkingCircle,
+  Loader2
 } from "lucide-react";
 
 const mapMarkersData = [
@@ -232,6 +234,12 @@ export default function MapPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [preferredTravelMode, setPreferredTravelMode] = useState("car");
+  
+  // Fetch map data from Spring Boot backend
+  const { data: mapData, isLoading: isMapDataLoading, error: mapDataError } = useQuery({
+    queryKey: ['/api/map'],
+    refetchOnWindowFocus: false,
+  });
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -524,6 +532,32 @@ export default function MapPage() {
           
           {/* Map Area */}
           <div className="flex-1 relative bg-slate-100">
+            {/* Map Loading State */}
+            {isMapDataLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-50/80 z-10">
+                <div className="flex flex-col items-center">
+                  <Loader2 className="h-10 w-10 animate-spin text-primary mb-2" />
+                  <span className="text-slate-700">Loading map data...</span>
+                </div>
+              </div>
+            )}
+            
+            {/* Map Error State */}
+            {mapDataError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-50/90 z-10">
+                <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
+                  <div className="flex items-center text-red-600 mb-4">
+                    <AlertTriangle className="h-6 w-6 mr-2" />
+                    <h3 className="font-semibold text-lg">Error Loading Map Data</h3>
+                  </div>
+                  <p className="text-slate-700 mb-4">
+                    There was a problem connecting to the map service. This could be due to network issues or the service might be temporarily unavailable.
+                  </p>
+                  <Button onClick={() => window.location.reload()}>Retry</Button>
+                </div>
+              </div>
+            )}
+            
             {/* Map Visualization with Actual Map Image */}
             <div className="absolute inset-0 overflow-hidden">
               <img 

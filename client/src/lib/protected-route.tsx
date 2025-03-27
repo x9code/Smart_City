@@ -29,5 +29,10 @@ export function ProtectedRoute({
     );
   }
 
-  return <Route path={path} component={Component} />;
+  // The fix is wrapping the Component in a Route with the specified path
+  return (
+    <Route path={path}>
+      <Component />
+    </Route>
+  );
 }
