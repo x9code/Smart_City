@@ -343,7 +343,8 @@ export default function HealthcarePage() {
               alt="Bhubaneswar Healthcare Services" 
               className="w-full h-48 object-cover"
               onError={(e) => {
-                e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80";
+                // Healthcare hero image fallback with a more reliable source
+                e.currentTarget.src = "https://images.unsplash.com/photo-1538108149393-fbbd81895907?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=300&q=80";
                 console.log("Healthcare hero image failed to load");
               }}
             />
@@ -467,7 +468,19 @@ export default function HealthcarePage() {
                         alt={facility.name} 
                         className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
                         onError={(e) => {
-                          e.currentTarget.src = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          // Specialized healthcare facility fallback
+                          const type = facility.type.toLowerCase();
+                          let fallbackImage = "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          
+                          if (type.includes("hospital")) {
+                            fallbackImage = "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          } else if (type.includes("clinic")) {
+                            fallbackImage = "https://images.unsplash.com/photo-1666214280391-8ff5bd3c0bf0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          } else if (type.includes("pharmacy") || type.includes("medical store")) {
+                            fallbackImage = "https://images.unsplash.com/photo-1563453392212-326f5e854473?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          }
+                          
+                          e.currentTarget.src = fallbackImage;
                           console.log("Facility image failed to load:", facility.name);
                         }}
                       />
@@ -529,7 +542,21 @@ export default function HealthcarePage() {
                             alt={specialist.name} 
                             className="h-16 w-16 rounded-full object-cover"
                             onError={(e) => {
-                              e.currentTarget.src = "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80";
+                              // Specialist-specific fallback based on specialty
+                              const specialty = specialist.specialty.toLowerCase();
+                              let fallbackImage = "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80";
+                              
+                              if (specialty.includes("cardio")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80";
+                              } else if (specialty.includes("neuro")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80";
+                              } else if (specialty.includes("ortho")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80";
+                              } else if (specialty.includes("pediatric")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80";
+                              }
+                              
+                              e.currentTarget.src = fallbackImage;
                               console.log("Specialist image failed to load:", specialist.name);
                             }}
                           />

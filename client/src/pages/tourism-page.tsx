@@ -400,16 +400,33 @@ export default function TourismPage() {
                 {filteredAttractions.map((attraction: Attraction) => (
                   <AnimatedSection key={attraction.id} animation="fadeIn" delay={0.1 * attraction.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-                      <div className="h-48 overflow-hidden">
+                      <div className="h-48 overflow-hidden relative group">
+                        {/* Primary image with fallback system */}
                         <img 
                           src={attraction.image} 
                           alt={attraction.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                            console.log("Image failed to load:", attraction.image);
+                            // Get fallback based on attraction type or use default
+                            const fallbackType = attraction.type.toLowerCase();
+                            let fallbackImage = "https://images.unsplash.com/photo-1605649461784-edc761aec3a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            
+                            if (fallbackType.includes("temple")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (fallbackType.includes("park") || fallbackType.includes("garden")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (fallbackType.includes("museum")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1566054757965-8c4085344c96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (fallbackType.includes("zoo")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1574068468668-a05a11f871da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }
+                            
+                            e.currentTarget.src = fallbackImage;
+                            console.log("Image failed to load:", attraction.name);
                           }}
                         />
+                        {/* Overlay for better text readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
                         <Badge className="mb-2 bg-blue-100 text-blue-800 border-0 self-start">
@@ -448,16 +465,32 @@ export default function TourismPage() {
                   <AnimatedSection key={attraction.id} animation="slideLeft" delay={0.1 * attraction.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                       <div className="flex flex-col md:flex-row">
-                        <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
+                        <div className="md:w-1/3 h-48 md:h-auto overflow-hidden relative group">
                           <img 
                             src={attraction.image} 
                             alt={attraction.name} 
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                             onError={(e) => {
-                              e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                              console.log("Image failed to load:", attraction.image);
+                              // Get fallback based on attraction type or use default
+                              const fallbackType = attraction.type.toLowerCase();
+                              let fallbackImage = "https://images.unsplash.com/photo-1605649461784-edc761aec3a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                              
+                              if (fallbackType.includes("temple")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                              } else if (fallbackType.includes("park") || fallbackType.includes("garden")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                              } else if (fallbackType.includes("museum")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1566054757965-8c4085344c96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                              } else if (fallbackType.includes("zoo")) {
+                                fallbackImage = "https://images.unsplash.com/photo-1574068468668-a05a11f871da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                              }
+                              
+                              e.currentTarget.src = fallbackImage;
+                              console.log("Image failed to load:", attraction.name);
                             }}
                           />
+                          {/* Overlay for better text readability on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
                         <div className="p-6 md:w-2/3">
                           <div className="flex flex-wrap items-start justify-between mb-2">
@@ -544,14 +577,26 @@ export default function TourismPage() {
                 {tourismData?.events.map((event: Event) => (
                   <AnimatedSection key={event.id} animation="fadeIn" delay={0.1 * event.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-                      <div className="h-48 overflow-hidden relative">
+                      <div className="h-48 overflow-hidden relative group">
                         <img 
                           src={event.image} 
                           alt={event.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                            console.log("Image failed to load:", event.image);
+                            // Event-specific fallback based on category
+                            const category = event.category.toLowerCase();
+                            let fallbackImage = "https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            
+                            if (category.includes("cultural") || category.includes("heritage")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1604922824961-87cefb9dc1ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (category.includes("music") || category.includes("dance")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (category.includes("food")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }
+                            
+                            e.currentTarget.src = fallbackImage;
+                            console.log("Image failed to load:", event.name);
                           }}
                         />
                         <div className="absolute top-3 right-3">
@@ -614,16 +659,28 @@ export default function TourismPage() {
                 {tourismData?.tours.map((tour: Tour) => (
                   <AnimatedSection key={tour.id} animation="fadeIn" delay={0.1 * tour.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-                      <div className="h-48 overflow-hidden">
+                      <div className="h-48 overflow-hidden relative group">
                         <img 
                           src={tour.image} 
                           alt={tour.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                            console.log("Image failed to load:", tour.image);
+                            // Tour-specific fallback
+                            let fallbackImage = "https://images.unsplash.com/photo-1564689510742-4e9c7584181d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            
+                            if (tour.name.toLowerCase().includes("temple") || tour.name.toLowerCase().includes("heritage")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1518564774896-d3f42e8e9623?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (tour.name.toLowerCase().includes("city") || tour.name.toLowerCase().includes("walking")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1598977054440-c4ce0e849765?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (tour.name.toLowerCase().includes("nature") || tour.name.toLowerCase().includes("wildlife")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1575550959106-5a7defe28b56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }
+                            
+                            e.currentTarget.src = fallbackImage;
+                            console.log("Image failed to load:", tour.name);
                           }}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
                         <h3 className="font-bold text-lg mb-2">{tour.name}</h3>
@@ -706,16 +763,29 @@ export default function TourismPage() {
                 {tourismData?.hotels.map((hotel: Hotel) => (
                   <AnimatedSection key={hotel.id} animation="fadeIn" delay={0.1 * hotel.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-                      <div className="h-48 overflow-hidden">
+                      <div className="h-48 overflow-hidden relative group">
                         <img 
                           src={hotel.image} 
                           alt={hotel.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                            console.log("Image failed to load:", hotel.image);
+                            // Hotel-specific fallback based on category
+                            const category = hotel.category.toLowerCase();
+                            let fallbackImage = "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            
+                            if (category.includes("luxury") || category.includes("5-star")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (category.includes("budget") || category.includes("economy")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (category.includes("boutique")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1551525212-a1dc18871d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }
+                            
+                            e.currentTarget.src = fallbackImage;
+                            console.log("Image failed to load:", hotel.name);
                           }}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
                         <Badge className="mb-2 bg-indigo-100 text-indigo-800 border-0 self-start">
@@ -787,16 +857,29 @@ export default function TourismPage() {
                 {tourismData?.restaurants.map((restaurant: Restaurant) => (
                   <AnimatedSection key={restaurant.id} animation="fadeIn" delay={0.1 * restaurant.id}>
                     <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-                      <div className="h-48 overflow-hidden">
+                      <div className="h-48 overflow-hidden relative group">
                         <img 
                           src={restaurant.image} 
                           alt={restaurant.name} 
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                            console.log("Image failed to load:", restaurant.image);
+                            // Restaurant-specific fallback based on cuisine
+                            const cuisine = restaurant.cuisine.toLowerCase();
+                            let fallbackImage = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            
+                            if (cuisine.includes("odia") || cuisine.includes("odisha")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (cuisine.includes("indian")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            } else if (cuisine.includes("vegetarian")) {
+                              fallbackImage = "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                            }
+                            
+                            e.currentTarget.src = fallbackImage;
+                            console.log("Image failed to load:", restaurant.name);
                           }}
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       </div>
                       <CardContent className="p-4 flex flex-col flex-grow">
                         <Badge className="mb-2 bg-green-100 text-green-800 border-0 self-start">
@@ -844,7 +927,8 @@ export default function TourismPage() {
                   alt="Odisha Culture" 
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                    // Cultural circle fallback 
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1601877977232-40f26b05c281?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
                     console.log("Image failed to load: Cultural Trail");
                   }}
                 />
@@ -864,7 +948,8 @@ export default function TourismPage() {
                           alt="Odissi Dance Form" 
                           className="w-full h-48 object-cover rounded-lg shadow-md"
                           onError={(e) => {
-                            e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                            // Cultural-specific fallback
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1552687453-1a1dec6ddc41?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
                             console.log("Image failed to load: Odissi Dance Form");
                           }}
                         />
@@ -911,7 +996,8 @@ export default function TourismPage() {
                   alt="Tourist Facility Center" 
                   className="h-16 rounded shadow"
                   onError={(e) => {
-                    e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                    // Facility center fallback
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
                     console.log("Image failed to load: Tourist Facility Centre");
                   }}
                 />
@@ -936,7 +1022,8 @@ export default function TourismPage() {
                         alt="Odisha Tourism Helpline" 
                         className="h-24 rounded-lg"
                         onError={(e) => {
-                          e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
+                          // Helpline banner fallback
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1581509551069-8d45e98d478b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
                           console.log("Image failed to load: Helpline Number Banner");
                         }}
                       />
@@ -956,16 +1043,29 @@ export default function TourismPage() {
                     <AnimatedSection key={facility.id} animation="slideLeft" delay={0.1 * facility.id}>
                       <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                         <div className="flex flex-col md:flex-row">
-                          <div className="md:w-1/3 h-36 md:h-auto overflow-hidden">
+                          <div className="md:w-1/3 h-36 md:h-auto overflow-hidden relative group">
                             <img 
                               src={facility.image} 
                               alt={facility.name} 
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                               onError={(e) => {
-                                e.currentTarget.src = "https://odishatourism.gov.in/sites/default/files/2022-09/home_0.jpg";
-                                console.log("Image failed to load:", facility.image);
+                                // Facility-specific fallback based on type
+                                const type = facility.type.toLowerCase();
+                                let fallbackImage = "https://images.unsplash.com/photo-1568849676085-51415703900f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                                
+                                if (type.includes("transport") || type.includes("bus") || type.includes("railway") || type.includes("airport")) {
+                                  fallbackImage = "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                                } else if (type.includes("information") || type.includes("center")) {
+                                  fallbackImage = "https://images.unsplash.com/photo-1557426272-fc759fdf7a8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                                } else if (type.includes("market") || type.includes("shopping")) {
+                                  fallbackImage = "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                                }
+                                
+                                e.currentTarget.src = fallbackImage;
+                                console.log("Image failed to load:", facility.name);
                               }}
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                           </div>
                           <div className="p-4 md:w-2/3">
                             <Badge className="mb-2 bg-slate-100 text-slate-800 border-0">
