@@ -220,100 +220,164 @@ export default function OnboardingWizard() {
       case "welcome":
         return (
           <div className="space-y-4">
-            <div className="relative h-40 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg overflow-hidden flex items-center justify-center mb-6">
+            <div className="relative h-48 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg overflow-hidden flex items-center justify-center mb-6">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-white text-center z-10">
-                  <h2 className="text-2xl font-bold mb-2">Welcome to Smart City</h2>
-                  <p>Your gateway to modern urban living</p>
+                  <h2 className="text-3xl font-bold mb-2">Welcome to Smart City</h2>
+                  <p className="text-lg">Your gateway to modern urban living</p>
                 </div>
               </div>
-              <div className="absolute inset-0 bg-black opacity-20"></div>
+              <div className="absolute inset-0 bg-black opacity-30"></div>
+              <div className="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1244&h=1244&q=80')] bg-center bg-cover"></div>
             </div>
             
-            <div className="text-center">
-              <p className="text-lg">Hello, {user?.name || "there"}!</p>
-              <p className="mt-2 text-slate-600">
-                This quick setup will help you get the most out of the Smart City platform. 
-                You'll be able to customize your notifications, select services you're interested in, 
-                and set your privacy preferences.
-              </p>
-              <p className="mt-4 text-slate-600">
-                It only takes about 2 minutes to complete, but you can skip this if you prefer 
-                to use the default settings.
-              </p>
+            <div className="text-center px-2">
+              <p className="text-xl font-medium text-primary">Hello, {user?.name || "there"}!</p>
+              <div className="mt-4 flex flex-col md:flex-row gap-4 items-center">
+                <div className="flex-1">
+                  <p className="mb-4 text-slate-700">
+                    This quick setup will help you get the most out of the Smart City platform. 
+                    You'll be able to customize your notifications, select services you're interested in, 
+                    and set your privacy preferences.
+                  </p>
+                  <p className="text-slate-600">
+                    It only takes about 2 minutes to complete, but you can skip this if you prefer 
+                    to use the default settings.
+                  </p>
+                </div>
+                <div className="w-40 h-40 rounded-full shadow-lg overflow-hidden flex-shrink-0 border-4 border-white">
+                  <img 
+                    src="https://images.unsplash.com/photo-1526367790999-0150786686a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" 
+                    alt="Smart City App" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case "personal":
         return (
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input 
-                  id="fullName" 
-                  placeholder="Your full name" 
-                  value={formData.personalInfo.fullName}
-                  onChange={(e) => handleInputChange("personalInfo", "fullName", e.target.value)}
+          <div className="space-y-6">
+            <div className="flex justify-center mb-4">
+              <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <img 
+                  src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" 
+                  alt="Profile" 
+                  className="w-full h-full object-cover"
                 />
               </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
-                <Input 
-                  id="address" 
-                  placeholder="Your address" 
-                  value={formData.personalInfo.address}
-                  onChange={(e) => handleInputChange("personalInfo", "address", e.target.value)}
-                />
+            </div>
+            
+            <div className="bg-blue-50/50 rounded-lg p-4 mb-4 border border-blue-100">
+              <div className="flex items-start">
+                <Info className="h-5 w-5 text-blue-600 mr-2 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-blue-700">
+                  Your personal information helps us customize the Smart City experience for you. 
+                  We protect your data according to our privacy policy.
+                </p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className="text-base flex items-center">
+                      <User className="h-4 w-4 mr-2 text-primary/70" />
+                      Full Name
+                    </Label>
+                    <Input 
+                      id="fullName" 
+                      placeholder="Your full name" 
+                      value={formData.personalInfo.fullName}
+                      onChange={(e) => handleInputChange("personalInfo", "fullName", e.target.value)}
+                      className="border-slate-300"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-base flex items-center">
+                      <Mail className="h-4 w-4 mr-2 text-primary/70" />
+                      Email Address
+                    </Label>
+                    <Input 
+                      id="email"
+                      type="email"
+                      placeholder="Your email address" 
+                      value={formData.personalInfo.email}
+                      onChange={(e) => handleInputChange("personalInfo", "email", e.target.value)}
+                      className="border-slate-300"
+                    />
+                  </div>
+                </div>
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input 
-                  id="phone" 
-                  placeholder="Your phone number" 
-                  value={formData.personalInfo.phone}
-                  onChange={(e) => handleInputChange("personalInfo", "phone", e.target.value)}
-                />
+              <div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="address" className="text-base flex items-center">
+                      <MapPin className="h-4 w-4 mr-2 text-primary/70" />
+                      Address
+                    </Label>
+                    <Input 
+                      id="address" 
+                      placeholder="Your address" 
+                      value={formData.personalInfo.address}
+                      onChange={(e) => handleInputChange("personalInfo", "address", e.target.value)}
+                      className="border-slate-300"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-base flex items-center">
+                      <Phone className="h-4 w-4 mr-2 text-primary/70" />
+                      Phone Number
+                    </Label>
+                    <Input 
+                      id="phone" 
+                      placeholder="Your phone number" 
+                      value={formData.personalInfo.phone}
+                      onChange={(e) => handleInputChange("personalInfo", "phone", e.target.value)}
+                      className="border-slate-300"
+                    />
+                  </div>
+                </div>
               </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input 
-                  id="email"
-                  type="email"
-                  placeholder="Your email address" 
-                  value={formData.personalInfo.email}
-                  onChange={(e) => handleInputChange("personalInfo", "email", e.target.value)}
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <Label>Preferred Language</Label>
-                <RadioGroup 
-                  value={formData.personalInfo.preferredLanguage}
-                  onValueChange={(value) => handleInputChange("personalInfo", "preferredLanguage", value)}
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="english" id="english" />
-                    <Label htmlFor="english">English</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="spanish" id="spanish" />
-                    <Label htmlFor="spanish">Spanish</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="french" id="french" />
-                    <Label htmlFor="french">French</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="chinese" id="chinese" />
-                    <Label htmlFor="chinese">Chinese</Label>
-                  </div>
-                </RadioGroup>
-              </div>
+            </div>
+            
+            <div className="mt-6 p-4 border border-slate-200 rounded-lg bg-white">
+              <Label className="text-base flex items-center mb-3">
+                <Globe className="h-4 w-4 mr-2 text-primary/70" />
+                Preferred Language
+              </Label>
+              <RadioGroup 
+                value={formData.personalInfo.preferredLanguage}
+                onValueChange={(value) => handleInputChange("personalInfo", "preferredLanguage", value)}
+                className="grid grid-cols-2 md:grid-cols-4 gap-3"
+              >
+                <div className="border border-slate-200 rounded-lg p-3 flex flex-col items-center hover:border-primary hover:bg-slate-50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="english" id="english" className="sr-only" />
+                  <span className="text-2xl mb-1">🇺🇸</span>
+                  <Label htmlFor="english" className="cursor-pointer">English</Label>
+                </div>
+                <div className="border border-slate-200 rounded-lg p-3 flex flex-col items-center hover:border-primary hover:bg-slate-50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="spanish" id="spanish" className="sr-only" />
+                  <span className="text-2xl mb-1">🇪🇸</span>
+                  <Label htmlFor="spanish" className="cursor-pointer">Spanish</Label>
+                </div>
+                <div className="border border-slate-200 rounded-lg p-3 flex flex-col items-center hover:border-primary hover:bg-slate-50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="french" id="french" className="sr-only" />
+                  <span className="text-2xl mb-1">🇫🇷</span>
+                  <Label htmlFor="french" className="cursor-pointer">French</Label>
+                </div>
+                <div className="border border-slate-200 rounded-lg p-3 flex flex-col items-center hover:border-primary hover:bg-slate-50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="chinese" id="chinese" className="sr-only" />
+                  <span className="text-2xl mb-1">🇨🇳</span>
+                  <Label htmlFor="chinese" className="cursor-pointer">Chinese</Label>
+                </div>
+              </RadioGroup>
             </div>
           </div>
         );
@@ -810,56 +874,90 @@ export default function OnboardingWizard() {
 
       case "complete":
         return (
-          <div className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+          <div className="text-center space-y-6">
+            <div className="relative">
+              <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-r from-green-500 to-emerald-500 rounded-t-lg"></div>
+              <div className="relative pt-20 pb-8 px-4">
+                <div className="mx-auto w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-4 border-4 border-green-500">
+                  <CheckCircle2 className="h-10 w-10 text-green-600" />
+                </div>
+                
+                <h3 className="text-2xl font-bold mt-4">Your Smart City Profile is Ready!</h3>
+                
+                <p className="text-slate-600 max-w-lg mx-auto mt-3">
+                  You've successfully set up your Smart City profile with your preferences.
+                  You can now start exploring all the services and features available to you.
+                </p>
+                
+                <div className="flex justify-center mt-6">
+                  <img 
+                    src="https://images.unsplash.com/photo-1498736297812-3a08021f206f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300&q=80" 
+                    alt="Smart City" 
+                    className="w-full max-w-lg rounded-lg shadow-md"
+                  />
+                </div>
+              </div>
             </div>
             
-            <h3 className="text-xl font-bold">Your Smart City Profile is Ready!</h3>
-            
-            <p className="text-slate-600">
-              You've successfully set up your Smart City profile with your preferences.
-              You can now start exploring all the services and features available to you.
-            </p>
-            
-            <div className="bg-slate-50 p-6 rounded-lg mt-6 text-left">
-              <h4 className="font-medium text-slate-800 mb-4">Profile Summary</h4>
+            <div className="bg-slate-50 p-6 rounded-lg mx-auto max-w-lg shadow border">
+              <h4 className="font-medium text-slate-800 mb-4 text-left flex items-center">
+                <Info className="h-5 w-5 mr-2 text-primary" />
+                Profile Summary
+              </h4>
               
-              <div className="space-y-3">
-                <div className="flex">
-                  <div className="w-40 text-sm font-medium text-slate-500">Name:</div>
-                  <div className="flex-1 text-sm text-slate-800">{formData.personalInfo.fullName}</div>
+              <div className="grid md:grid-cols-2 gap-4 text-left">
+                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                  <div className="text-sm font-medium text-primary mb-2">Personal Details</div>
+                  <div className="font-medium">{formData.personalInfo.fullName}</div>
+                  <div className="text-sm text-slate-500">{formData.personalInfo.email}</div>
+                  <div className="text-sm text-slate-500 mt-1">Language: {formData.personalInfo.preferredLanguage}</div>
                 </div>
                 
-                <div className="flex">
-                  <div className="w-40 text-sm font-medium text-slate-500">Selected Services:</div>
-                  <div className="flex-1 text-sm text-slate-800">
+                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                  <div className="text-sm font-medium text-primary mb-2">Selected Services</div>
+                  <div className="flex flex-wrap gap-2">
                     {Object.entries(formData.services)
                       .filter(([_, value]) => value)
-                      .map(([key]) => key.charAt(0).toUpperCase() + key.slice(1))
-                      .join(", ")}
+                      .map(([key]) => (
+                        <span key={key} className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                          {key.charAt(0).toUpperCase() + key.slice(1)}
+                        </span>
+                      ))}
                   </div>
                 </div>
                 
-                <div className="flex">
-                  <div className="w-40 text-sm font-medium text-slate-500">Notification Methods:</div>
-                  <div className="flex-1 text-sm text-slate-800">
-                    {[
-                      formData.notifications.email && "Email",
-                      formData.notifications.push && "Push",
-                      formData.notifications.sms && "SMS"
-                    ].filter(Boolean).join(", ")}
+                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                  <div className="text-sm font-medium text-primary mb-2">Notification Methods</div>
+                  <div className="flex gap-2">
+                    {formData.notifications.email && (
+                      <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                        <Mail className="h-3 w-3 mr-1" /> Email
+                      </span>
+                    )}
+                    {formData.notifications.push && (
+                      <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-700/10">
+                        <Bell className="h-3 w-3 mr-1" /> Push
+                      </span>
+                    )}
+                    {formData.notifications.sms && (
+                      <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-700/10">
+                        <Phone className="h-3 w-3 mr-1" /> SMS
+                      </span>
+                    )}
                   </div>
                 </div>
                 
-                <div className="flex">
-                  <div className="w-40 text-sm font-medium text-slate-500">Privacy Level:</div>
-                  <div className="flex-1 text-sm text-slate-800">
-                    {formData.privacy.shareLocationData === "precise" 
-                      ? "High Personalization" 
-                      : formData.privacy.shareLocationData === "anonymized"
-                      ? "Balanced" 
-                      : "Maximum Privacy"}
+                <div className="bg-white p-4 rounded-lg border border-slate-200">
+                  <div className="text-sm font-medium text-primary mb-2">Privacy Level</div>
+                  <div className="flex items-center">
+                    <Shield className="h-4 w-4 mr-2 text-slate-600" />
+                    <span className="font-medium">
+                      {formData.privacy.shareLocationData === "precise" 
+                        ? "High Personalization" 
+                        : formData.privacy.shareLocationData === "anonymized"
+                        ? "Balanced" 
+                        : "Maximum Privacy"}
+                    </span>
                   </div>
                 </div>
               </div>
