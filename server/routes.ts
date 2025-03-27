@@ -411,124 +411,278 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(mapData);
   });
   
-  // Tourism API
+  // Tourism API - Bhubaneswar
   app.get("/api/tourism", (req, res) => {
     const tourismData = {
       attractions: [
         {
           id: 1,
-          name: "City Art Museum",
-          type: "Museum",
+          name: "Lingaraj Temple",
+          type: "Temple",
           rating: 4.8,
-          reviews: 1245,
-          address: "123 Museum Avenue, Downtown",
-          description: "The city's premier art museum featuring permanent and rotating exhibitions from around the world.",
-          openHours: "10:00 AM - 6:00 PM",
-          price: "$15",
-          tags: ["Arts", "Family-Friendly", "Indoor"]
+          reviews: 2145,
+          address: "Lingaraj Temple Road, Old Town, Bhubaneswar",
+          description: "One of the oldest and largest temples in Bhubaneswar dedicated to Lord Shiva, featuring intricate Kalinga architecture dating back to the 11th century.",
+          openHours: "6:00 AM - 12:00 PM, 4:00 PM - 8:00 PM",
+          price: "Free",
+          tags: ["Religious", "Architecture", "Cultural"],
+          image: "https://www.holidify.com/images/cmsuploads/compressed/shutterstock_1038091188_20191024174904.jpg"
         },
         {
           id: 2,
-          name: "Riverside Gardens",
-          type: "Park",
-          rating: 4.7,
-          reviews: 2156,
-          address: "500 River Road, Northside",
-          description: "Beautiful gardens and walking paths along the scenic river with picnic areas and boat rentals.",
-          openHours: "8:00 AM - Sunset",
-          price: "Free",
-          tags: ["Nature", "Family-Friendly", "Outdoor"]
+          name: "Nandankanan Zoological Park",
+          type: "Zoo & Botanical Garden",
+          rating: 4.6,
+          reviews: 3156,
+          address: "Nandankanan Road, Barang, Bhubaneswar",
+          description: "A 400-hectare zoo and botanical garden featuring a diverse collection of animals including the famous white tigers, reptiles, and an extensive botanical collection.",
+          openHours: "7:30 AM - 5:30 PM (Closed on Mondays)",
+          price: "₹50 for adults, ₹25 for children",
+          tags: ["Wildlife", "Family-Friendly", "Outdoor"],
+          image: "https://www.nandankanan.org/wp-content/uploads/2016/07/nkzp-overview.jpg"
         },
         {
           id: 3,
-          name: "Historical District",
-          type: "Landmark",
-          rating: 4.6,
+          name: "Udayagiri and Khandagiri Caves",
+          type: "Historical Site",
+          rating: 4.7,
           reviews: 1879,
-          address: "Old City Center",
-          description: "Preserved historical district with architecture dating back to the 19th century, featuring boutique shops and cafes.",
-          openHours: "Always Open",
+          address: "Khandagiri, Bhubaneswar",
+          description: "Ancient Jain rock-cut caves dating back to the 1st century BCE, featuring intricate carvings and historical inscriptions.",
+          openHours: "8:00 AM - 5:00 PM",
+          price: "₹25 for Indians, ₹300 for foreigners",
+          tags: ["History", "Architecture", "Cultural"],
+          image: "https://www.holidify.com/images/cmsuploads/compressed/Udayagiri_and_Khandagiri_Caves_20190430140600.jpg"
+        },
+        {
+          id: 4,
+          name: "Ekamra Haat",
+          type: "Market",
+          rating: 4.5,
+          reviews: 1245,
+          address: "Forest Park, Unit 6, Bhubaneswar",
+          description: "Traditional handicraft market showcasing Odisha's rich artistic heritage with handloom textiles, appliqué work, stone crafts, and traditional jewelry.",
+          openHours: "10:00 AM - 9:00 PM",
+          price: "Free entry",
+          tags: ["Shopping", "Cultural", "Handicrafts"],
+          image: "https://odishatourism.gov.in/sites/default/files/2020-02/Ekamra%20Haat%20.jpg"
+        },
+        {
+          id: 5,
+          name: "ISKCON Temple",
+          type: "Temple",
+          rating: 4.8,
+          reviews: 1656,
+          address: "NH-5, IRC Village, Nayapalli, Bhubaneswar",
+          description: "Modern temple dedicated to Lord Krishna with beautiful architecture, spiritual ambiance, and regular cultural programs.",
+          openHours: "4:30 AM - 1:00 PM, 4:00 PM - 9:00 PM",
           price: "Free",
-          tags: ["History", "Shopping", "Architecture"]
+          tags: ["Religious", "Architecture", "Spiritual"],
+          image: "https://www.templepurohit.com/wp-content/uploads/2016/04/ISKCON-Temple-Bhubaneswar-Odisha.jpg"
         }
       ],
       events: [
         {
           id: 1,
-          name: "Summer Music Festival",
-          date: "July 15-17, 2023",
-          location: "City Park Amphitheater",
-          category: "Music",
-          price: "$45-$120"
+          name: "Ekamra Walks - Old Town Heritage Walk",
+          date: "Every Sunday Morning",
+          location: "Mukteswar Temple, Old Town",
+          category: "Heritage",
+          price: "Free",
+          description: "Guided walk through the temple heritage of Bhubaneswar, covering ancient temples and historic sites.",
+          image: "https://ekamrawalks.com/assets/img/walks.jpg"
         },
         {
           id: 2,
-          name: "Food & Wine Expo",
-          date: "August 5-7, 2023",
-          location: "Convention Center",
-          category: "Food",
-          price: "$25"
+          name: "Konark Dance Festival",
+          date: "December 1-5, 2025",
+          location: "Konark Sun Temple (near Bhubaneswar)",
+          category: "Cultural",
+          price: "₹100-₹500",
+          description: "Annual classical dance festival showcasing Odissi, Bharatanatyam, Kathak and other classical Indian dance forms.",
+          image: "https://odishatourism.gov.in/sites/default/files/2019-04/Konark%20Dance%20Festival.jpg"
         },
         {
           id: 3,
-          name: "International Film Festival",
-          date: "September 10-15, 2023",
-          location: "Various Theaters",
-          category: "Arts",
-          price: "$12 per screening"
+          name: "International Craft Mela",
+          date: "January 15-25, 2026",
+          location: "Exhibition Ground, Unit-III, Bhubaneswar",
+          category: "Arts & Crafts",
+          price: "₹50 entry",
+          description: "Annual handicraft exhibition featuring artisans from across India and abroad displaying crafts, textiles, and traditional art forms.",
+          image: "https://www.orissapost.com/wp-content/uploads/2019/11/Toshali-craft-mela.jpg"
+        }
+      ],
+      hotels: [
+        {
+          id: 1,
+          name: "Mayfair Lagoon",
+          category: "5-Star",
+          rating: 4.9,
+          reviews: 1876,
+          address: "8-B, Jaydev Vihar, Bhubaneswar",
+          priceRange: "₹7,500-₹25,000",
+          amenities: ["Swimming Pool", "Spa", "Multiple Restaurants", "Fitness Center", "Business Center"],
+          description: "Luxury resort-style hotel set amidst lush greenery with world-class amenities and Odia architectural influences.",
+          image: "https://www.mayfairhotels.com/wp-content/uploads/2018/01/main-photo-800x533.jpg"
+        },
+        {
+          id: 2,
+          name: "Swosti Premium",
+          category: "4-Star",
+          rating: 4.7,
+          reviews: 1254,
+          address: "P-1, Jaydev Vihar, Bhubaneswar",
+          priceRange: "₹4,500-₹12,000",
+          amenities: ["Swimming Pool", "Multiple Dining Options", "Spa", "Fitness Center"],
+          description: "Contemporary hotel offering modern amenities with a touch of traditional Odia hospitality and excellent service.",
+          image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/39/85/75/swosti-premium.jpg?w=1200&h=-1&s=1"
+        },
+        {
+          id: 3,
+          name: "Trident Bhubaneswar",
+          category: "5-Star",
+          rating: 4.8,
+          reviews: 1432,
+          address: "CB-1, Nayapalli, Bhubaneswar",
+          priceRange: "₹6,000-₹18,000",
+          amenities: ["Swimming Pool", "Garden", "Restaurant", "Fitness Center", "Business Services"],
+          description: "Elegant hotel with beautiful gardens, offering a blend of traditional charm and modern comfort near major business districts.",
+          image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/a3/75/90/trident-bhubaneswar.jpg?w=1200&h=-1&s=1"
+        },
+        {
+          id: 4,
+          name: "Ginger Bhubaneswar",
+          category: "3-Star",
+          rating: 4.3,
+          reviews: 887,
+          address: "Plot No. GN-2/115, Gadakana, Bhubaneswar",
+          priceRange: "₹2,500-₹4,500",
+          amenities: ["Restaurant", "Free Wi-Fi", "Meeting Rooms", "Modern Rooms"],
+          description: "Smart, budget-friendly hotel offering clean and comfortable accommodations with essential amenities for business and leisure travelers.",
+          image: "https://www.gingerhotels.com/content/dam/tajhotels/ginger/New-Properties/bhubneshwar/16x9/RoomRender-king-1.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg"
         }
       ],
       restaurants: [
         {
           id: 1,
-          name: "Riverview Bistro",
-          cuisine: "French",
-          rating: 4.9,
-          reviews: 876,
-          priceRange: "$$$",
-          specialties: ["Coq au Vin", "Beef Bourguignon", "Crème Brûlée"]
+          name: "Dalma",
+          cuisine: "Odia",
+          rating: 4.8,
+          reviews: 1276,
+          address: "Plot No. 1002, Near Ram Mandir, Nayapalli, Bhubaneswar",
+          priceRange: "₹₹",
+          specialties: ["Dalma", "Pakhala", "Fish Curry", "Chhena Poda"],
+          description: "Authentic Odia cuisine restaurant serving traditional dishes in a warm, cultural setting.",
+          image: "https://content3.jdmagicbox.com/comp/bhubaneshwar/z8/0674px674.x674.180315162748.k7z8/catalogue/dalma-nayapalli-bhubaneshwar-odiya-restaurants-1d38hfp.jpg"
         },
         {
           id: 2,
-          name: "Sakura Japanese",
-          cuisine: "Japanese",
-          rating: 4.7,
-          reviews: 654,
-          priceRange: "$$",
-          specialties: ["Sushi Platters", "Ramen", "Teriyaki"]
+          name: "Odisha Hotel",
+          cuisine: "Odia",
+          rating: 4.6,
+          reviews: 954,
+          address: "Kharvel Nagar, Master Canteen Square, Bhubaneswar",
+          priceRange: "₹",
+          specialties: ["Mutton Curry", "Fish Thali", "Prawn Dishes", "Rice and Dalma"],
+          description: "No-frills local favorite serving authentic Odia cuisine at reasonable prices, known for seafood specialties.",
+          image: "https://content.jdmagicbox.com/comp/bhubaneshwar/g6/0674px674.x674.220331112330.w1g6/catalogue/odisha-hotel-master-canteen-bhubaneshwar-restaurants-g8xpxz01k7.jpg"
         },
         {
           id: 3,
-          name: "Trattoria Italiana",
-          cuisine: "Italian",
-          rating: 4.8,
-          reviews: 723,
-          priceRange: "$$",
-          specialties: ["Wood-fired Pizza", "Homemade Pasta", "Tiramisu"]
+          name: "Kanika - Mayfair Lagoon",
+          cuisine: "Multi-cuisine",
+          rating: 4.9,
+          reviews: 823,
+          priceRange: "₹₹₹",
+          address: "Mayfair Lagoon, 8-B, Jaydev Vihar, Bhubaneswar",
+          specialties: ["Odia Thali", "Seafood", "Traditional Desserts", "Royal Odia Cuisine"],
+          description: "Fine dining restaurant offering royal Odia cuisine with contemporary presentation in luxurious settings.",
+          image: "https://media-cdn.tripadvisor.com/media/photo-s/04/40/6e/a3/kanika-at-mayfair-lagoon.jpg"
         }
       ],
       tours: [
         {
           id: 1,
-          name: "City Highlights Walking Tour",
-          duration: "2.5 hours",
+          name: "Bhubaneswar Temple Trail",
+          duration: "4 hours",
           rating: 4.9,
-          reviews: 387,
-          price: "$25",
-          description: "Explore the city's most famous landmarks and hidden gems with a knowledgeable local guide.",
-          includes: ["Professional guide", "Small group (max 10)", "Historical insights"],
-          startTimes: ["9:00 AM", "1:00 PM", "4:00 PM"]
+          reviews: 487,
+          price: "₹1,200 per person",
+          description: "Guided tour of Bhubaneswar's famous temples including Lingaraj, Mukteswar, Rajarani, and Parsurameswar temples with historical insights.",
+          includes: ["Professional guide", "Transportation", "Bottled water", "Historical insights"],
+          startTimes: ["9:00 AM", "2:00 PM"],
+          image: "https://www.holidify.com/images/cmsuploads/compressed/shutterstock_407828901_20190911115428.jpg"
         },
         {
           id: 2,
-          name: "Culinary Delights Food Tour",
-          duration: "3 hours",
+          name: "Bhubaneswar-Puri-Konark Golden Triangle Tour",
+          duration: "Full day (8-10 hours)",
           rating: 4.8,
-          reviews: 256,
-          price: "$65",
-          description: "Sample the city's best cuisine with stops at 5 beloved local eateries and specialty food shops.",
-          includes: ["Food tastings", "Drink samplings", "Food guide", "Recipe cards"],
-          startTimes: ["11:00 AM", "5:00 PM"]
+          reviews: 356,
+          price: "₹3,500 per person",
+          description: "Comprehensive tour covering Bhubaneswar temples, Konark Sun Temple (UNESCO site), and Jagannath Temple in Puri.",
+          includes: ["Air-conditioned vehicle", "Professional guide", "Lunch", "Monument entrance fees", "Hotel pickup and drop-off"],
+          startTimes: ["7:00 AM"],
+          image: "https://www.odishatourism.in/wp-content/uploads/2023/03/Konark-Sun-Temple.jpg"
+        },
+        {
+          id: 3,
+          name: "Chandaka Elephant Sanctuary & Tribal Village Tour",
+          duration: "6 hours",
+          rating: 4.7,
+          reviews: 198,
+          price: "₹2,200 per person",
+          description: "Nature and cultural tour combining wildlife exploration at Chandaka Sanctuary with visits to tribal villages to experience local culture.",
+          includes: ["Naturalist guide", "Transportation", "Village visit", "Traditional snacks", "Bottled water"],
+          startTimes: ["8:30 AM", "1:00 PM"],
+          image: "https://media-cdn.tripadvisor.com/media/photo-s/16/e0/99/40/chandaka-elephant-sanctuary.jpg"
+        }
+      ],
+      facilities: [
+        {
+          id: 1,
+          name: "Biju Patnaik International Airport",
+          type: "Transportation",
+          address: "Airport Road, Bhubaneswar",
+          description: "Modern international airport connecting Bhubaneswar to major Indian cities and select international destinations.",
+          amenities: ["Taxi Services", "Restaurants", "Lounges", "Shopping"],
+          rating: 4.4,
+          reviews: 3452,
+          image: "https://www.bpiairport.com/images/terminal-building.jpg"
+        },
+        {
+          id: 2,
+          name: "Esplanade One Mall",
+          type: "Shopping",
+          address: "Rasulgarh Square, Bhubaneswar",
+          description: "Modern shopping mall with national and international brands, food court, multiplex, and entertainment options.",
+          amenities: ["Shops", "Food Court", "Cinema", "Gaming Zone"],
+          rating: 4.5,
+          reviews: 2876,
+          image: "https://content.jdmagicbox.com/comp/bhubaneshwar/f8/0674px674.x674.171114121511.q9f8/catalogue/esplanade-one-rasulgarh-bhubaneshwar-shopping-malls-u8grhpnhil.jpg"
+        },
+        {
+          id: 3,
+          name: "Bhubaneswar Railway Station",
+          type: "Transportation",
+          address: "Master Canteen Area, Bhubaneswar",
+          description: "Major railway station connecting Bhubaneswar to cities across India with multiple platforms and passenger amenities.",
+          amenities: ["Waiting Rooms", "Food Stalls", "Booking Counters", "Taxi Stand"],
+          rating: 4.0,
+          reviews: 3921,
+          image: "https://static.toiimg.com/thumb/msid-70108063,width-400,resizemode-4/70108063.jpg"
+        },
+        {
+          id: 4,
+          name: "Tourist Information Center",
+          type: "Service",
+          address: "Lewis Road, Bhubaneswar",
+          description: "Official tourism information center providing travel information, maps, guides, and booking assistance for tourists.",
+          amenities: ["Information Desk", "Brochures", "Tour Booking", "Guide Services"],
+          rating: 4.3,
+          reviews: 562,
+          image: "https://odishatourism.gov.in/sites/default/files/2020-07/TIC_2.jpg"
         }
       ]
     };

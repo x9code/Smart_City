@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { Header } from "@/components/layout/header";
@@ -6,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AnimatedSection } from "@/components/ui/animated-section";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { 
   Search, 
   MapPin, 
@@ -27,233 +30,145 @@ import {
   Heart,
   Info,
   Filter,
-  ChevronDown
+  ChevronDown,
+  Building,
+  ShoppingBag
 } from "lucide-react";
 
-// Sample data for top attractions
-const topAttractions = [
-  {
-    id: 1,
-    name: "City Art Museum",
-    type: "Museum",
-    rating: 4.8,
-    reviews: 1245,
-    image: "https://images.unsplash.com/photo-1605375389155-926d230a0254?q=80&w=2500&auto=format&fit=crop",
-    address: "123 Museum Avenue, Downtown",
-    description: "The city's premier art museum featuring permanent and rotating exhibitions from around the world.",
-    openHours: "10:00 AM - 6:00 PM",
-    price: "$15",
-    tags: ["Arts", "Family-Friendly", "Indoor"]
-  },
-  {
-    id: 2,
-    name: "Riverside Gardens",
-    type: "Park",
-    rating: 4.7,
-    reviews: 2156,
-    image: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?q=80&w=2500&auto=format&fit=crop",
-    address: "500 River Road, Northside",
-    description: "Beautiful gardens and walking paths along the scenic river with picnic areas and boat rentals.",
-    openHours: "8:00 AM - Sunset",
-    price: "Free",
-    tags: ["Nature", "Family-Friendly", "Outdoor"]
-  },
-  {
-    id: 3,
-    name: "Historical District",
-    type: "Landmark",
-    rating: 4.6,
-    reviews: 1879,
-    image: "https://images.unsplash.com/photo-1474874055390-459bc92357f3?q=80&w=2500&auto=format&fit=crop",
-    address: "Old City Center",
-    description: "Preserved historical district with architecture dating back to the 19th century, featuring boutique shops and cafes.",
-    openHours: "Always Open",
-    price: "Free",
-    tags: ["History", "Shopping", "Architecture"]
-  },
-  {
-    id: 4,
-    name: "Science Center",
-    type: "Museum",
-    rating: 4.5,
-    reviews: 1532,
-    image: "https://images.unsplash.com/photo-1591982738324-dd4a4c1a4e68?q=80&w=2500&auto=format&fit=crop",
-    address: "789 Innovation Drive, Westside",
-    description: "Interactive science exhibits, planetarium, and educational programs for all ages.",
-    openHours: "9:00 AM - 5:00 PM",
-    price: "$18",
-    tags: ["Science", "Family-Friendly", "Educational"]
-  }
-];
-
-// Sample data for upcoming events
-const upcomingEvents = [
-  {
-    id: 1,
-    name: "Summer Music Festival",
-    date: "July 15-17, 2023",
-    location: "City Park Amphitheater",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2500&auto=format&fit=crop",
-    category: "Music",
-    price: "$45-$120"
-  },
-  {
-    id: 2,
-    name: "Food & Wine Expo",
-    date: "August 5-7, 2023",
-    location: "Convention Center",
-    image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2500&auto=format&fit=crop",
-    category: "Food",
-    price: "$25"
-  },
-  {
-    id: 3,
-    name: "International Film Festival",
-    date: "September 10-15, 2023",
-    location: "Various Theaters",
-    image: "https://images.unsplash.com/photo-1512070679279-8988d32161be?q=80&w=2500&auto=format&fit=crop",
-    category: "Arts",
-    price: "$12 per screening"
-  }
-];
-
-// Sample data for tours
-const popularTours = [
-  {
-    id: 1,
-    name: "City Highlights Walking Tour",
-    duration: "2.5 hours",
-    rating: 4.9,
-    reviews: 387,
-    price: "$25",
-    description: "Explore the city's most famous landmarks and hidden gems with a knowledgeable local guide.",
-    image: "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?q=80&w=2500&auto=format&fit=crop",
-    includes: ["Professional guide", "Small group (max 10)", "Historical insights"],
-    startTimes: ["9:00 AM", "1:00 PM", "4:00 PM"]
-  },
-  {
-    id: 2,
-    name: "Culinary Delights Food Tour",
-    duration: "3 hours",
-    rating: 4.8,
-    reviews: 256,
-    price: "$65",
-    description: "Sample the city's best cuisine with stops at 5 beloved local eateries and specialty food shops.",
-    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2500&auto=format&fit=crop",
-    includes: ["Food tastings", "Drink samplings", "Food guide", "Recipe cards"],
-    startTimes: ["11:00 AM", "5:00 PM"]
-  },
-  {
-    id: 3,
-    name: "Sunset Harbor Cruise",
-    duration: "1.5 hours",
-    rating: 4.7,
-    reviews: 312,
-    price: "$45",
-    description: "Cruise along the harbor as the sun sets, offering spectacular views of the city skyline.",
-    image: "https://images.unsplash.com/photo-1548574505-5e239809ee19?q=80&w=2500&auto=format&fit=crop",
-    includes: ["Narrated tour", "Complimentary drink", "Sunset views", "Photo opportunities"],
-    startTimes: ["6:30 PM (varies by season)"]
-  }
-];
-
-// Sample data for hotels
-const featuredHotels = [
-  {
-    id: 1,
-    name: "Grand City Hotel",
-    rating: 4.8,
-    reviews: 1245,
-    price: "$200",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2500&auto=format&fit=crop",
-    location: "Downtown",
-    amenities: ["Pool", "Spa", "Restaurant", "Fitness Center", "Free Wi-Fi"]
-  },
-  {
-    id: 2,
-    name: "Riverside Inn",
-    rating: 4.6,
-    reviews: 876,
-    price: "$150",
-    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2500&auto=format&fit=crop",
-    location: "Riverside",
-    amenities: ["River View", "Restaurant", "Free Breakfast", "Free Wi-Fi"]
-  },
-  {
-    id: 3,
-    name: "Boutique Heritage Hotel",
-    rating: 4.7,
-    reviews: 654,
-    price: "$180",
-    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2500&auto=format&fit=crop",
-    location: "Historical District",
-    amenities: ["Historic Building", "Luxury Rooms", "Restaurant", "Bar", "Free Wi-Fi"]
-  }
-];
-
-// Sample data for restaurants
-const topRestaurants = [
-  {
-    id: 1,
-    name: "Riverview Bistro",
-    cuisine: "French",
-    rating: 4.9,
-    reviews: 876,
-    priceRange: "$$$",
-    image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2500&auto=format&fit=crop",
-    specialties: ["Coq au Vin", "Beef Bourguignon", "Crème Brûlée"]
-  },
-  {
-    id: 2,
-    name: "Sakura Japanese",
-    cuisine: "Japanese",
-    rating: 4.7,
-    reviews: 654,
-    priceRange: "$$",
-    image: "https://images.unsplash.com/photo-1569562211093-5d0d21e171a1?q=80&w=2500&auto=format&fit=crop",
-    specialties: ["Sushi Platters", "Ramen", "Teriyaki"]
-  },
-  {
-    id: 3,
-    name: "Trattoria Italiana",
-    cuisine: "Italian",
-    rating: 4.8,
-    reviews: 723,
-    priceRange: "$$",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2500&auto=format&fit=crop",
-    specialties: ["Wood-fired Pizza", "Homemade Pasta", "Tiramisu"]
-  }
-];
-
-// Sample travel tips
+// Bhubaneswar travel tips
 const travelTips = [
   {
     id: 1,
     title: "Best Time to Visit",
-    content: "Spring (April-May) and Fall (September-October) offer pleasant weather and fewer crowds. Summer is peak tourist season with warmer temperatures."
+    content: "October to March offers pleasant weather (15-30°C). Avoid summer (April-June) when temperatures can exceed 40°C. The monsoon season (July-September) brings heavy rainfall."
   },
   {
     id: 2,
     title: "Public Transportation",
-    content: "The city's metro system is efficient and connects all major attractions. Purchase a visitor pass for unlimited rides during your stay."
+    content: "Use the 'Mo Bus' service that connects major parts of the city. Auto-rickshaws and taxis are readily available. App-based cab services like Ola and Uber operate throughout the city."
   },
   {
     id: 3,
     title: "Local Customs",
-    content: "Tipping 15-20% is customary in restaurants. Always greet shop owners when entering small businesses."
+    content: "Remove footwear before entering temples. Dress modestly when visiting religious places. The local language is Odia, but English and Hindi are widely understood."
   },
   {
     id: 4,
     title: "Safety Tips",
-    content: "The city is generally safe, but keep valuables secure especially in crowded tourist areas. Emergency services can be reached at 911."
+    content: "Bhubaneswar is relatively safe, but take standard precautions. Avoid isolated areas after dark. Always carry a copy of your identification. Emergency services can be reached at 108 for medical and 100 for police."
+  },
+  {
+    id: 5,
+    title: "Local Cuisine",
+    content: "Try local Odia dishes like Dalma, Pakhala (fermented rice), Chhena Poda (cheese dessert), and various seafood specialties. Many restaurants offer authentic Odia thalis."
   }
 ];
+
+// Define interfaces for type safety
+interface Attraction {
+  id: number;
+  name: string;
+  type: string;
+  rating: number;
+  reviews: number;
+  address: string;
+  description: string;
+  openHours: string;
+  price: string;
+  tags: string[];
+  image: string;
+}
+
+interface Event {
+  id: number;
+  name: string;
+  date: string;
+  location: string;
+  category: string;
+  price: string;
+  description: string;
+  image: string;
+}
+
+interface Tour {
+  id: number;
+  name: string;
+  duration: string;
+  rating: number;
+  reviews: number;
+  price: string;
+  description: string;
+  image: string;
+  includes: string[];
+  startTimes: string[];
+}
+
+interface Hotel {
+  id: number;
+  name: string;
+  category: string;
+  rating: number;
+  reviews: number;
+  address: string;
+  priceRange: string;
+  amenities: string[];
+  description: string;
+  image: string;
+}
+
+interface Restaurant {
+  id: number;
+  name: string;
+  cuisine: string;
+  rating: number;
+  reviews: number;
+  priceRange: string;
+  address: string;
+  specialties: string[];
+  description: string;
+  image: string;
+}
+
+interface Facility {
+  id: number;
+  name: string;
+  type: string;
+  address: string;
+  description: string;
+  amenities: string[];
+  rating: number;
+  reviews: number;
+  image: string;
+}
+
+interface TourismData {
+  attractions: Attraction[];
+  events: Event[];
+  tours: Tour[];
+  hotels: Hotel[];
+  restaurants: Restaurant[];
+  facilities: Facility[];
+}
 
 export default function TourismPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [attractionView, setAttractionView] = useState<"grid" | "list">("grid");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [filteredAttractions, setFilteredAttractions] = useState<Attraction[]>([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  // Fetch tourism data from API
+  const { data: tourismData, isLoading, error } = useQuery<TourismData>({
+    queryKey: ["/api/tourism"],
+  });
+
+  // Set initial filtered attractions to show all attractions if no search performed
+  useEffect(() => {
+    if (tourismData && !searchPerformed) {
+      setFilteredAttractions(tourismData.attractions);
+    }
+  }, [tourismData, searchPerformed]);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -261,7 +176,29 @@ export default function TourismPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement search functionality
+    if (!tourismData) return;
+    
+    // Implement search functionality across all data types
+    const query = searchQuery.toLowerCase();
+    
+    if (query.trim() === "") {
+      // If search is cleared, show all attractions
+      setFilteredAttractions(tourismData.attractions);
+      setSearchPerformed(false);
+      return;
+    }
+    
+    // Filter attractions by search query
+    const attractions = tourismData.attractions.filter((attraction) => 
+      attraction.name.toLowerCase().includes(query) ||
+      attraction.type.toLowerCase().includes(query) ||
+      attraction.description.toLowerCase().includes(query) ||
+      attraction.address.toLowerCase().includes(query) ||
+      attraction.tags.some((tag) => tag.toLowerCase().includes(query))
+    );
+    
+    setFilteredAttractions(attractions);
+    setSearchPerformed(true);
     console.log("Searching for:", searchQuery);
   };
 
@@ -284,8 +221,8 @@ export default function TourismPage() {
           <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden">
             <div className="p-8 md:p-12 relative">
               <div className="max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-bold mb-4">Discover Our Beautiful City</h1>
-                <p className="text-lg md:text-xl mb-6 text-blue-100">Experience world-class attractions, delicious cuisine, and unforgettable adventures.</p>
+                <h1 className="text-3xl md:text-4xl font-bold mb-4">Discover Bhubaneswar</h1>
+                <p className="text-lg md:text-xl mb-6 text-blue-100">Experience the 'Temple City of India' with its ancient architecture, vibrant culture, and modern attractions.</p>
                 
                 <form onSubmit={handleSearch} className="flex items-center max-w-md">
                   <div className="relative flex-1">
@@ -306,14 +243,14 @@ export default function TourismPage() {
           </div>
           
           {/* Quick Links */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
             <Card className="bg-white hover:shadow-md transition-shadow cursor-pointer">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="h-12 w-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-3">
                   <MapPin className="h-6 w-6" />
                 </div>
                 <h3 className="font-medium text-slate-800">Attractions</h3>
-                <p className="text-sm text-slate-500 mt-1">Discover top sights</p>
+                <p className="text-sm text-slate-500 mt-1">Temples & Parks</p>
               </CardContent>
             </Card>
             
@@ -323,7 +260,7 @@ export default function TourismPage() {
                   <Ticket className="h-6 w-6" />
                 </div>
                 <h3 className="font-medium text-slate-800">Events</h3>
-                <p className="text-sm text-slate-500 mt-1">Upcoming festivals</p>
+                <p className="text-sm text-slate-500 mt-1">Festivals</p>
               </CardContent>
             </Card>
             
@@ -333,7 +270,7 @@ export default function TourismPage() {
                   <Utensils className="h-6 w-6" />
                 </div>
                 <h3 className="font-medium text-slate-800">Dining</h3>
-                <p className="text-sm text-slate-500 mt-1">Local cuisine</p>
+                <p className="text-sm text-slate-500 mt-1">Odia Cuisine</p>
               </CardContent>
             </Card>
             
@@ -342,8 +279,28 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-3">
                   <Hotel className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Accommodation</h3>
-                <p className="text-sm text-slate-500 mt-1">Places to stay</p>
+                <h3 className="font-medium text-slate-800">Hotels</h3>
+                <p className="text-sm text-slate-500 mt-1">Accommodations</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-6 flex flex-col items-center text-center">
+                <div className="h-12 w-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mb-3">
+                  <Bus className="h-6 w-6" />
+                </div>
+                <h3 className="font-medium text-slate-800">Tours</h3>
+                <p className="text-sm text-slate-500 mt-1">Guided Visits</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white hover:shadow-md transition-shadow cursor-pointer">
+              <CardContent className="p-6 flex flex-col items-center text-center">
+                <div className="h-12 w-12 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mb-3">
+                  <ShoppingBag className="h-6 w-6" />
+                </div>
+                <h3 className="font-medium text-slate-800">Shopping</h3>
+                <p className="text-sm text-slate-500 mt-1">Handicrafts</p>
               </CardContent>
             </Card>
           </div>
@@ -352,8 +309,8 @@ export default function TourismPage() {
           <div className="mb-10">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">Top Attractions</h2>
-                <p className="text-slate-500">Must-visit places in our city</p>
+                <h2 className="text-2xl font-bold text-slate-800">Top Attractions in Bhubaneswar</h2>
+                <p className="text-slate-500">Must-visit places in the Temple City</p>
               </div>
               
               <div className="flex items-center mt-4 md:mt-0">
@@ -381,107 +338,123 @@ export default function TourismPage() {
               </div>
             </div>
             
-            {attractionView === "grid" ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {topAttractions.map((attraction) => (
-                  <Card key={attraction.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                    <div className="h-48 overflow-hidden">
-                      <img 
-                        src={attraction.image} 
-                        alt={attraction.name} 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <CardContent className="p-4">
-                      <Badge className="mb-2 bg-blue-100 text-blue-800 border-0">
-                        {attraction.type}
-                      </Badge>
-                      <h3 className="font-bold text-lg mb-2">{attraction.name}</h3>
-                      <div className="flex items-center mb-2">
-                        <div className="flex items-center text-amber-500">
-                          <Star className="h-4 w-4 fill-current" />
-                          <span className="ml-1 text-sm font-medium">{attraction.rating}</span>
-                        </div>
-                        <span className="mx-2 text-xs text-slate-400">•</span>
-                        <span className="text-sm text-slate-500">{attraction.reviews} reviews</span>
-                      </div>
-                      <p className="text-sm text-slate-500 mb-3 line-clamp-2">{attraction.description}</p>
-                      <div className="flex items-center text-sm text-slate-500 mb-3">
-                        <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                        {attraction.address}
-                      </div>
-                      <div className="flex items-center text-sm text-slate-500 mb-3">
-                        <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                        {attraction.openHours}
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">{attraction.price}</span>
-                        <Button size="sm">View Details</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
               </div>
-            ) : (
-              <div className="space-y-4">
-                {topAttractions.map((attraction) => (
-                  <Card key={attraction.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                    <div className="flex flex-col md:flex-row">
-                      <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load attractions. Please try again later.</p>
+              </div>
+            ) : filteredAttractions.length === 0 ? (
+              <div className="text-center py-12">
+                <p>No attractions matching your search criteria.</p>
+              </div>
+            ) : attractionView === "grid" ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {filteredAttractions.map((attraction: Attraction) => (
+                  <AnimatedSection key={attraction.id} animation="fadeIn" delay={0.1 * attraction.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="h-48 overflow-hidden">
                         <img 
                           src={attraction.image} 
                           alt={attraction.name} 
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="p-6 md:w-2/3">
-                        <div className="flex flex-wrap items-start justify-between mb-2">
-                          <div>
-                            <Badge className="mb-2 bg-blue-100 text-blue-800 border-0">
-                              {attraction.type}
-                            </Badge>
-                            <h3 className="font-bold text-xl">{attraction.name}</h3>
+                      <CardContent className="p-4 flex flex-col flex-grow">
+                        <Badge className="mb-2 bg-blue-100 text-blue-800 border-0 self-start">
+                          {attraction.type}
+                        </Badge>
+                        <h3 className="font-bold text-lg mb-2">{attraction.name}</h3>
+                        <div className="flex items-center mb-2">
+                          <div className="flex items-center text-amber-500">
+                            <Star className="h-4 w-4 fill-current" />
+                            <span className="ml-1 text-sm font-medium">{attraction.rating}</span>
                           </div>
-                          <div className="flex items-center">
-                            <div className="flex items-center text-amber-500">
-                              <Star className="h-4 w-4 fill-current" />
-                              <span className="ml-1 text-sm font-medium">{attraction.rating}</span>
-                            </div>
-                            <span className="mx-2 text-xs text-slate-400">•</span>
-                            <span className="text-sm text-slate-500">{attraction.reviews} reviews</span>
-                          </div>
+                          <span className="mx-2 text-xs text-slate-400">•</span>
+                          <span className="text-sm text-slate-500">{attraction.reviews} reviews</span>
                         </div>
-                        
-                        <p className="text-slate-600 mb-4">{attraction.description}</p>
-                        
-                        <div className="flex flex-wrap gap-y-2 mb-4">
-                          <div className="flex items-center text-sm text-slate-500 mr-6">
-                            <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                            {attraction.address}
-                          </div>
-                          <div className="flex items-center text-sm text-slate-500 mr-6">
-                            <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                            {attraction.openHours}
-                          </div>
-                          <div className="flex items-center text-sm font-medium">
-                            <CreditCard className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                            {attraction.price}
-                          </div>
+                        <p className="text-sm text-slate-500 mb-3 line-clamp-2">{attraction.description}</p>
+                        <div className="flex items-center text-sm text-slate-500 mb-2">
+                          <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          <span className="line-clamp-1">{attraction.address}</span>
                         </div>
-                        
-                        <div className="flex flex-wrap items-center justify-between">
-                          <div className="flex flex-wrap gap-2">
-                            {attraction.tags.map((tag, index) => (
-                              <Badge key={index} variant="outline" className="bg-slate-50">
-                                {tag}
+                        <div className="flex items-center text-sm text-slate-500 mb-3">
+                          <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          {attraction.openHours}
+                        </div>
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="font-medium">{attraction.price}</span>
+                          <Button size="sm">View Details</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {filteredAttractions.map((attraction: Attraction) => (
+                  <AnimatedSection key={attraction.id} animation="slideLeft" delay={0.1 * attraction.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="flex flex-col md:flex-row">
+                        <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
+                          <img 
+                            src={attraction.image} 
+                            alt={attraction.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="p-6 md:w-2/3">
+                          <div className="flex flex-wrap items-start justify-between mb-2">
+                            <div>
+                              <Badge className="mb-2 bg-blue-100 text-blue-800 border-0">
+                                {attraction.type}
                               </Badge>
-                            ))}
+                              <h3 className="font-bold text-xl">{attraction.name}</h3>
+                            </div>
+                            <div className="flex items-center">
+                              <div className="flex items-center text-amber-500">
+                                <Star className="h-4 w-4 fill-current" />
+                                <span className="ml-1 text-sm font-medium">{attraction.rating}</span>
+                              </div>
+                              <span className="mx-2 text-xs text-slate-400">•</span>
+                              <span className="text-sm text-slate-500">{attraction.reviews} reviews</span>
+                            </div>
                           </div>
-                          <Button>View Details</Button>
+                          
+                          <p className="text-slate-600 mb-4">{attraction.description}</p>
+                          
+                          <div className="flex flex-wrap gap-y-2 mb-4">
+                            <div className="flex items-center text-sm text-slate-500 mr-6">
+                              <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {attraction.address}
+                            </div>
+                            <div className="flex items-center text-sm text-slate-500 mr-6">
+                              <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {attraction.openHours}
+                            </div>
+                            <div className="flex items-center text-sm font-medium">
+                              <CreditCard className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                              {attraction.price}
+                            </div>
+                          </div>
+                          
+                          <div className="flex flex-wrap items-center justify-between">
+                            <div className="flex flex-wrap gap-2">
+                              {attraction.tags.map((tag: string, index: number) => (
+                                <Badge key={index} variant="outline" className="bg-slate-50">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                            <Button>View Details</Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </AnimatedSection>
                 ))}
               </div>
             )}
@@ -505,43 +478,58 @@ export default function TourismPage() {
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {upcomingEvents.map((event) => (
-                <Card key={event.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="h-48 overflow-hidden relative">
-                    <img 
-                      src={event.image} 
-                      alt={event.name} 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-3 right-3">
-                      <Badge className={`
-                        ${event.category === 'Music' ? 'bg-purple-100 text-purple-800' : 
-                          event.category === 'Food' ? 'bg-green-100 text-green-800' : 
-                          'bg-blue-100 text-blue-800'} border-0
-                      `}>
-                        {event.category}
-                      </Badge>
-                    </div>
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-lg mb-2">{event.name}</h3>
-                    <div className="flex items-center text-sm text-slate-500 mb-2">
-                      <Calendar className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                      {event.date}
-                    </div>
-                    <div className="flex items-center text-sm text-slate-500 mb-3">
-                      <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                      {event.location}
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{event.price}</span>
-                      <Button size="sm">Get Tickets</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load events. Please try again later.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {tourismData?.events.map((event: Event) => (
+                  <AnimatedSection key={event.id} animation="fadeIn" delay={0.1 * event.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="h-48 overflow-hidden relative">
+                        <img 
+                          src={event.image} 
+                          alt={event.name} 
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute top-3 right-3">
+                          <Badge className={`
+                            ${event.category === 'Music' ? 'bg-purple-100 text-purple-800' : 
+                              event.category === 'Food' ? 'bg-green-100 text-green-800' : 
+                              event.category === 'Heritage' ? 'bg-amber-100 text-amber-800' :
+                              event.category === 'Cultural' ? 'bg-red-100 text-red-800' :
+                              'bg-blue-100 text-blue-800'} border-0
+                          `}>
+                            {event.category}
+                          </Badge>
+                        </div>
+                      </div>
+                      <CardContent className="p-4 flex-grow flex flex-col">
+                        <h3 className="font-bold text-lg mb-2">{event.name}</h3>
+                        <div className="flex items-center text-sm text-slate-500 mb-2">
+                          <Calendar className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          {event.date}
+                        </div>
+                        <div className="flex items-center text-sm text-slate-500 mb-3">
+                          <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          {event.location}
+                        </div>
+                        <p className="text-sm text-slate-500 mb-4 flex-grow">{event.description}</p>
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="font-medium">{event.price}</span>
+                          <Button size="sm">Get Tickets</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
           
           {/* Popular Tours Section */}
@@ -549,302 +537,330 @@ export default function TourismPage() {
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-slate-800">Popular Tours</h2>
-                <p className="text-slate-500">Guided experiences for all interests</p>
+                <p className="text-slate-500">Explore Bhubaneswar with expert guides</p>
               </div>
+              <Button variant="outline">
+                View All Tours
+              </Button>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {popularTours.map((tour) => (
-                <Card key={tour.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={tour.image} 
-                      alt={tour.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-bold text-lg">{tour.name}</h3>
-                      <Badge className="bg-teal-100 text-teal-800 border-0 whitespace-nowrap">
-                        {tour.price}
-                      </Badge>
-                    </div>
-                    
-                    <div className="flex items-center mb-2">
-                      <div className="flex items-center text-amber-500">
-                        <Star className="h-4 w-4 fill-current" />
-                        <span className="ml-1 text-sm font-medium">{tour.rating}</span>
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load tours. Please try again later.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {tourismData?.tours.map((tour: Tour) => (
+                  <AnimatedSection key={tour.id} animation="fadeIn" delay={0.1 * tour.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="h-48 overflow-hidden">
+                        <img 
+                          src={tour.image} 
+                          alt={tour.name} 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <span className="mx-2 text-xs text-slate-400">•</span>
-                      <span className="text-sm text-slate-500">{tour.reviews} reviews</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-slate-500 mb-3">
-                      <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                      {tour.duration}
-                    </div>
-                    
-                    <p className="text-sm text-slate-600 mb-3">{tour.description}</p>
-                    
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {tour.includes.map((item, i) => (
-                        <Badge key={i} variant="outline" className="bg-slate-50 text-xs">
-                          {item}
-                        </Badge>
-                      ))}
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center justify-between">
-                      <div className="text-xs text-slate-500">
-                        <span className="font-medium">Available:</span> {tour.startTimes.join(", ")}
-                      </div>
-                      <Button size="sm">Book Now</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      <CardContent className="p-4 flex flex-col flex-grow">
+                        <h3 className="font-bold text-lg mb-2">{tour.name}</h3>
+                        <div className="flex items-center mb-2">
+                          <div className="flex items-center text-amber-500">
+                            <Star className="h-4 w-4 fill-current" />
+                            <span className="ml-1 text-sm font-medium">{tour.rating}</span>
+                          </div>
+                          <span className="mx-2 text-xs text-slate-400">•</span>
+                          <span className="text-sm text-slate-500">{tour.reviews} reviews</span>
+                        </div>
+                        <div className="flex items-center text-sm text-slate-500 mb-2">
+                          <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          {tour.duration}
+                        </div>
+                        <p className="text-sm text-slate-500 mb-4 line-clamp-3">{tour.description}</p>
+                        
+                        <div className="mb-3 flex-grow">
+                          <p className="text-xs font-medium text-slate-600 mb-1">Includes:</p>
+                          <ul className="text-xs text-slate-500">
+                            {tour.includes.map((item: string, i: number) => (
+                              <li key={i} className="flex items-start mb-1">
+                                <div className="h-3.5 w-3.5 rounded-full bg-green-100 text-green-800 flex items-center justify-center mr-2 mt-0.5">
+                                  <div className="h-1.5 w-1.5 rounded-full bg-green-800"></div>
+                                </div>
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="font-medium">{tour.price}</span>
+                          <Button size="sm">Book Now</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
           
-          {/* Where to Stay Section */}
+          {/* Featured Hotels Section */}
           <div className="mb-10">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">Where to Stay</h2>
-                <p className="text-slate-500">Recommended accommodations</p>
+                <h2 className="text-2xl font-bold text-slate-800">Featured Hotels</h2>
+                <p className="text-slate-500">Comfortable stays in Bhubaneswar</p>
               </div>
               <Button variant="outline">
                 View All Hotels
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {featuredHotels.map((hotel) => (
-                <Card key={hotel.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={hotel.image} 
-                      alt={hotel.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
-                    <div className="flex items-center mb-2">
-                      <div className="flex items-center text-amber-500">
-                        <Star className="h-4 w-4 fill-current" />
-                        <span className="ml-1 text-sm font-medium">{hotel.rating}</span>
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load hotels. Please try again later.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {tourismData?.hotels.map((hotel: Hotel) => (
+                  <AnimatedSection key={hotel.id} animation="fadeIn" delay={0.1 * hotel.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="h-48 overflow-hidden">
+                        <img 
+                          src={hotel.image} 
+                          alt={hotel.name} 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <span className="mx-2 text-xs text-slate-400">•</span>
-                      <span className="text-sm text-slate-500">{hotel.reviews} reviews</span>
-                    </div>
-                    <div className="flex items-center text-sm text-slate-500 mb-3">
-                      <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                      {hotel.location}
-                    </div>
-                    <div className="mb-3">
-                      <div className="flex flex-wrap gap-1">
-                        {hotel.amenities.slice(0, 3).map((amenity, i) => (
-                          <Badge key={i} variant="outline" className="bg-slate-50 text-xs">
-                            {amenity}
-                          </Badge>
-                        ))}
-                        {hotel.amenities.length > 3 && (
-                          <Badge variant="outline" className="bg-slate-50 text-xs">
-                            +{hotel.amenities.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{hotel.price} / night</span>
-                      <Button size="sm">View Rooms</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      <CardContent className="p-4 flex flex-col flex-grow">
+                        <Badge className="mb-2 bg-indigo-100 text-indigo-800 border-0 self-start">
+                          {hotel.category}
+                        </Badge>
+                        <h3 className="font-bold text-lg mb-2">{hotel.name}</h3>
+                        <div className="flex items-center mb-2">
+                          <div className="flex items-center text-amber-500">
+                            <Star className="h-4 w-4 fill-current" />
+                            <span className="ml-1 text-sm font-medium">{hotel.rating}</span>
+                          </div>
+                          <span className="mx-2 text-xs text-slate-400">•</span>
+                          <span className="text-sm text-slate-500">{hotel.reviews} reviews</span>
+                        </div>
+                        <div className="flex items-center text-sm text-slate-500 mb-2">
+                          <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          <span className="line-clamp-1">{hotel.address}</span>
+                        </div>
+                        
+                        <div className="mb-3 mt-2 flex-grow">
+                          <div className="flex flex-wrap gap-1">
+                            {hotel.amenities.slice(0, 4).map((amenity: string, i: number) => (
+                              <Badge key={i} variant="outline" className="bg-slate-50 text-xs">
+                                {amenity}
+                              </Badge>
+                            ))}
+                            {hotel.amenities.length > 4 && (
+                              <Badge variant="outline" className="bg-slate-50 text-xs">
+                                +{hotel.amenities.length - 4} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="font-medium text-sm">{hotel.priceRange}</span>
+                          <Button size="sm">View Hotel</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
           
-          {/* Best Restaurants Section */}
+          {/* Top Restaurants Section */}
           <div className="mb-10">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-slate-800">Best Restaurants</h2>
-                <p className="text-slate-500">Local dining experiences</p>
+                <h2 className="text-2xl font-bold text-slate-800">Top Restaurants</h2>
+                <p className="text-slate-500">Taste the authentic flavors of Odisha</p>
               </div>
               <Button variant="outline">
                 View All Restaurants
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {topRestaurants.map((restaurant) => (
-                <Card key={restaurant.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={restaurant.image} 
-                      alt={restaurant.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-bold text-lg">{restaurant.name}</h3>
-                      <Badge className="bg-orange-100 text-orange-800 border-0">
-                        {restaurant.priceRange}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center mb-2">
-                      <Badge className="bg-slate-100 text-slate-800 border-0 mr-2">
-                        {restaurant.cuisine}
-                      </Badge>
-                      <div className="flex items-center text-amber-500">
-                        <Star className="h-4 w-4 fill-current" />
-                        <span className="ml-1 text-sm font-medium">{restaurant.rating}</span>
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load restaurants. Please try again later.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {tourismData?.restaurants.map((restaurant: Restaurant) => (
+                  <AnimatedSection key={restaurant.id} animation="fadeIn" delay={0.1 * restaurant.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+                      <div className="h-48 overflow-hidden">
+                        <img 
+                          src={restaurant.image} 
+                          alt={restaurant.name} 
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                    </div>
-                    <p className="text-sm text-slate-600 mb-3">
-                      <span className="font-medium">Specialties:</span> {restaurant.specialties.join(", ")}
-                    </p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-slate-500">{restaurant.reviews} reviews</span>
-                      <Button size="sm">Reserve Table</Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-          
-          {/* Transportation Section */}
-          <div className="mb-10">
-            <h2 className="text-2xl font-bold text-slate-800 mb-6">Getting Around</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-white">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
-                    <Plane className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">By Air</h3>
-                  <p className="text-sm text-slate-600 mb-4">
-                    Our international airport is located 15 miles from downtown with direct connections to major cities worldwide.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Airport Information
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-white">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mb-4">
-                    <Train className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">By Train</h3>
-                  <p className="text-sm text-slate-600 mb-4">
-                    The central train station provides regional and national connections with departures every hour.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Train Schedules
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-white">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-4">
-                    <Bus className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Public Transit</h3>
-                  <p className="text-sm text-slate-600 mb-4">
-                    Our extensive network of buses and metro lines makes it easy to navigate the city.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Transit Maps
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-white">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-4">
-                    <Car className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">By Car</h3>
-                  <p className="text-sm text-slate-600 mb-4">
-                    Major highways connect to the city, and various rental car services are available at transportation hubs.
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full">
-                    Rental Options
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                      <CardContent className="p-4 flex flex-col flex-grow">
+                        <Badge className="mb-2 bg-green-100 text-green-800 border-0 self-start">
+                          {restaurant.cuisine}
+                        </Badge>
+                        <h3 className="font-bold text-lg mb-2">{restaurant.name}</h3>
+                        <div className="flex items-center mb-2">
+                          <div className="flex items-center text-amber-500">
+                            <Star className="h-4 w-4 fill-current" />
+                            <span className="ml-1 text-sm font-medium">{restaurant.rating}</span>
+                          </div>
+                          <span className="mx-2 text-xs text-slate-400">•</span>
+                          <span className="text-sm text-slate-500">{restaurant.reviews} reviews</span>
+                        </div>
+                        <div className="flex items-center text-sm text-slate-500 mb-3">
+                          <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                          <span className="line-clamp-1">{restaurant.address || "Not available"}</span>
+                        </div>
+                        
+                        <div className="mb-3 flex-grow">
+                          <p className="text-xs font-medium text-slate-600 mb-1">Specialties:</p>
+                          <p className="text-xs text-slate-500">
+                            {restaurant.specialties.join(", ")}
+                          </p>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mt-auto">
+                          <span className="font-medium">{restaurant.priceRange}</span>
+                          <Button size="sm">View Menu</Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
           
           {/* Travel Tips Section */}
           <div className="mb-10">
-            <h2 className="text-2xl font-bold text-slate-800 mb-6">Travel Tips</h2>
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-slate-800">Travel Tips for Bhubaneswar</h2>
+              <p className="text-slate-500">Useful information for your visit</p>
+            </div>
             
-            <Card className="bg-white">
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {travelTips.map((tip) => (
-                    <div key={tip.id} className="flex">
-                      <div className="mr-4 mt-1">
-                        <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {travelTips.map((tip) => (
+                <AnimatedSection key={tip.id} animation="fadeIn" delay={0.1 * tip.id}>
+                  <Card className="bg-white hover:shadow-md transition-shadow h-full">
+                    <CardContent className="p-6">
+                      <div className="flex items-start mb-4">
+                        <div className="h-8 w-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
                           <Info className="h-4 w-4" />
                         </div>
+                        <h3 className="font-bold text-lg">{tip.title}</h3>
                       </div>
-                      <div>
-                        <h3 className="font-bold text-slate-800 mb-2">{tip.title}</h3>
-                        <p className="text-sm text-slate-600">{tip.content}</p>
+                      <p className="text-slate-600">{tip.content}</p>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+          
+          {/* Tourist Facilities Section */}
+          <div className="mb-10">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">Tourist Facilities</h2>
+                <p className="text-slate-500">Essential services for visitors</p>
+              </div>
+            </div>
+            
+            {isLoading ? (
+              <div className="flex justify-center items-center py-12">
+                <LoadingSpinner size="lg" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-red-500">Failed to load facilities. Please try again later.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {tourismData?.facilities.map((facility: Facility) => (
+                  <AnimatedSection key={facility.id} animation="slideLeft" delay={0.1 * facility.id}>
+                    <Card className="bg-white overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="flex flex-col md:flex-row">
+                        <div className="md:w-1/3 h-36 md:h-auto overflow-hidden">
+                          <img 
+                            src={facility.image} 
+                            alt={facility.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="p-4 md:w-2/3">
+                          <Badge className="mb-2 bg-slate-100 text-slate-800 border-0">
+                            {facility.type}
+                          </Badge>
+                          <h3 className="font-bold text-lg mb-2">{facility.name}</h3>
+                          <div className="flex items-center text-sm text-slate-500 mb-2">
+                            <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                            {facility.address}
+                          </div>
+                          <p className="text-sm text-slate-500 mb-3 line-clamp-2">{facility.description}</p>
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {facility.amenities.slice(0, 3).map((amenity, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {amenity}
+                              </Badge>
+                            ))}
+                            {facility.amenities.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{facility.amenities.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="border-t border-slate-200 mt-6 pt-6">
-                  <h3 className="font-bold text-slate-800 mb-4">Need More Information?</h3>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button className="sm:flex-1">
-                      Download Visitor Guide
-                    </Button>
-                    <Button variant="outline" className="sm:flex-1">
-                      Visit Tourist Information Center
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Newsletter Section */}
+          <div className="mb-10">
+            <Card className="bg-gradient-to-r from-indigo-500 to-blue-600 text-white">
+              <CardContent className="p-8">
+                <div className="flex flex-col md:flex-row items-center justify-between">
+                  <div className="mb-6 md:mb-0 md:mr-6">
+                    <h3 className="text-2xl font-bold mb-2">Stay Updated</h3>
+                    <p className="text-blue-100">Subscribe to our newsletter for the latest events and attractions in Bhubaneswar.</p>
+                  </div>
+                  <div className="w-full md:w-auto flex flex-col sm:flex-row">
+                    <Input 
+                      placeholder="Your email address" 
+                      className="bg-white border-0 text-slate-800 mb-2 sm:mb-0 sm:mr-2"
+                    />
+                    <Button className="bg-white text-blue-600 hover:bg-blue-50">
+                      Subscribe
                     </Button>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-          
-          {/* Newsletter Section */}
-          <Card className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white mb-10">
-            <CardContent className="p-8">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                <div className="mb-6 md:mb-0 md:mr-10">
-                  <h2 className="text-2xl font-bold mb-2">Stay Updated</h2>
-                  <p className="text-indigo-100">Subscribe to our newsletter for exclusive travel deals and city updates.</p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 md:w-1/2">
-                  <Input placeholder="Your email address" className="bg-white/90 text-slate-800 border-0" />
-                  <Button className="bg-white text-indigo-600 hover:bg-white/90">
-                    Subscribe
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Footer */}
-          <footer className="text-center text-sm text-slate-500 mb-6">
-            <p>© 2023 City Tourism Board. All rights reserved.</p>
-            <p className="mt-2">Photos courtesy of Unsplash. Information subject to change.</p>
-          </footer>
         </main>
       </div>
     </div>
