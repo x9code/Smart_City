@@ -471,28 +471,28 @@ export default function EducationPage() {
   const eventsData = educationData?.events || educationalEvents;
 
   // Filter schools based on search query
-  const filteredSchools = schoolsData.filter((school) => 
+  const filteredSchools = schoolsData.filter((school: any) => 
     school.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     school.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
     school.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Filter colleges based on search query
-  const filteredColleges = collegesData.filter((college) => 
+  const filteredColleges = collegesData.filter((college: any) => 
     college.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     college.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
     college.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Filter courses based on search query
-  const filteredCourses = coursesData.filter((course) => 
+  const filteredCourses = coursesData.filter((course: any) => 
     course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.provider.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.level.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Filter resources based on search query
-  const filteredResources = resourcesData.filter((resource) => 
+  const filteredResources = resourcesData.filter((resource: any) => 
     resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     resource.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
     resource.address.toLowerCase().includes(searchQuery.toLowerCase())
@@ -631,7 +631,7 @@ export default function EducationPage() {
             {/* Schools Tab */}
             <TabsContent value="schools" className="mt-0">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {filteredSchools.map((school) => (
+                {filteredSchools.map((school: any) => (
                   <Card key={school.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     {school.image && (
                       <div className="h-48 w-full overflow-hidden">
@@ -699,7 +699,7 @@ export default function EducationPage() {
             {/* Colleges Tab */}
             <TabsContent value="colleges" className="mt-0">
               <div className="grid grid-cols-1 gap-6">
-                {filteredColleges.map((college) => (
+                {filteredColleges.map((college: any) => (
                   <Card key={college.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     <div className="flex flex-col md:flex-row">
                       {college.image && (
@@ -842,7 +842,7 @@ export default function EducationPage() {
               </div>
             
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredCourses.map((course) => (
+                {filteredCourses.map((course: any) => (
                   <Card key={course.id} className="bg-white overflow-hidden hover:shadow-md transition-shadow">
                     {course.image && (
                       <div className="h-48 w-full overflow-hidden">
@@ -940,7 +940,7 @@ export default function EducationPage() {
                     </div>
                   
                     <div className="space-y-5">
-                      {filteredResources.map((resource) => (
+                      {filteredResources.map((resource: any) => (
                         <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                           {resource.image && (
                             <div className="h-48 w-full overflow-hidden">
@@ -1053,7 +1053,7 @@ export default function EducationPage() {
                     </div>
                     
                     <div className="space-y-4">
-                      {eventsData.map((event) => (
+                      {eventsData.map((event: any) => (
                         <div key={event.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                           <div className="relative h-28 overflow-hidden bg-slate-200">
                             <img 
