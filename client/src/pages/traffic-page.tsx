@@ -21,46 +21,67 @@ import {
 } from "recharts";
 import { AlertCircle, Car, Clock, MapPin, TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
 
+// Define types for traffic data from API
+interface TrafficIncident {
+  id: number;
+  type: string;
+  location: string;
+  severity: string;
+  reportedTime: string;
+  status: string;
+}
+
+interface TrafficData {
+  congestion: {
+    downtown: string;
+    uptown: string;
+    suburban: string;
+    highways: string;
+  };
+  incidents: TrafficIncident[];
+  trafficFlowData: { time: string; volume: number }[];
+}
+
 const trafficHotspots = [
   {
     id: 1,
-    location: "Downtown Main Street",
+    location: "Janpath Road & Saheed Nagar",
     congestion: "High",
     time: "8:00 AM - 10:00 AM",
     status: "Accident reported",
-    coordinates: { lat: 40.7128, lng: -74.006 },
+    coordinates: { lat: 20.2698, lng: 85.8444 },
   },
   {
     id: 2,
-    location: "Highway 101, North Exit",
+    location: "NH16 near Rasulgarh Square",
     congestion: "Medium",
     time: "5:30 PM - 7:00 PM",
     status: "Construction",
-    coordinates: { lat: 40.7218, lng: -74.015 },
+    coordinates: { lat: 20.2667, lng: 85.8485 },
   },
   {
     id: 3,
-    location: "Central Avenue & Oak Street",
+    location: "Jaydev Vihar Intersection",
     congestion: "Low",
     time: "1:00 PM - 3:00 PM",
     status: "Normal flow",
-    coordinates: { lat: 40.7148, lng: -74.023 },
+    coordinates: { lat: 20.2993, lng: 85.8242 },
   },
   {
     id: 4,
-    location: "Riverside Drive",
+    location: "Master Canteen Road",
     congestion: "High",
     time: "5:00 PM - 6:30 PM",
     status: "Road closure",
-    coordinates: { lat: 40.7098, lng: -74.009 },
+    coordinates: { lat: 20.2699, lng: 85.8427 },
   },
   {
     id: 5,
-    location: "Metro Station Entrance",
+    location: "Nayapalli - KIIT Road",
     congestion: "Medium",
     time: "7:30 AM - 9:00 AM",
-    status: "Event nearby",
-    coordinates: { lat: 40.7208, lng: -74.001 },
+    status: "Smart city development work",
+    coordinates: { lat: 20.3185, lng: 85.8193 },
   },
 ];
 
@@ -86,32 +107,7 @@ const weeklyTrendData = [
   { day: "Sun", congestion: 35, incidents: 3 },
 ];
 
-const trafficIncidents = [
-  {
-    id: 1,
-    type: "Accident",
-    location: "Main St & 5th Ave",
-    time: "08:45 AM",
-    severity: "Major",
-    status: "Emergency services on scene",
-  },
-  {
-    id: 2,
-    type: "Construction",
-    location: "Highway 101, Mile 34",
-    time: "All day",
-    severity: "Moderate",
-    status: "Lane closure",
-  },
-  {
-    id: 3,
-    type: "Heavy Traffic",
-    location: "Downtown Area",
-    time: "5:30 PM - 7:00 PM",
-    severity: "Minor",
-    status: "Delays expected",
-  },
-];
+// We'll use our API data from trafficData.incidents
 
 const trafficCongestionColors = {
   High: "bg-red-100 text-red-800 border-red-200",
@@ -125,6 +121,10 @@ export default function TrafficPage() {
 
   const { data: cityStats } = useQuery({
     queryKey: ["/api/city-stats"],
+  });
+  
+  const { data: trafficData } = useQuery<TrafficData>({
+    queryKey: ["/api/traffic"],
   });
 
   const toggleMobileMenu = () => {
@@ -151,8 +151,8 @@ export default function TrafficPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Current Congestion</p>
-                    <h3 className="text-2xl font-bold text-slate-800">32%</h3>
+                    <p className="text-sm text-slate-500 mb-1">Downtown Congestion</p>
+                    <h3 className="text-2xl font-bold text-slate-800">{trafficData?.congestion?.downtown || "32%"}</h3>
                   </div>
                   <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600">
                     <Car className="h-6 w-6" />
@@ -171,7 +171,7 @@ export default function TrafficPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-slate-500 mb-1">Active Incidents</p>
-                    <h3 className="text-2xl font-bold text-slate-800">7</h3>
+                    <h3 className="text-2xl font-bold text-slate-800">{trafficData?.incidents?.length || "7"}</h3>
                   </div>
                   <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600">
                     <AlertTriangle className="h-6 w-6" />
@@ -189,11 +189,11 @@ export default function TrafficPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm text-slate-500 mb-1">Average Speed</p>
-                    <h3 className="text-2xl font-bold text-slate-800">28 mph</h3>
+                    <p className="text-sm text-slate-500 mb-1">Suburban Congestion</p>
+                    <h3 className="text-2xl font-bold text-slate-800">{trafficData?.congestion?.suburban || "15%"}</h3>
                   </div>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
-                    <Clock className="h-6 w-6" />
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                    <MapPin className="h-6 w-6" />
                   </div>
                 </div>
                 <div className="mt-4 flex items-center text-sm">
@@ -241,7 +241,7 @@ export default function TrafficPage() {
                     <div className="h-80">
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart
-                          data={trafficTrendData}
+                          data={trafficData?.trafficFlowData || trafficTrendData}
                           margin={{
                             top: 5,
                             right: 30,
@@ -250,13 +250,11 @@ export default function TrafficPage() {
                           }}
                         >
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis yAxisId="left" />
-                          <YAxis yAxisId="right" orientation="right" />
+                          <XAxis dataKey={trafficData?.trafficFlowData ? "time" : "name"} />
+                          <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Line yAxisId="left" type="monotone" dataKey="cars" stroke="#6366f1" activeDot={{ r: 8 }} name="Vehicle Count" />
-                          <Line yAxisId="right" type="monotone" dataKey="congestion" stroke="#f43f5e" name="Congestion %" />
+                          <Line type="monotone" dataKey="volume" stroke="#6366f1" activeDot={{ r: 8 }} name="Traffic Volume" />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -319,35 +317,64 @@ export default function TrafficPage() {
                 </CardHeader>
                 <CardContent className="p-6">
                   <div className="space-y-4">
-                    {trafficIncidents.map((incident) => (
-                      <div key={incident.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                        <div className="flex items-start">
-                          <div className="mr-3 mt-0.5">
-                            <AlertCircle className={`h-5 w-5 ${incident.severity === "Major" ? "text-red-500" : incident.severity === "Moderate" ? "text-amber-500" : "text-blue-500"}`} />
-                          </div>
-                          <div>
-                            <div className="flex items-center mb-1">
-                              <h4 className="font-medium text-slate-800">{incident.type}</h4>
-                              <Badge 
-                                variant="outline" 
-                                className={`ml-2 ${incident.severity === "Major" ? "bg-red-100 text-red-800 border-red-200" : incident.severity === "Moderate" ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-blue-100 text-blue-800 border-blue-200"}`}
-                              >
-                                {incident.severity}
-                              </Badge>
+                    {trafficData?.incidents ? (
+                      trafficData.incidents.map((incident) => (
+                        <div key={incident.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                          <div className="flex items-start">
+                            <div className="mr-3 mt-0.5">
+                              <AlertCircle className={`h-5 w-5 ${incident.severity === "Major" ? "text-red-500" : incident.severity === "Moderate" ? "text-amber-500" : "text-blue-500"}`} />
                             </div>
-                            <p className="text-sm text-slate-600 flex items-center mb-1">
-                              <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                              {incident.location}
-                            </p>
-                            <p className="text-sm text-slate-600 flex items-center mb-1">
-                              <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
-                              {incident.time}
-                            </p>
-                            <p className="text-xs text-slate-500">{incident.status}</p>
+                            <div>
+                              <div className="flex items-center mb-1">
+                                <h4 className="font-medium text-slate-800">{incident.type}</h4>
+                                <Badge 
+                                  variant="outline" 
+                                  className={`ml-2 ${incident.severity === "Major" ? "bg-red-100 text-red-800 border-red-200" : incident.severity === "Moderate" ? "bg-amber-100 text-amber-800 border-amber-200" : "bg-blue-100 text-blue-800 border-blue-200"}`}
+                                >
+                                  {incident.severity}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-slate-600 flex items-center mb-1">
+                                <MapPin className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                                {incident.location}
+                              </p>
+                              <p className="text-sm text-slate-600 flex items-center mb-1">
+                                <Clock className="h-3.5 w-3.5 mr-1 text-slate-400" />
+                                {incident.reportedTime}
+                              </p>
+                              <p className="text-xs text-slate-500">{incident.status}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                    ) : (
+                      // Fallback for loading state
+                      Array(3).fill(0).map((_, index) => (
+                        <div key={index} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                          <div className="flex items-start">
+                            <div className="mr-3 mt-0.5">
+                              <AlertCircle className="h-5 w-5 text-slate-400" />
+                            </div>
+                            <div>
+                              <div className="flex items-center mb-1">
+                                <h4 className="font-medium text-slate-800">Loading...</h4>
+                                <Badge variant="outline" className="ml-2 bg-slate-100 text-slate-500 border-slate-200">
+                                  ...
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-slate-400 flex items-center mb-1">
+                                <MapPin className="h-3.5 w-3.5 mr-1 text-slate-300" />
+                                Loading location data...
+                              </p>
+                              <p className="text-sm text-slate-400 flex items-center mb-1">
+                                <Clock className="h-3.5 w-3.5 mr-1 text-slate-300" />
+                                ...
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
                   </div>
                   <Button variant="link" className="w-full mt-4 text-primary">
                     View All Alerts

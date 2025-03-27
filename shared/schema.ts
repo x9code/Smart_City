@@ -83,6 +83,26 @@ export type EmergencyAlert = {
   type: string;
 };
 
+export type TrafficIncident = {
+  id: number;
+  type: string;
+  location: string;
+  severity: string;
+  reportedTime: string;
+  status: string;
+};
+
+export type TrafficData = {
+  congestion: {
+    downtown: string;
+    uptown: string;
+    suburban: string;
+    highways: string;
+  };
+  incidents: TrafficIncident[];
+  trafficFlowData: { time: string; volume: number }[];
+};
+
 // Scrapbook Memory Entries Schema
 export const scrapbookEntries = pgTable("scrapbook_entries", {
   id: serial("id").primaryKey(),

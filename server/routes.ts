@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth } from "./auth";
-import { services, EmergencyAlert, Activity, insertScrapbookEntrySchema } from "@shared/schema";
+import { services, EmergencyAlert, Activity, insertScrapbookEntrySchema, TrafficData } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -101,75 +101,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Traffic data API - Bhubaneswar roads
-  app.get("/api/traffic", (req, res) => {
-    const trafficData = {
-      congestion: {
-        downtown: "65%",
-        uptown: "40%",
-        suburban: "25%",
-        highways: "55%"
-      },
-      incidents: [
-        {
-          id: 1,
-          type: "Accident",
-          location: "Janpath Road & Saheed Nagar",
-          severity: "Major",
-          reportedTime: "08:45 AM",
-          status: "Emergency services on scene"
-        },
-        {
-          id: 2,
-          type: "Construction",
-          location: "NH16 near Rasulgarh Square",
-          severity: "Moderate",
-          reportedTime: "07:30 AM",
-          status: "Lane closure"
-        },
-        {
-          id: 3,
-          type: "Road Closure",
-          location: "Master Canteen Road",
-          severity: "Major",
-          reportedTime: "06:15 AM",
-          status: "Closed until further notice"
-        },
-        {
-          id: 4,
-          type: "Construction",
-          location: "Patia - KIIT Road",
-          severity: "Minor",
-          reportedTime: "09:00 AM",
-          status: "Smart city development work"
-        },
-        {
-          id: 5,
-          type: "Accident",
-          location: "Nandankanan Road",
-          severity: "Moderate",
-          reportedTime: "07:15 AM",
-          status: "Traffic regulated"
-        }
-      ],
-      trafficFlowData: [
-        { time: "6 AM", volume: 1200 },
-        { time: "7 AM", volume: 1800 },
-        { time: "8 AM", volume: 2800 },
-        { time: "9 AM", volume: 2500 },
-        { time: "10 AM", volume: 2000 },
-        { time: "11 AM", volume: 1800 },
-        { time: "12 PM", volume: 1900 },
-        { time: "1 PM", volume: 1700 },
-        { time: "2 PM", volume: 1600 },
-        { time: "3 PM", volume: 1800 },
-        { time: "4 PM", volume: 2200 },
-        { time: "5 PM", volume: 2800 },
-        { time: "6 PM", volume: 2400 },
-        { time: "7 PM", volume: 1800 },
-        { time: "8 PM", volume: 1200 }
-      ]
-    };
-    res.json(trafficData);
+  app.get("/api/traffic", async (req, res) => {
+    try {
+      const trafficData = await storage.getTrafficData();
+      res.json(trafficData);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch traffic data" });
+    }
   });
 
   // Healthcare facilities API
