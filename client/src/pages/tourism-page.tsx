@@ -221,20 +221,54 @@ export default function TourismPage() {
           <div className="rounded-lg mb-6 bg-gradient-to-r from-blue-600 to-indigo-700 text-white overflow-hidden relative">
             <div className="absolute inset-0 opacity-30">
               <img 
-                src="https://images.unsplash.com/photo-1589738305047-1b32d394602e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                alt="Bhubaneswar Temples" 
+                src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Bhubaneswar_collage.jpg" 
+                alt="Bhubaneswar Temples Collage" 
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1616463533319-30e1bd637415?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+                  e.currentTarget.src = "https://upload.wikimedia.org/wikipedia/commons/e/e5/Lingaraja_Temple.jpg";
                   console.log("Hero image failed to load");
                 }}
               />
             </div>
             <div className="p-8 md:p-12 relative z-10">
               <div className="max-w-3xl">
-                <span className="bg-indigo-800 text-white px-3 py-1 rounded-full text-sm font-medium inline-block mb-4">The Temple City of India</span>
-                <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience Magical Bhubaneswar</h1>
-                <p className="text-lg md:text-xl mb-6 text-blue-50">Explore ancient temples with stunning Kalinga architecture, vibrant festivals, rich cultural heritage, and modern attractions in Odisha's capital city.</p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="bg-indigo-800 text-white px-3 py-1 rounded-full text-sm font-medium inline-block">The Temple City of India</span>
+                  <span className="bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-medium inline-block">Smart City</span>
+                  <span className="bg-green-700 text-white px-3 py-1 rounded-full text-sm font-medium inline-block">Cultural Capital of Odisha</span>
+                </div>
+                <h1 className="text-3xl md:text-5xl font-bold mb-4">Discover Bhubaneswar's Treasures</h1>
+                <p className="text-lg md:text-xl mb-6 text-blue-50">Explore ancient temples with stunning Kalinga architecture, vibrant festivals, rich cultural heritage, and modern attractions in Odisha's capital city - home to over 700 temples and countless cultural experiences.</p>
+                
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <div className="flex items-center bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                    <div className="bg-amber-500 p-2 rounded-full mr-3">
+                      <Camera className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">700+ Temples</h3>
+                      <p className="text-sm text-blue-100">Ancient Kalinga Architecture</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                    <div className="bg-green-500 p-2 rounded-full mr-3">
+                      <Compass className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">Heritage Walks</h3>
+                      <p className="text-sm text-blue-100">Guided Cultural Tours</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                    <div className="bg-blue-500 p-2 rounded-full mr-3">
+                      <Utensils className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-white">Odia Cuisine</h3>
+                      <p className="text-sm text-blue-100">Authentic Local Flavors</p>
+                    </div>
+                  </div>
+                </div>
                 
                 <form onSubmit={handleSearch} className="flex items-center max-w-md">
                   <div className="relative flex-1">
@@ -936,6 +970,138 @@ export default function TourismPage() {
                 ))}
               </div>
             )}
+          </div>
+          
+          {/* Cultural Experience Section */}
+          <div className="mb-10">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">Cultural Experiences in Bhubaneswar</h2>
+                <p className="text-slate-500">Immerse yourself in Odisha's rich cultural heritage</p>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <AnimatedSection animation="slideLeft">
+                <Card className="overflow-hidden h-full">
+                  <div className="md:flex">
+                    <div className="md:w-2/5 h-52 md:h-auto relative">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/0/02/Odissi_Performance_DS.jpg" 
+                        alt="Odissi Dance Form" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1535359056830-d4badde79747?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          console.log("Image failed to load: Odissi Dance Form");
+                        }}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <Badge className="mb-2 bg-purple-100 text-purple-800 border-0">Traditional Art</Badge>
+                      <h3 className="text-xl font-bold mb-2">Odissi Dance</h3>
+                      <p className="text-slate-600 mb-4">
+                        Experience the mesmerizing classical dance form of Odisha with its graceful movements, intricate footwork, and expressive storytelling. Regular performances are held at Rabindra Mandap and GKCM Odissi Research Centre.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline">Classical Dance</Badge>
+                        <Badge variant="outline">Cultural Heritage</Badge>
+                        <Badge variant="outline">Live Performance</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </AnimatedSection>
+              
+              <AnimatedSection animation="slideRight">
+                <Card className="overflow-hidden h-full">
+                  <div className="md:flex">
+                    <div className="md:w-2/5 h-52 md:h-auto relative">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/6/65/Pattachitra_Painting_Raghurajpur_Odisha.jpg" 
+                        alt="Pattachitra - Traditional Painting" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1582561424760-0321d75e81fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          console.log("Image failed to load: Pattachitra");
+                        }}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <Badge className="mb-2 bg-amber-100 text-amber-800 border-0">Handicraft</Badge>
+                      <h3 className="text-xl font-bold mb-2">Pattachitra Painting</h3>
+                      <p className="text-slate-600 mb-4">
+                        Discover the ancient art of Pattachitra, a traditional cloth-based scroll painting with intricate details and vibrant colors. Visit Raghurajpur Crafts Village near Bhubaneswar to see artisans at work and take workshops.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline">Traditional Art</Badge>
+                        <Badge variant="outline">Workshops</Badge>
+                        <Badge variant="outline">Souvenirs</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </AnimatedSection>
+              
+              <AnimatedSection animation="slideLeft">
+                <Card className="overflow-hidden h-full">
+                  <div className="md:flex">
+                    <div className="md:w-2/5 h-52 md:h-auto relative">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Applique_work_Pipili_Odisha.jpg" 
+                        alt="Pipili Applique Work" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1582738411657-3d6b7a0ca1ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          console.log("Image failed to load: Pipili Applique");
+                        }}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <Badge className="mb-2 bg-blue-100 text-blue-800 border-0">Craft Village</Badge>
+                      <h3 className="text-xl font-bold mb-2">Pipili Applique Craft</h3>
+                      <p className="text-slate-600 mb-4">
+                        Visit the famous Pipili village (20 km from Bhubaneswar) known for its vibrant applique handicrafts, featuring patchwork with mirrors and colorful patterns. Shop for decorative items, lampshades, and the iconic 'Chandua' umbrellas.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline">Textile Art</Badge>
+                        <Badge variant="outline">Shopping</Badge>
+                        <Badge variant="outline">Day Trip</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </AnimatedSection>
+              
+              <AnimatedSection animation="slideRight">
+                <Card className="overflow-hidden h-full">
+                  <div className="md:flex">
+                    <div className="md:w-2/5 h-52 md:h-auto relative">
+                      <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/d/d4/A_cook_preparing_%22Dahibara_Aludam%22_in_Odisha.jpg" 
+                        alt="Odia Cuisine" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                          console.log("Image failed to load: Odia Cuisine");
+                        }}
+                      />
+                    </div>
+                    <div className="p-6">
+                      <Badge className="mb-2 bg-green-100 text-green-800 border-0">Food Experience</Badge>
+                      <h3 className="text-xl font-bold mb-2">Odia Cuisine Journey</h3>
+                      <p className="text-slate-600 mb-4">
+                        Embark on a culinary adventure to taste authentic Odia dishes like Dalma, Pakhala (fermented rice), Chhena Poda (cheese dessert), and Dahi Bara-Aloo Dam. Join a food tour or cooking class to learn about traditional techniques and spice blends.
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline">Food Tour</Badge>
+                        <Badge variant="outline">Cooking Class</Badge>
+                        <Badge variant="outline">Traditional Cuisine</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </AnimatedSection>
+            </div>
           </div>
           
           {/* Travel Tips Section */}

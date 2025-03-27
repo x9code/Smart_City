@@ -533,7 +533,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           openHours: "8:00 AM - 5:00 PM",
           price: "₹25 for Indians, ₹300 for foreigners",
           tags: ["History", "Architecture", "Cultural"],
-          image: "https://images.unsplash.com/photo-1600000000000-000000000000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Udayagiri_and_Khandagiri_Caves.jpg/1024px-Udayagiri_and_Khandagiri_Caves.jpg"
         },
         {
           id: 4,
@@ -560,6 +560,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
           price: "Free",
           tags: ["Religious", "Architecture", "Spiritual"],
           image: "https://odishatourism.gov.in/content/dam/tourism/home/activities/spiritual/iskcon-temple-bhubaneshwar/gallery/ISKCON-Temple-Bhubaneshwar-Gallery-2.jpg"
+        },
+        {
+          id: 6,
+          name: "Rajarani Temple",
+          type: "Temple",
+          rating: 4.7,
+          reviews: 1432,
+          address: "Rajarani Temple Road, Old Town, Bhubaneswar",
+          description: "11th-century temple renowned for its exquisite sculptures and unique architecture without any presiding deity, also known as 'love temple'.",
+          openHours: "6:00 AM - 6:00 PM",
+          price: "₹25 for Indians, ₹300 for foreigners",
+          tags: ["Religious", "Architecture", "Historical"],
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/The_Rajarani_Temple_at_Bhubaneswar.jpg/1024px-The_Rajarani_Temple_at_Bhubaneswar.jpg"
+        },
+        {
+          id: 7,
+          name: "Dhauli Shanti Stupa",
+          type: "Historical Monument",
+          rating: 4.6,
+          reviews: 1245,
+          address: "Dhauli Hills, Bhubaneswar",
+          description: "Peace pagoda built in the 1970s atop Dhauli hills where Emperor Ashoka converted to Buddhism after the Kalinga War, with panoramic city views.",
+          openHours: "7:00 AM - 7:00 PM",
+          price: "Free",
+          tags: ["Historical", "Buddhist", "Scenic Views"],
+          image: "https://upload.wikimedia.org/wikipedia/commons/4/45/Dhauligiri_Shanti_Stupa.jpg"
+        },
+        {
+          id: 8,
+          name: "Mukteswara Temple",
+          type: "Temple",
+          rating: 4.8,
+          reviews: 1356,
+          address: "Lewis Road, Old Town, Bhubaneswar",
+          description: "10th-century temple considered a gem of Odia architecture with its intricate stone archway (Torana) and stunning carvings - often called 'gem of Odisha architecture'.",
+          openHours: "6:00 AM - 7:00 PM",
+          price: "Free",
+          tags: ["Religious", "Architecture", "Photography"],
+          image: "https://upload.wikimedia.org/wikipedia/commons/1/14/Mukteshwar_Temple.jpg"
+        },
+        {
+          id: 9,
+          name: "Museum of Tribal Arts & Artifacts",
+          type: "Museum",
+          rating: 4.4,
+          reviews: 864,
+          address: "CRPF Square, Bhubaneswar",
+          description: "Comprehensive museum showcasing the rich cultural heritage of Odisha's 62 tribal communities through artifacts, tools, jewelry, and traditional housing models.",
+          openHours: "10:00 AM - 5:00 PM (Closed on Mondays)",
+          price: "₹20 for Indians, ₹200 for foreigners",
+          tags: ["Cultural", "Educational", "Tribal"],
+          image: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Tribal_Museum_Collection_at_Bhubaneswar.JPG"
         }
       ],
       events: [
@@ -642,6 +694,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amenities: ["Restaurant", "Free Wi-Fi", "Meeting Rooms", "Modern Rooms"],
           description: "Smart, budget-friendly hotel offering clean and comfortable accommodations with essential amenities for business and leisure travelers.",
           image: "https://www.gingerhotels.com/content/dam/tajhotels/ginger/New-Properties/bhubneshwar/16x9/RoomRender-king-1.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.jpeg"
+        },
+        {
+          id: 5,
+          name: "Lemon Tree Premier",
+          category: "4-Star",
+          rating: 4.6,
+          reviews: 978,
+          address: "Plot No. X-1, Near Loyola School, Bhubaneswar",
+          priceRange: "₹4,000-₹8,000",
+          amenities: ["Swimming Pool", "Fitness Center", "Restaurant", "Business Center", "Spa"],
+          description: "Upscale hotel with contemporary design, offering a perfect blend of business and leisure facilities in a convenient location.",
+          image: "https://www.lemontreehotels.com/Uploads/HotelImageGallery/Lemon-Tree-Premier-Bhubaneswar-Photos/Exterior.jpg"
+        },
+        {
+          id: 6,
+          name: "The New Marrion",
+          category: "4-Star",
+          rating: 4.5,
+          reviews: 756,
+          address: "6 Janpath, Bhubaneswar",
+          priceRange: "₹3,800-₹7,200",
+          amenities: ["Multiple Restaurants", "Swimming Pool", "Business Center", "Banquet Hall"],
+          description: "Well-established city hotel with traditional hospitality, offering spacious rooms and excellent dining options in the heart of Bhubaneswar.",
+          image: "https://r1imghtlak.mmtcdn.com/c2c7f7a6fca711eb83520242ac110002.jpeg"
+        },
+        {
+          id: 7,
+          name: "Empires Hotel",
+          category: "3-Star",
+          rating: 4.2,
+          reviews: 625,
+          address: "Plot No. 1B, Saheed Nagar, Bhubaneswar",
+          priceRange: "₹2,800-₹4,000",
+          amenities: ["Restaurant", "Room Service", "Conference Facility", "Free Parking"],
+          description: "Business-oriented hotel offering comfortable accommodations with quality service at affordable rates in a central location.",
+          image: "https://r1imghtlak.mmtcdn.com/1bd97dc4bbcd11e8a07d0a4cef95d023.jpg"
         }
       ],
       restaurants: [
@@ -680,6 +768,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
           specialties: ["Odia Thali", "Seafood", "Traditional Desserts", "Royal Odia Cuisine"],
           description: "Fine dining restaurant offering royal Odia cuisine with contemporary presentation in luxurious settings.",
           image: "https://media-cdn.tripadvisor.com/media/photo-s/04/40/6e/a3/kanika-at-mayfair-lagoon.jpg"
+        },
+        {
+          id: 4,
+          name: "The Silver Spoon",
+          cuisine: "North Indian",
+          rating: 4.5,
+          reviews: 683,
+          priceRange: "₹₹",
+          address: "Plot No. 1610, Nayapalli, Bhubaneswar",
+          specialties: ["Butter Chicken", "Paneer Dishes", "Tandoori Platter", "Biryani"],
+          description: "Popular North Indian restaurant known for its flavorful curries, tandoori specialties, and comfortable dining atmosphere.",
+          image: "https://media-cdn.tripadvisor.com/media/photo-s/1a/50/4e/fe/silver-spoon.jpg"
+        },
+        {
+          id: 5,
+          name: "Tandoor - The Clay Oven",
+          cuisine: "Multi-cuisine",
+          rating: 4.7,
+          reviews: 754,
+          priceRange: "₹₹",
+          address: "Plot No. 214, District Center, Chandrasekharpur, Bhubaneswar",
+          specialties: ["Tandoori Dishes", "Kebabs", "Curries", "Naan Varieties"],
+          description: "Family-friendly restaurant serving North Indian, Chinese and Continental cuisines in a relaxed setting with outdoor seating.",
+          image: "https://content.jdmagicbox.com/comp/bhubaneshwar/x1/0674px674.x674.180319160317.r1x1/catalogue/tandoor-clay-oven-saheed-nagar-bhubaneshwar-continental-restaurants-1x6qekz.jpg"
+        },
+        {
+          id: 6,
+          name: "Zaika Restaurant",
+          cuisine: "Bengali & Odia",
+          rating: 4.6,
+          reviews: 542,
+          priceRange: "₹₹",
+          address: "IRC Village, Bhubaneswar",
+          specialties: ["Bengali Fish Curry", "Odia Thali", "Prawn Malai Curry", "Rice Dishes"],
+          description: "Local favorite known for authentic Bengali and Odia cuisines, serving seafood specialties and traditional regional dishes.",
+          image: "https://lh3.googleusercontent.com/p/AF1QipPJNQEPZHFcYYSGsJF9ZbJ3oBV0EHhA-vc3GyNC=s680-w680-h510"
         }
       ],
       tours: [
