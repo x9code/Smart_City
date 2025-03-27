@@ -29,133 +29,184 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
-// Sample data for healthcare facilities
+// Healthcare facilities in Bhubaneswar
 const healthcareFacilities = [
   {
     id: 1,
-    name: "City General Hospital",
-    type: "Hospital",
-    rating: 4.7,
-    reviews: 128,
-    address: "123 Main Street, Downtown",
-    distance: "1.2 miles",
-    waitTime: "45 min",
+    name: "AIIMS Bhubaneswar",
+    type: "Super Specialty Hospital",
+    rating: 4.8,
+    reviews: 412,
+    address: "Sijua, Patrapada, Bhubaneswar, Odisha 751019",
+    distance: "12.5 km",
+    waitTime: "35 min",
     openingHours: "24/7",
-    phone: "(555) 123-4567",
-    services: ["Emergency", "Surgery", "Maternity", "Pediatrics", "Oncology"],
-    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    phone: "0674-2476789",
+    services: ["Emergency", "Surgery", "Neurology", "Cardiology", "Oncology", "Orthopedics"],
+    image: "https://pbs.twimg.com/media/FAlOxHPVgAQ7MT8?format=jpg&name=large"
   },
   {
     id: 2,
-    name: "Community Health Center",
-    type: "Clinic",
-    rating: 4.5,
-    reviews: 86,
-    address: "456 Oak Avenue, Westside",
-    distance: "0.8 miles",
-    waitTime: "15 min",
-    openingHours: "8:00 AM - 8:00 PM",
-    phone: "(555) 987-6543",
-    services: ["Primary Care", "Vaccinations", "Laboratory", "Mental Health"],
-    image: "https://images.unsplash.com/photo-1516549655724-990a13792167?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    name: "Apollo Hospitals",
+    type: "Multi-Specialty Hospital",
+    rating: 4.7,
+    reviews: 326,
+    address: "Plot No. 251, Old Sainik School Rd, Unit-15, Bhubaneswar",
+    distance: "5.2 km",
+    waitTime: "25 min",
+    openingHours: "24/7",
+    phone: "0674-6661066",
+    services: ["Emergency", "Cardiology", "Oncology", "Orthopedics", "Neurology", "Pulmonology"],
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 3,
-    name: "Riverside Medical Plaza",
-    type: "Medical Center",
-    rating: 4.8,
+    name: "Capital Hospital",
+    type: "Government Hospital",
+    rating: 4.3,
     reviews: 215,
-    address: "789 River Road, Eastside",
-    distance: "2.5 miles",
-    waitTime: "30 min",
-    openingHours: "7:00 AM - 10:00 PM",
-    phone: "(555) 456-7890",
-    services: ["Cardiology", "Orthopedics", "Neurology", "Radiology", "Physical Therapy"],
-    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    address: "Unit-6, Bhubaneswar, Odisha 751001",
+    distance: "3.7 km",
+    waitTime: "45 min",
+    openingHours: "24/7",
+    phone: "0674-2391983",
+    services: ["Emergency", "General Medicine", "Surgery", "Obstetrics", "Pediatrics", "Orthopedics"],
+    image: "https://sambadenglish.com/wp-content/uploads/2020/09/capital-hospital.jpg"
   },
   {
     id: 4,
-    name: "Wellness Family Clinic",
-    type: "Family Practice",
+    name: "Kalinga Institute of Medical Sciences (KIMS)",
+    type: "Medical College & Hospital",
     rating: 4.6,
-    reviews: 64,
-    address: "234 Pine Street, Northside",
-    distance: "1.6 miles",
+    reviews: 278,
+    address: "KIIT Road, Patia, Bhubaneswar, Odisha 751024",
+    distance: "8.3 km",
+    waitTime: "30 min",
+    openingHours: "24/7",
+    phone: "0674-2725466",
+    services: ["Emergency", "Cardiology", "Neurology", "Gastroenterology", "Nephrology", "Urology"],
+    image: "https://www.kims.ac.in/wp-content/uploads/2022/01/kims-3.jpg"
+  },
+  {
+    id: 5,
+    name: "SUM Ultimate Medicare",
+    type: "Super Specialty Hospital",
+    rating: 4.5,
+    reviews: 187,
+    address: "Kalinga Nagar, Ghatikia, Bhubaneswar, Odisha 751003",
+    distance: "7.1 km",
     waitTime: "20 min",
-    openingHours: "9:00 AM - 6:00 PM",
-    phone: "(555) 234-5678",
-    services: ["Family Medicine", "Pediatrics", "Senior Care", "Preventive Medicine"],
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    openingHours: "24/7",
+    phone: "0674-2970100",
+    services: ["Emergency", "Cardiology", "Neuroscience", "Gastroenterology", "Orthopedics", "Oncology"],
+    image: "https://sumhospital.com/wp-content/uploads/2019/06/IMG_9446-870x440.jpg"
+  },
+  {
+    id: 6,
+    name: "Kalinga Hospital",
+    type: "Multi-Specialty Hospital",
+    rating: 4.4,
+    reviews: 163,
+    address: "Chandrasekharpur, Bhubaneswar, Odisha 751023",
+    distance: "6.5 km",
+    waitTime: "30 min",
+    openingHours: "24/7",
+    phone: "0674-6665200",
+    services: ["Emergency", "Cardiology", "Orthopedics", "Gastroenterology", "Nephrology", "Gynecology"],
+    image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
 ];
 
-// Sample data for health programs
+// Bhubaneswar health programs
 const healthPrograms = [
   {
     id: 1,
-    title: "Vaccination Drive",
-    description: "Free and subsidized vaccinations for all residents, with a focus on seasonal flu shots and child immunizations.",
-    date: "October 15-30, 2023",
-    location: "Multiple centers across the city",
+    title: "Bhubaneswar Pulse Polio Drive",
+    description: "Free polio vaccinations for children under 5 years across Bhubaneswar, organized by the Municipal Corporation and Health Department.",
+    date: "April 10-20, 2023",
+    location: "All government hospitals and primary health centers in Bhubaneswar",
     icon: "local_hospital",
     color: "primary"
   },
   {
     id: 2,
-    title: "Mental Health Awareness Week",
-    description: "Workshops, counseling sessions, and community events focused on mental health awareness and support.",
-    date: "November 2-8, 2023",
-    location: "Community Center & Online",
+    title: "Mental Health Awareness Program",
+    description: "Workshops and counseling sessions at AIIMS Bhubaneswar and other hospitals to raise awareness about mental health issues and provide support.",
+    date: "May 5-12, 2023",
+    location: "AIIMS Bhubaneswar, KIMS, and Community Centers",
     icon: "psychology",
     color: "purple"
   },
   {
     id: 3,
-    title: "Senior Wellness Program",
-    description: "Health checkups, fitness classes, and nutrition guidance specially designed for senior citizens.",
+    title: "Odisha Senior Citizen Health Initiative",
+    description: "Free health checkups, fitness classes, and nutrition guidance for senior citizens of Bhubaneswar, organized by the Health Department.",
     date: "Year-round program",
-    location: "Senior Centers & Home Visits",
+    location: "Kalinga Hospital, Apollo Hospitals, and Home Visits",
     icon: "elderly",
     color: "teal"
   },
   {
     id: 4,
-    title: "Maternal Care Initiative",
-    description: "Comprehensive support for expectant mothers including prenatal care, nutrition advice, and childbirth classes.",
+    title: "Janani Suraksha Yojana",
+    description: "Comprehensive support for expectant mothers in Bhubaneswar including prenatal care, nutrition advice, and financial assistance for hospital delivery.",
     date: "Ongoing",
-    location: "Women's Health Centers",
+    location: "Capital Hospital, KIMS, and SUM Ultimate Medicare",
     icon: "pregnant_woman",
     color: "pink"
+  },
+  {
+    id: 5,
+    title: "Bhubaneswar Diabetes Prevention Program",
+    description: "Free diabetes screening, counseling, and lifestyle management workshops for residents of Bhubaneswar to combat rising diabetes cases.",
+    date: "July 1-30, 2023",
+    location: "Apollo Hospitals, AIIMS Bhubaneswar, and Community Health Centers",
+    icon: "local_hospital",
+    color: "amber"
   }
 ];
 
-// Sample data for emergency services
+// Bhubaneswar emergency services
 const emergencyServices = [
   {
     id: 1,
     name: "Ambulance Services",
-    phone: "911",
-    response: "5-10 minutes",
+    phone: "108",
+    response: "10-15 minutes",
     available: true
   },
   {
     id: 2,
     name: "Fire Department Medical Unit",
-    phone: "911",
-    response: "7-12 minutes",
+    phone: "101",
+    response: "12-18 minutes",
     available: true
   },
   {
     id: 3,
-    name: "Emergency Helicopter",
-    phone: "911",
-    response: "15-20 minutes",
+    name: "Apollo Emergency Services",
+    phone: "0674-6661066",
+    response: "8-12 minutes",
     available: true
   },
   {
     id: 4,
-    name: "Poison Control Center",
-    phone: "(800) 222-1222",
+    name: "AIIMS Bhubaneswar Emergency",
+    phone: "0674-2476789",
+    response: "15-20 minutes",
+    available: true
+  },
+  {
+    id: 5,
+    name: "KIMS Emergency Services",
+    phone: "0674-2725466",
+    response: "10-15 minutes",
+    available: true
+  },
+  {
+    id: 6,
+    name: "Odisha Poison Information Center",
+    phone: "0674-2390500",
     response: "Immediate phone consultation",
     available: true
   }
@@ -169,61 +220,95 @@ const healthStats = [
   { name: "Vaccination Rate", value: "87%", change: "+5%", trend: "up" }
 ];
 
-// Sample data for recent health activities
+// Recent Bhubaneswar health activities
 const healthActivities = [
   {
     id: 1,
-    type: "Emergency Call",
-    location: "Main Street & 5th Avenue",
-    time: "25 minutes ago",
+    type: "Emergency Response",
+    location: "Saheed Nagar, Bhubaneswar",
+    time: "20 minutes ago",
     status: "Resolved",
-    details: "Medical emergency responded to by Ambulance #103"
+    details: "Medical emergency responded to by 108 Ambulance Service"
   },
   {
     id: 2,
     type: "Hospital Update",
-    location: "City General Hospital",
-    time: "1 hour ago",
+    location: "AIIMS Bhubaneswar",
+    time: "45 minutes ago",
     status: "Active",
-    details: "Additional ICU beds made available"
+    details: "Additional 25 ICU beds made available for COVID-19 patients"
   },
   {
     id: 3,
     type: "Health Advisory",
-    location: "Citywide",
+    location: "Bhubaneswar Municipal Area",
+    time: "2 hours ago",
+    status: "Active",
+    details: "Heatwave warning issued for Bhubaneswar for next 48 hours, residents advised to stay hydrated"
+  },
+  {
+    id: 4,
+    type: "Vaccination Drive",
+    location: "Capital Hospital, Unit-6",
+    time: "1 hour ago",
+    status: "Active",
+    details: "Special COVID-19 vaccination camp for senior citizens"
+  },
+  {
+    id: 5,
+    type: "Blood Donation Camp",
+    location: "KIIT University Campus",
     time: "3 hours ago",
     status: "Active",
-    details: "Heat wave warning for vulnerable populations"
+    details: "Ongoing blood donation drive organized by Red Cross Society"
   }
 ];
 
 const specialistList = [
   {
     id: 1,
-    name: "Dr. Sarah Johnson",
-    specialty: "Cardiologist",
-    hospital: "City General Hospital",
-    availability: "Next available: Tomorrow, 2:30 PM",
-    rating: 4.8,
-    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    name: "Dr. Ashok Mohapatra",
+    specialty: "Neurosurgeon",
+    hospital: "AIIMS Bhubaneswar",
+    availability: "Next available: Tomorrow, 3:15 PM",
+    rating: 4.9,
+    image: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
   },
   {
     id: 2,
-    name: "Dr. Michael Chen",
-    specialty: "Pediatrician",
-    hospital: "Community Health Center",
-    availability: "Next available: Today, 4:15 PM",
-    rating: 4.9,
-    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    name: "Dr. Pratima Kumari",
+    specialty: "Cardiologist",
+    hospital: "Apollo Hospitals",
+    availability: "Next available: Today, 5:30 PM",
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
   },
   {
     id: 3,
-    name: "Dr. Emily Rodriguez",
-    specialty: "Neurologist",
-    hospital: "Riverside Medical Plaza",
-    availability: "Next available: Thursday, 10:00 AM",
+    name: "Dr. Sanjeev Mishra",
+    specialty: "Orthopedic Surgeon",
+    hospital: "KIMS",
+    availability: "Next available: Friday, 11:00 AM",
     rating: 4.7,
-    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    id: 4,
+    name: "Dr. Nandita Ray",
+    specialty: "Gynecologist",
+    hospital: "SUM Ultimate Medicare",
+    availability: "Next available: Tomorrow, 10:30 AM",
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    id: 5,
+    name: "Dr. Rajiv Dash",
+    specialty: "Pulmonologist",
+    hospital: "Kalinga Hospital",
+    availability: "Next available: Thursday, 2:00 PM",
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
   }
 ];
 
@@ -260,9 +345,9 @@ export default function HealthcarePage() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-slate-800/70 flex items-center">
               <div className="p-8 text-white max-w-3xl">
-                <h1 className="text-3xl md:text-4xl font-bold mb-3">Smart City Healthcare</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-3">Bhubaneswar Healthcare Services</h1>
                 <p className="text-lg text-white/90 mb-6">
-                  Find healthcare facilities, specialists, and services across the city for all your medical needs.
+                  Find world-class healthcare facilities, specialists, and services across Bhubaneswar for all your medical needs.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button className="bg-white text-blue-700 hover:bg-white hover:text-blue-800" size="lg">
@@ -483,9 +568,9 @@ export default function HealthcarePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600/80 to-blue-900/70 flex items-center">
                   <div className="p-6 text-white">
-                    <h2 className="text-2xl font-bold mb-2">City Health Programs</h2>
+                    <h2 className="text-2xl font-bold mb-2">Bhubaneswar Health Programs</h2>
                     <p className="text-white/90">
-                      Free and subsidized health programs to improve public wellness
+                      Free and subsidized health programs to improve public wellness in Bhubaneswar
                     </p>
                   </div>
                 </div>
@@ -574,7 +659,7 @@ export default function HealthcarePage() {
                             <div>
                               <h2 className="text-xl font-semibold text-white">Emergency Services</h2>
                               <p className="text-white/90 mt-1 text-sm">
-                                Dial 911 for immediate emergency assistance
+                                Dial 108 for immediate emergency assistance in Bhubaneswar
                               </p>
                             </div>
                           </div>
@@ -656,7 +741,7 @@ export default function HealthcarePage() {
                         <div className="bg-slate-50 p-4 rounded-lg border-l-4 border-blue-500">
                           <h4 className="font-medium text-slate-800 flex items-center">
                             <Info className="h-4 w-4 mr-2 text-blue-500" />
-                            When to Call 911
+                            When to Call 108
                           </h4>
                           <ul className="mt-2 text-sm text-slate-600 space-y-1">
                             <li>• Difficulty breathing or shortness of breath</li>
@@ -676,7 +761,7 @@ export default function HealthcarePage() {
                             While Waiting for Help
                           </h4>
                           <ul className="mt-2 text-sm text-slate-600 space-y-1">
-                            <li>• Stay on the line with 911</li>
+                            <li>• Stay on the line with 108</li>
                             <li>• Stay calm and reassuring to the patient</li>
                             <li>• Don't move the person unless necessary</li>
                             <li>• If trained, provide first aid or CPR</li>
@@ -700,8 +785,8 @@ export default function HealthcarePage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-red-900/50 flex items-end">
                           <div className="p-4 text-white">
-                            <h4 className="font-semibold">Emergency Response Map</h4>
-                            <p className="text-xs text-white/80">Real-time emergency facility locations</p>
+                            <h4 className="font-semibold">Bhubaneswar Emergency Map</h4>
+                            <p className="text-xs text-white/80">Real-time emergency facility locations in Bhubaneswar</p>
                           </div>
                         </div>
                         
