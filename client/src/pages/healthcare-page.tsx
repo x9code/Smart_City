@@ -24,7 +24,8 @@ import {
   Pill,
   Thermometer,
   FileText,
-  CheckCircle
+  CheckCircle,
+  LocateFixed
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
@@ -558,15 +559,28 @@ export default function HealthcarePage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
                   <Card className="bg-white overflow-hidden mb-6">
-                    <CardHeader className="bg-red-50">
-                      <CardTitle className="text-red-700 flex items-center">
-                        <Activity className="h-5 w-5 mr-2" />
-                        Emergency Services
-                      </CardTitle>
-                      <CardDescription className="text-red-600">
-                        Dial 911 for immediate emergency assistance
-                      </CardDescription>
-                    </CardHeader>
+                    <div className="relative">
+                      <img 
+                        src="https://images.unsplash.com/photo-1616012480717-0166d3a1811a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=200&q=80" 
+                        alt="Emergency Services" 
+                        className="w-full h-28 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-800/80 to-red-900/70">
+                        <div className="h-full p-6 flex flex-col justify-center">
+                          <div className="flex items-center">
+                            <div className="p-2 bg-white/20 rounded-full mr-3">
+                              <Activity className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                              <h2 className="text-xl font-semibold text-white">Emergency Services</h2>
+                              <p className="text-white/90 mt-1 text-sm">
+                                Dial 911 for immediate emergency assistance
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <CardContent className="p-6">
                       <div className="overflow-x-auto">
                         <table className="w-full">
@@ -678,18 +692,38 @@ export default function HealthcarePage() {
 
                   <Card className="bg-white">
                     <CardContent className="p-6">
-                      <div className="flex items-center justify-center bg-slate-50 p-4 rounded-xl mb-4">
+                      <div className="relative overflow-hidden rounded-xl mb-4">
                         <img 
                           src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
                           alt="Emergency Services Map" 
                           className="w-full h-48 object-cover rounded-lg"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-red-900/50 flex items-end">
+                          <div className="p-4 text-white">
+                            <h4 className="font-semibold">Emergency Response Map</h4>
+                            <p className="text-xs text-white/80">Real-time emergency facility locations</p>
+                          </div>
+                        </div>
+                        
+                        {/* Simulated Map Markers */}
+                        <div className="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-red-500 border-2 border-white animate-pulse"></div>
+                        <div className="absolute top-1/2 left-2/3 w-4 h-4 rounded-full bg-red-500 border-2 border-white animate-pulse"></div>
+                        <div className="absolute top-2/3 left-1/3 w-4 h-4 rounded-full bg-red-500 border-2 border-white animate-pulse"></div>
                       </div>
                       <h3 className="text-lg font-semibold text-slate-800 mb-2">Find Emergency Services Near You</h3>
                       <p className="text-sm text-slate-600 mb-4">
                         Use our interactive map to locate the nearest emergency facilities, including hospitals, urgent care, and fire stations.
                       </p>
-                      <Button className="w-full">Open Emergency Map</Button>
+                      <div className="flex gap-2">
+                        <Button className="flex-1">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          Open Map
+                        </Button>
+                        <Button variant="outline" className="flex-1">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          Find Nearest
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>

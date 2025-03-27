@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
 import { Header } from "@/components/layout/header";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   Search, 
   MapPin, 
@@ -32,7 +33,15 @@ import {
   Mail,
   Phone,
   MenuSquare,
-  Landmark
+  Landmark,
+  Clock,
+  Calendar,
+  Image,
+  Eye,
+  CircleHelp,
+  Map,
+  LocateFixed,
+  ParkingCircle
 } from "lucide-react";
 
 const mapMarkersData = [
@@ -117,6 +126,22 @@ const pointsOfInterest = [
     rating: 4.6,
     description: "Well-preserved historic neighborhood with architecture from the 19th century.",
     imageUrl: "https://images.unsplash.com/photo-1501180895265-c00ef6655ed7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 4,
+    name: "Central Library",
+    category: "culture",
+    rating: 4.5,
+    description: "Modern city library with extensive collection and community spaces.",
+    imageUrl: "https://images.unsplash.com/photo-1568667256549-094345857637?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    id: 5,
+    name: "Waterfront Plaza",
+    category: "landmarks",
+    rating: 4.9,
+    description: "Modern architectural marvel with panoramic views of the city skyline.",
+    imageUrl: "https://images.unsplash.com/photo-1600454803722-aad5a107f111?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
   },
 ];
 
@@ -499,13 +524,56 @@ export default function MapPage() {
           
           {/* Map Area */}
           <div className="flex-1 relative bg-slate-100">
-            {/* Map Placeholder - In a real app, this would be replaced with a mapping library component */}
-            <div className="absolute inset-0 bg-slate-200 flex flex-col items-center justify-center">
-              <MapPin className="h-24 w-24 text-slate-400 mb-4" />
-              <h2 className="text-2xl font-bold text-slate-700">City Map Visualization</h2>
-              <p className="text-slate-500 mt-2 max-w-md text-center">
-                In a fully implemented system, this area would display an interactive map with markers, routes, and real-time data.
-              </p>
+            {/* Map Visualization with Actual Map Image */}
+            <div className="absolute inset-0 overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" 
+                alt="City Map Aerial View" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-slate-900/10"></div>
+              
+              {/* Map Markers (simulated) */}
+              <div className="absolute left-1/4 top-1/3 transform -translate-x-1/2 -translate-y-1/2">
+                <div className={`w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center ${selectedMarker === 1 ? 'ring-4 ring-blue-300 scale-125' : ''} cursor-pointer transition-all`} onClick={() => handleMarkerSelect(1)}>
+                  <Landmark className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              
+              <div className="absolute left-1/2 top-2/3 transform -translate-x-1/2 -translate-y-1/2">
+                <div className={`w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center ${selectedMarker === 2 ? 'ring-4 ring-green-300 scale-125' : ''} cursor-pointer transition-all`} onClick={() => handleMarkerSelect(2)}>
+                  <TreePine className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              
+              <div className="absolute left-3/4 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className={`w-6 h-6 bg-purple-500 rounded-full border-2 border-white flex items-center justify-center ${selectedMarker === 3 ? 'ring-4 ring-purple-300 scale-125' : ''} cursor-pointer transition-all`} onClick={() => handleMarkerSelect(3)}>
+                  <Bus className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              
+              <div className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className={`w-6 h-6 bg-red-500 rounded-full border-2 border-white flex items-center justify-center ${selectedMarker === 4 ? 'ring-4 ring-red-300 scale-125' : ''} cursor-pointer transition-all`} onClick={() => handleMarkerSelect(4)}>
+                  <Building className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              
+              <div className="absolute left-2/3 top-1/4 transform -translate-x-1/2 -translate-y-1/2">
+                <div className={`w-6 h-6 bg-amber-500 rounded-full border-2 border-white flex items-center justify-center ${selectedMarker === 5 ? 'ring-4 ring-amber-300 scale-125' : ''} cursor-pointer transition-all`} onClick={() => handleMarkerSelect(5)}>
+                  <ShoppingBag className="h-3 w-3 text-white" />
+                </div>
+              </div>
+              
+              {/* Simulated Traffic Routes */}
+              {preferredTravelMode === "car" && (
+                <div className="absolute inset-0">
+                  <svg width="100%" height="100%" className="absolute inset-0">
+                    <path d="M25%,33% L50%,66%" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" strokeDasharray="10,5" fill="none" />
+                    <path d="M33%,50% L75%,50%" stroke="#ef4444" strokeWidth="4" strokeLinecap="round" fill="none" />
+                    <path d="M66%,25% L25%,33%" stroke="#22c55e" strokeWidth="4" strokeLinecap="round" strokeDasharray="1,5" fill="none" />
+                  </svg>
+                </div>
+              )}
             </div>
             
             {/* Map controls */}
@@ -577,16 +645,113 @@ export default function MapPage() {
               </div>
             )}
             
+            {/* Map Legend and Layer Controls */}
+            <div className="absolute top-16 left-4">
+              <Card className="bg-white shadow-lg w-60">
+                <CardHeader className="p-3 pb-1">
+                  <CardTitle className="text-sm">Map Layers</CardTitle>
+                </CardHeader>
+                <CardContent className="p-3 pt-1">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-slate-700">Government</span>
+                      </div>
+                      <div className="w-4 h-4 p-0.5">
+                        <Eye className="h-3 w-3" />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-slate-700">Parks & Recreation</span>
+                      </div>
+                      <div className="w-4 h-4 p-0.5">
+                        <Eye className="h-3 w-3" />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-purple-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-slate-700">Transit</span>
+                      </div>
+                      <div className="w-4 h-4 p-0.5">
+                        <Eye className="h-3 w-3" />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-slate-700">Healthcare</span>
+                      </div>
+                      <div className="w-4 h-4 p-0.5">
+                        <Eye className="h-3 w-3" />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
+                        <span className="text-xs text-slate-700">Shopping</span>
+                      </div>
+                      <div className="w-4 h-4 p-0.5">
+                        <Eye className="h-3 w-3" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-3 pt-3 border-t border-slate-100">
+                    <h4 className="text-xs font-medium text-slate-700 mb-2">Map Style</h4>
+                    <Select defaultValue="satellite">
+                      <SelectTrigger className="h-8 text-xs">
+                        <SelectValue placeholder="Select Map Style" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="standard">Standard</SelectItem>
+                        <SelectItem value="satellite">Satellite</SelectItem>
+                        <SelectItem value="terrain">Terrain</SelectItem>
+                        <SelectItem value="night">Night Mode</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div className="mt-3 pt-3 border-t border-slate-100">
+                    <h4 className="text-xs font-medium text-slate-700 mb-2">Traffic View</h4>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="text-xs h-8 flex-1">
+                        <Clock className="h-3 w-3 mr-1" />
+                        Live
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs h-8 flex-1">
+                        <ParkingCircle className="h-3 w-3 mr-1" />
+                        Parking
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
             {/* Points of Interest Carousel */}
             <div className="absolute top-4 left-4 right-4 mx-auto max-w-2xl">
               <Card className="bg-white shadow-lg">
                 <CardHeader className="p-3">
                   <CardTitle className="text-base">Points of Interest</CardTitle>
+                  <div className="flex gap-2 justify-end -mt-2">
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs">
+                      <Filter className="h-3 w-3 mr-1" />
+                      Filter
+                    </Button>
+                    <Button size="sm" variant="ghost" className="h-7 px-2 text-xs">
+                      <Map className="h-3 w-3 mr-1" />
+                      Show All
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="p-3">
                   <div className="flex gap-4 overflow-x-auto pb-2">
                     {pointsOfInterest.map(poi => (
-                      <div key={poi.id} className="flex-none w-60 rounded-lg border border-slate-200 overflow-hidden">
+                      <div key={poi.id} className="flex-none w-60 rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
                         <div className="h-32 bg-slate-200 relative">
                           <img 
                             src={poi.imageUrl} 
@@ -598,17 +763,28 @@ export default function MapPage() {
                           >
                             {poi.category.charAt(0).toUpperCase() + poi.category.slice(1)}
                           </Badge>
+                          <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-2 flex items-center">
+                            <div className="flex items-center text-white">
+                              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                              <span className="text-xs ml-1">{poi.rating}</span>
+                            </div>
+                          </div>
                         </div>
                         <div className="p-3">
                           <div className="flex justify-between items-start">
                             <h4 className="font-medium text-slate-800">{poi.name}</h4>
-                            <div className="flex items-center">
-                              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                              <span className="text-xs text-slate-600 ml-1">{poi.rating}</span>
-                            </div>
                           </div>
                           <p className="text-xs text-slate-500 mt-1 line-clamp-2">{poi.description}</p>
-                          <Button size="sm" className="w-full mt-2 text-xs">View Details</Button>
+                          <div className="flex gap-1 mt-2">
+                            <Button size="sm" className="flex-1 text-xs">
+                              <Eye className="h-3 w-3 mr-1" />
+                              Details
+                            </Button>
+                            <Button size="sm" variant="outline" className="flex-1 text-xs">
+                              <Navigation className="h-3 w-3 mr-1" />
+                              Go
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     ))}
