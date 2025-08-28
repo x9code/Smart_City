@@ -6,110 +6,110 @@ import { AnimatedSection } from "@/components/ui/animated-section";
 import { AnimatedProgress } from "@/components/ui/animated-progress";
 
 export function CityStats() {
-  const { data: cityStats, isLoading } = useQuery({
-    queryKey: ["/api/city-stats"],
-  });
-  
-  // State for real-time data that changes based on time
-  const [realTimeStats, setRealTimeStats] = useState({
-    congestionLevel: 32,
-    airQuality: 56,
-    emergencyResponseTime: 4.2,
-    activeVisitors: 9482,
-    trend: {
-      congestion: -5,
-      airQuality: 3,
-      emergencyResponse: -0.5,
-      visitors: 12
-    }
-  });
-  
-  // Time-based data updates
-  useEffect(() => {
-    // Initial calculation based on current hour
-    const updateDataBasedOnTime = () => {
-      const now = new Date();
-      const hour = now.getHours();
-      const minute = now.getMinutes();
-      
-      // Traffic congestion varies by time of day
-      let newCongestion = realTimeStats.congestionLevel;
-      if (hour >= 7 && hour <= 9) {
-        // Morning rush hour: 7-9 AM
-        newCongestion = 45 + Math.floor(Math.random() * 15);
-      } else if (hour >= 16 && hour <= 18) {
-        // Evening rush hour: 4-6 PM
-        newCongestion = 50 + Math.floor(Math.random() * 20);
-      } else if (hour >= 11 && hour <= 13) {
-        // Lunch time: 11 AM - 1 PM
-        newCongestion = 30 + Math.floor(Math.random() * 15);
-      } else if (hour >= 22 || hour <= 5) {
-        // Night time: 10 PM - 5 AM
-        newCongestion = 10 + Math.floor(Math.random() * 10);
-      } else {
-        // Regular daytime
-        newCongestion = 20 + Math.floor(Math.random() * 15);
-      }
-      
-      // Air quality is worse during rush hours and improves at night
-      let newAirQuality = realTimeStats.airQuality;
-      if (hour >= 7 && hour <= 9 || hour >= 16 && hour <= 18) {
-        // Rush hours have worse air quality
-        newAirQuality = 65 + Math.floor(Math.random() * 15);
-      } else if (hour >= 22 || hour <= 5) {
-        // Night time has better air quality
-        newAirQuality = 35 + Math.floor(Math.random() * 15);
-      } else {
-        // Regular daytime
-        newAirQuality = 45 + Math.floor(Math.random() * 15);
-      }
-      
-      // Emergency response time varies with congestion
-      const newResponseTime = 3.5 + (newCongestion / 100 * 2) + (Math.random() * 0.5);
-      
-      // Visitors vary by time of day and increase on weekends
-      const isWeekend = now.getDay() === 0 || now.getDay() === 6;
-      let baseVisitors = 7000;
-      if (isWeekend) {
-        baseVisitors = 9000;
-      }
-      
-      // More visitors during day than night
-      let timeMultiplier = 1.0;
-      if (hour >= 10 && hour <= 16) {
-        timeMultiplier = 1.3; // Peak hours
-      } else if (hour >= 18 || hour <= 6) {
-        timeMultiplier = 0.6; // Night hours
-      }
-      
-      const newVisitors = Math.floor(baseVisitors * timeMultiplier * (0.9 + Math.random() * 0.2));
-      
-      // Calculate trends (compared to previous hour)
-      const prevHourCongestion = hour === 0 ? 15 : (hour === 8 || hour === 17) ? 60 : 30;
-      const congestionTrend = ((newCongestion - prevHourCongestion) / prevHourCongestion * 100).toFixed(1);
-      
-      const prevHourAirQuality = hour === 0 ? 40 : (hour === 8 || hour === 17) ? 70 : 50;
-      const airQualityTrend = ((newAirQuality - prevHourAirQuality) / prevHourAirQuality * 100).toFixed(1);
-      
-      const prevHourResponseTime = 4.0 + (prevHourCongestion / 100 * 2);
-      const responseTrend = ((newResponseTime - prevHourResponseTime) / prevHourResponseTime * 100).toFixed(1);
-      
-      const prevHourVisitors = baseVisitors * (0.9 + Math.random() * 0.2);
-      const visitorsTrend = ((newVisitors - prevHourVisitors) / prevHourVisitors * 100).toFixed(1);
-      
-      setRealTimeStats({
-        congestionLevel: newCongestion,
-        airQuality: newAirQuality,
-        emergencyResponseTime: parseFloat(newResponseTime.toFixed(1)),
-        activeVisitors: newVisitors,
-        trend: {
-          congestion: parseFloat(congestionTrend),
-          airQuality: parseFloat(airQualityTrend),
-          emergencyResponse: parseFloat(responseTrend),
-          visitors: parseFloat(visitorsTrend)
-        }
-      });
-    };
+const { data: cityStats, isLoading } = useQuery({
+queryKey: ["/api/city-stats"],
+});
+
+// State for real-time data that changes based on time
+const [realTimeStats, setRealTimeStats] = useState({
+congestionLevel: 32,
+airQuality: 56,
+emergencyResponseTime: 4.2,
+activeVisitors: 9482,
+trend: {
+congestion: -5,
+airQuality: 3,
+emergencyResponse: -0.5,
+visitors: 12
+}
+});
+
+// Time-based data updates
+useEffect(() => {
+// Initial calculation based on current hour
+const updateDataBasedOnTime = () => {
+const now = new Date();
+const hour = now.getHours();
+const minute = now.getMinutes();
+
+// Traffic congestion varies by time of day
+let newCongestion = realTimeStats.congestionLevel;
+if (hour >= 7 && hour <= 9) {
+// Morning rush hour: 7-9 AM
+newCongestion = 45 + Math.floor(Math.random() * 15);
+} else if (hour >= 16 && hour <= 18) {
+// Evening rush hour: 4-6 PM
+newCongestion = 50 + Math.floor(Math.random() * 20);
+} else if (hour >= 11 && hour <= 13) {
+// Lunch time: 11 AM - 1 PM
+newCongestion = 30 + Math.floor(Math.random() * 15);
+} else if (hour >= 22 || hour <= 5) {
+// Night time: 10 PM - 5 AM
+newCongestion = 10 + Math.floor(Math.random() * 10);
+} else {
+// Regular daytime
+newCongestion = 20 + Math.floor(Math.random() * 15);
+}
+
+// Air quality is worse during rush hours and improves at night
+let newAirQuality = realTimeStats.airQuality;
+if (hour >= 7 && hour <= 9 || hour >= 16 && hour <= 18) {
+// Rush hours have worse air quality
+newAirQuality = 65 + Math.floor(Math.random() * 15);
+} else if (hour >= 22 || hour <= 5) {
+// Night time has better air quality
+newAirQuality = 35 + Math.floor(Math.random() * 15);
+} else {
+// Regular daytime
+newAirQuality = 45 + Math.floor(Math.random() * 15);
+}
+
+// Emergency response time varies with congestion
+const newResponseTime = 3.5 + (newCongestion / 100 * 2) + (Math.random() * 0.5);
+
+// Visitors vary by time of day and increase on weekends
+const isWeekend = now.getDay() === 0 || now.getDay() === 6;
+let baseVisitors = 7000;
+if (isWeekend) {
+baseVisitors = 9000;
+}
+
+// More visitors during day than night
+let timeMultiplier = 1.0;
+if (hour >= 10 && hour <= 16) {
+timeMultiplier = 1.3; // Peak hours
+} else if (hour >= 18 || hour <= 6) {
+timeMultiplier = 0.6; // Night hours
+}
+
+const newVisitors = Math.floor(baseVisitors * timeMultiplier * (0.9 + Math.random() * 0.2));
+
+// Calculate trends (compared to previous hour)
+const prevHourCongestion = hour === 0 ? 15 : (hour === 8 || hour === 17) ? 60 : 30;
+const congestionTrend = ((newCongestion - prevHourCongestion) / prevHourCongestion * 100).toFixed(1);
+
+const prevHourAirQuality = hour === 0 ? 40 : (hour === 8 || hour === 17) ? 70 : 50;
+const airQualityTrend = ((newAirQuality - prevHourAirQuality) / prevHourAirQuality * 100).toFixed(1);
+
+const prevHourResponseTime = 4.0 + (prevHourCongestion / 100 * 2);
+const responseTrend = ((newResponseTime - prevHourResponseTime) / prevHourResponseTime * 100).toFixed(1);
+
+const prevHourVisitors = baseVisitors * (0.9 + Math.random() * 0.2);
+const visitorsTrend = ((newVisitors - prevHourVisitors) / prevHourVisitors * 100).toFixed(1);
+
+setRealTimeStats({
+congestionLevel: newCongestion,
+airQuality: newAirQuality,
+emergencyResponseTime: parseFloat(newResponseTime.toFixed(1)),
+activeVisitors: newVisitors,
+trend: {
+congestion: parseFloat(congestionTrend),
+airQuality: parseFloat(airQualityTrend),
+emergencyResponse: parseFloat(responseTrend),
+visitors: parseFloat(visitorsTrend)
+}
+});
+};
 
     // Update once immediately
     updateDataBasedOnTime();

@@ -497,7 +497,9 @@ export default function MapPage() {
                         <div className="flex mt-1 gap-1">
                           <Button variant="ghost" size="sm" className="text-xs px-2 py-0 h-6 text-blue-600">
                             <LocateFixed className="h-3 w-3 mr-1" />
+                            <a href="">
                             Current Location
+                            </a>
                           </Button>
                           <Button variant="ghost" size="sm" className="text-xs px-2 py-0 h-6 text-blue-600">
                             <Home className="h-3 w-3 mr-1" />
@@ -848,12 +850,16 @@ export default function MapPage() {
                   }}
                 >
                   <LocateFixed className="h-3.5 w-3.5 mr-1.5" />
+                  <a href="https://www.google.com/maps/place/Chandrasekharpur,+Bhubaneswar,+Odisha/@20.3298689,85.8142195,14z/data=!3m1!4b1!4m6!3m5!1s0x3a190910433a10a7:0xd4c260c770582e18!8m2!3d20.3337692!4d85.8240867!16s%2Fm%2F0113hmdm!5m1!1e1?entry=ttu&g_ep=EgoyMDI1MDQwMS4wIKXMDSoASAFQAw%3D%3D">
+                  
                   Find my location in Bhubaneswar
+                  </a>.
                 </Button>
               </div>
             </div>
             
             {/* Selected Marker Info Panel */}
+
             {selectedMarker !== null && (
               <div className="absolute bottom-4 left-4 right-4 bg-white rounded-lg shadow-lg p-4 max-w-md">
                 <div className="flex justify-between items-start">
@@ -947,7 +953,11 @@ export default function MapPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                        <span className="text-xs text-slate-700">Healthcare</span>
+                        <span className="text-xs text-slate-700">
+                          <a href="https://www.carehospitals.com/hospital-detail/care-super-specialty-hospital-bhubaneswar">                   
+                          Healthcare
+                          </a>
+                          </span>
                       </div>
                       <div className="w-4 h-4 p-0.5">
                         <Eye className="h-3 w-3" />
@@ -956,7 +966,11 @@ export default function MapPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <div className="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
-                        <span className="text-xs text-slate-700">Shopping</span>
+                        <span className="text-xs text-slate-700">
+                          <a href="https://www.holidify.com/pages/malls-in-bhubaneswar-1924.html">
+                          Shopping
+                          </a>
+                          </span>
                       </div>
                       <div className="w-4 h-4 p-0.5">
                         <Eye className="h-3 w-3" />

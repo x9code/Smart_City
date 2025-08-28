@@ -28,62 +28,62 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    
-    @Value("${app.corsAllowedOrigins}")
-    private String corsAllowedOrigins;
-    
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+@Value("${app.corsAllowedOrigins}")
+private String corsAllowedOrigins;
 
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
-    }
+@Autowired
+UserDetailsServiceImpl userDetailsService;
 
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
+@Autowired
+private AuthEntryPointJwt unauthorizedHandler;
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+@Bean
+public AuthTokenFilter authenticationJwtTokenFilter() {
+return new AuthTokenFilter();
+}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowedOrigins = Arrays.asList(corsAllowedOrigins.split(",\\s*"));
-        configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+@Override
+public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-            .antMatchers("/auth/**").permitAll()
-            .antMatchers("/test/**").permitAll()
-            .antMatchers("/api/public/**").permitAll()
-            .anyRequest().authenticated();
+@Bean
+@Override
+public AuthenticationManager authenticationManagerBean() throws Exception {
+return super.authenticationManagerBean();
+}
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+@Bean
+public PasswordEncoder passwordEncoder() {
+return new BCryptPasswordEncoder();
+}
+
+@Bean
+CorsConfigurationSource corsConfigurationSource() {
+CorsConfiguration configuration = new CorsConfiguration();
+List<String> allowedOrigins = Arrays.asList(corsAllowedOrigins.split(",\\s*"));
+configuration.setAllowedOrigins(allowedOrigins);
+configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+configuration.setAllowCredentials(true);
+UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+source.registerCorsConfiguration("/**", configuration);
+return source;
+}
+
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+http.cors().and().csrf().disable()
+.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+.authorizeRequests()
+.antMatchers("/auth/**").permitAll()
+.antMatchers("/test/**").permitAll()
+.antMatchers("/api/public/**").permitAll()
+.anyRequest().authenticated();
+
+http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+}
 }

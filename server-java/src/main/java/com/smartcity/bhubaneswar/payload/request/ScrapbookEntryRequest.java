@@ -7,17 +7,17 @@ import javax.validation.constraints.Size;
 
 @Data
 public class ScrapbookEntryRequest {
-    @NotBlank
-    @Size(max = 100)
-    private String title;
+@NotBlank
+@Size(max = 100)
+private String title;
 
-    @NotBlank
-    private String content;
+@NotBlank
+private String content;
 
-    private String imageUrl;
+private String imageUrl;
 
-    private boolean isPublic;
+private boolean isPublic;
 
-    @Size(max = 100)
-    private String location;
+@Size(max = 100)
+private String location;
 }

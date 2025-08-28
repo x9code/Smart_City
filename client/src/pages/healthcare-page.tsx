@@ -357,11 +357,18 @@ export default function HealthcarePage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button className="bg-white text-blue-700 hover:bg-white hover:text-blue-800" size="lg">
                     <Phone className="mr-2 h-5 w-5" />
+                    
+                    <a href="https://surl.li/fyofkt">
                     Emergency Hotline
+
+                    </a>
                   </Button>
                   <Button className="bg-blue-600 text-white hover:bg-blue-700" size="lg">
+                
                     <Calendar className="mr-2 h-5 w-5" />
+                    <a href="https://www.apollo247.com/doctors/doctors-in-bhubaneswar-dcity">
                     Book Appointment
+                    </a>
                   </Button>
                 </div>
               </div>
@@ -422,7 +429,10 @@ export default function HealthcarePage() {
               <div className="flex space-x-2">
                 <Button variant="outline" className="flex items-center">
                   <MapPin className="mr-2 h-4 w-4" />
+                  <a href="https://www.google.com/maps/search/bhubaneswar+near+best+hospital+location/@20.2792163,85.800233,14z?entry=s&sa=X">
+
                   Near Me
+                  </a>
                 </Button>
                 <Button variant="outline" className="flex items-center">
                   <Clock className="mr-2 h-4 w-4" />
@@ -522,7 +532,11 @@ export default function HealthcarePage() {
                       </div>
                     </CardContent>
                     <CardFooter className="p-4 bg-slate-50 border-t border-slate-100">
-                      <Button className="w-full">Book Appointment</Button>
+                      <Button className="w-full">
+                        <a href="https://www.apollohospitals.com/bhubaneswar">
+                        Book Appointment
+                        </a>
+                        </Button>
                     </CardFooter>
                   </Card>
                 ))}
@@ -578,8 +592,12 @@ export default function HealthcarePage() {
                         {specialist.availability}
                       </div>
                       <div className="grid grid-cols-2 gap-2 mt-4">
-                        <Button variant="outline">View Profile</Button>
-                        <Button>Book Now</Button>
+                        <Button variant="outline">
+                          <a href="https://aiimsbhubaneswar.nic.in/Department_Profilepg.aspx">
+                          View Profile
+                          </a>
+                          </Button>
+                        <Button><a href="https://www.practo.com/bhubaneswar">Book Now</a></Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -656,7 +674,11 @@ export default function HealthcarePage() {
                             </p>
                           </div>
                           <div className="mt-4 sm:mt-0">
-                            <Button>Register</Button>
+                            <Button>
+                              <a href="https://health.odisha.gov.in/program-schemes/immunisation-programme">
+                              Register
+                              </a>
+                              </Button>
                           </div>
                         </div>
                       </div>
@@ -821,7 +843,11 @@ export default function HealthcarePage() {
                         </div>
                       </div>
                       <div className="mt-6">
-                        <Button className="w-full">Download Emergency Guide</Button>
+                        <Button className="w-full">
+                          <a href="https://health.odisha.gov.in/sites/default/files/2020-02/STG-2018.pdf">
+                          Download Emergency Guide
+                          </a>
+                          </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -857,11 +883,16 @@ export default function HealthcarePage() {
                       <div className="flex gap-2">
                         <Button className="flex-1">
                           <MapPin className="h-4 w-4 mr-2" />
+                          <a href="https://surl.li/dvvgxc">
                           Open Map
+                          </a>
                         </Button>
                         <Button variant="outline" className="flex-1">
                           <MapPin className="h-4 w-4 mr-2" />
+                          <a href="https://surl.li/dvvgxc">
                           Find Nearest
+
+                          </a>
                         </Button>
                       </div>
                     </CardContent>

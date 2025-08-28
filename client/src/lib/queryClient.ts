@@ -8,13 +8,25 @@ async function throwIfResNotOk(res: Response) {
 }
 
 /**
- * Add content type header for requests with data
+ * Add content type header for requests with data and authentication header if available
  */
 function getHeaders(contentType = false): HeadersInit {
   const headers: HeadersInit = {};
   
   if (contentType) {
     headers["Content-Type"] = "application/json";
+  }
+  
+  // Dynamically import to avoid circular dependency
+  // We use require here because this is run in a function context
+  try {
+    const { authService } = require('./auth-service');
+    const authHeader = authService.getAuthHeader();
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    }
+  } catch (e) {
+    console.warn("Auth service not available when setting headers");
   }
   
   return headers;
@@ -44,7 +56,21 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
     const url = queryKey[0] as string;
     
+    const headers: HeadersInit = {};
+    
+    // Add authorization header if available
+    try {
+      const { authService } = require('./auth-service');
+      const authHeader = authService.getAuthHeader();
+      if (authHeader) {
+        headers["Authorization"] = authHeader;
+      }
+    } catch (e) {
+      // Auth service might not be available
+    }
+    
     const res = await fetch(url, {
+      headers,
       credentials: "include",  // Important for cookie-based session auth
     });
 

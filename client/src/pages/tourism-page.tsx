@@ -348,7 +348,7 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-3">
                   <MapPin className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Attractions</h3>
+                <h3 className="font-medium text-slate-800"><a href="https://surl.li/tmigag">Attractions</a></h3>
                 <p className="text-sm text-slate-500 mt-1">Temples & Parks</p>
               </CardContent>
             </Card>
@@ -358,7 +358,7 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-3">
                   <Ticket className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Events</h3>
+                <h3 className="font-medium text-slate-800"><a href="https://events.bhubaneswar.me/">Events</a></h3>
                 <p className="text-sm text-slate-500 mt-1">Festivals</p>
               </CardContent>
             </Card>
@@ -368,7 +368,7 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-3">
                   <Utensils className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Dining</h3>
+                <h3 className="font-medium text-slate-800"><a href="https://www.zomato.com/bhubaneswar/restaurants/odia?sort=nearme">Dining</a></h3>
                 <p className="text-sm text-slate-500 mt-1">Odia Cuisine</p>
               </CardContent>
             </Card>
@@ -378,7 +378,7 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-3">
                   <Hotel className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Hotels</h3>
+                <h3 className="font-medium text-slate-800"><a href="https://surli.cc/imvwvx">Hotels</a></h3>
                 <p className="text-sm text-slate-500 mt-1">Accommodations</p>
               </CardContent>
             </Card>
@@ -389,7 +389,7 @@ export default function TourismPage() {
                   <Bus className="h-6 w-6" />
                 </div>
                 <h3 className="font-medium text-slate-800">Tours</h3>
-                <p className="text-sm text-slate-500 mt-1">Guided Visits</p>
+                <p className="text-sm text-slate-500 mt-1"><a href="https://www.goindigo.in/indian-destinations/bhubaneswar.html">Guided Visits</a></p>
               </CardContent>
             </Card>
             
@@ -398,7 +398,7 @@ export default function TourismPage() {
                 <div className="h-12 w-12 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mb-3">
                   <ShoppingBag className="h-6 w-6" />
                 </div>
-                <h3 className="font-medium text-slate-800">Shopping</h3>
+                <h3 className="font-medium text-slate-800"><a href="https://www.incredibleindia.gov.in/en/odisha/bhubaneswar/bhubaneswar-a-shoppers-delight">Shopping</a></h3>
                 <p className="text-sm text-slate-500 mt-1">Handicrafts</p>
               </CardContent>
             </Card>

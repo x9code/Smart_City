@@ -537,8 +537,12 @@ export default function SafetyPage() {
                     Emergency Helpline
                   </Button>
                   <Button className="bg-purple-600 text-white hover:bg-purple-700" size="lg">
+                   
                     <Shield className="mr-2 h-5 w-5" />
+                    <a href="file:///C:/Users/Admin/Music/ProjectDelivery/UrbanSmart/client/selfdefence.html">
+            
                     Safety Resources
+                    </a>
                   </Button>
                 </div>
               </div>

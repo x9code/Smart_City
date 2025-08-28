@@ -23,49 +23,49 @@ import { ResponsiveNavbar } from "@/components/layout/responsive-navbar";
 import { AnimatePresence } from "framer-motion";
 
 function Router() {
-  return (
-    <Switch>
-      <Route path="/">
-        <ProtectedRoute component={Dashboard} />
-      </Route>
-      <Route path="/traffic">
-        <ProtectedRoute component={TrafficPage} />
-      </Route>
-      <Route path="/healthcare">
-        <ProtectedRoute component={HealthcarePage} />
-      </Route>
-      <Route path="/safety">
-        <ProtectedRoute component={SafetyPage} />
-      </Route>
-      <Route path="/map">
-        <ProtectedRoute component={MapPage} />
-      </Route>
-      <Route path="/tourism">
-        <ProtectedRoute component={TourismPage} />
-      </Route>
-      <Route path="/education">
-        <ProtectedRoute component={EducationPage} />
-      </Route>
-      <Route path="/onboarding">
-        <ProtectedRoute component={OnboardingPage} />
-      </Route>
-      <Route path="/discovery">
-        <ProtectedRoute component={DiscoveryPage} />
-      </Route>
-      <Route path="/scrapbook">
-        <ProtectedRoute component={ScrapbookPage} />
-      </Route>
-      {/* Admin routes with special protection */}
-      <Route path="/admin/users">
-        <AdminProtectedRoute component={UsersPage} />
-      </Route>
-      <Route path="/admin/settings">
-        <AdminProtectedRoute component={SettingsPage} />
-      </Route>
-      <Route path="/auth" component={AuthPage} />
-      <Route component={NotFound} />
-    </Switch>
-  );
+return (
+<Switch>
+<Route path="/">
+<ProtectedRoute component={Dashboard} />
+</Route>
+<Route path="/traffic">
+<ProtectedRoute component={TrafficPage} />
+</Route>
+<Route path="/healthcare">
+<ProtectedRoute component={HealthcarePage} />
+</Route>
+<Route path="/safety">
+<ProtectedRoute component={SafetyPage} />
+</Route>
+<Route path="/map">
+<ProtectedRoute component={MapPage} />
+</Route>
+<Route path="/tourism">
+<ProtectedRoute component={TourismPage} />
+</Route>
+<Route path="/education">
+<ProtectedRoute component={EducationPage} />
+</Route>
+<Route path="/onboarding">
+<ProtectedRoute component={OnboardingPage} />
+</Route>
+<Route path="/discovery">
+<ProtectedRoute component={DiscoveryPage} />
+</Route>
+<Route path="/scrapbook">
+<ProtectedRoute component={ScrapbookPage} />
+</Route>
+{/* Admin routes with special protection */}
+<Route path="/admin/users">
+<AdminProtectedRoute component={UsersPage} />
+</Route>
+<Route path="/admin/settings">
+<AdminProtectedRoute component={SettingsPage} />
+</Route>
+<Route path="/auth" component={AuthPage} />
+<Route component={NotFound} />
+</Switch>
+);
 }
 
 function App() {

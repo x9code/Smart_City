@@ -4,22 +4,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  ExternalLink, 
-  Layers, 
-  Settings, 
-  AlertCircle, 
-  Map as MapIcon,
-  Navigation,
-  LocateFixed,
-  ZoomIn,
-  ZoomOut,
-  PanelTopOpen,
-  Landmark,
-  Hospital,
-  TreePine,
-  Bus,
-  ShoppingBag,
-  Building
+ExternalLink, 
+Layers, 
+Settings, 
+AlertCircle, 
+Map as MapIcon,
+Navigation,
+LocateFixed,
+ZoomIn,
+ZoomOut,
+PanelTopOpen,
+Landmark,
+Hospital,
+TreePine,
+Bus,
+ShoppingBag,
+Building
 } from "lucide-react";
 import { GoogleMap, useJsApiLoader, TrafficLayer, TransitLayer, MarkerF, InfoWindowF } from '@react-google-maps/api';
 import { Separator } from "@/components/ui/separator";
@@ -31,102 +31,102 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 // Define types for map data
 interface LatLng {
-  lat: number;
-  lng: number;
+lat: number;
+lng: number;
 }
 
 interface MapBounds {
-  northeast: LatLng;
-  southwest: LatLng;
+northeast: LatLng;
+southwest: LatLng;
 }
 
 interface MapPoint {
-  id: number;
-  name: string;
-  category: string;
-  location: LatLng;
-  address: string;
+id: number;
+name: string;
+category: string;
+location: LatLng;
+address: string;
 }
 
 interface TrafficIncident {
-  id: number;
-  type: string;
-  location: string;
-  severity: string;
-  reportedTime: string;
-  status: string;
+id: number;
+type: string;
+location: string;
+severity: string;
+reportedTime: string;
+status: string;
 }
 
 interface MapData {
-  cityBounds: MapBounds;
-  points: MapPoint[];
-  trafficLayers: {
-    congestion: boolean;
-    incidents: boolean;
-    construction: boolean;
-  };
-  safetyLayers: {
-    safetyZones: boolean;
-    emergencyPhones: boolean;
-    lightedPaths: boolean;
-    policeStations: boolean;
-  };
+cityBounds: MapBounds;
+points: MapPoint[];
+trafficLayers: {
+congestion: boolean;
+incidents: boolean;
+construction: boolean;
+};
+safetyLayers: {
+safetyZones: boolean;
+emergencyPhones: boolean;
+lightedPaths: boolean;
+policeStations: boolean;
+};
 }
 
 interface TrafficData {
-  congestion: {
-    downtown: string;
-    uptown: string;
-    suburban: string;
-    highways: string;
-  };
-  incidents: TrafficIncident[];
-  trafficFlowData: { time: string; volume: number }[];
+congestion: {
+downtown: string;
+uptown: string;
+suburban: string;
+highways: string;
+};
+incidents: TrafficIncident[];
+trafficFlowData: { time: string; volume: number }[];
 }
 
 // Map styles
 const mapStyles = [
-  { id: "standard", name: "Standard" },
-  { id: "silver", name: "Silver" },
-  { id: "retro", name: "Retro" },
-  { id: "dark", name: "Dark" }
+{ id: "standard", name: "Standard" },
+{ id: "silver", name: "Silver" },
+{ id: "retro", name: "Retro" },
+{ id: "dark", name: "Dark" }
 ];
 
 const mapViewOptions = [
-  { id: "traffic", label: "Traffic" },
-  { id: "transit", label: "Public Transit" },
-  { id: "satellite", label: "Satellite" },
+{ id: "traffic", label: "Traffic" },
+{ id: "transit", label: "Public Transit" },
+{ id: "satellite", label: "Satellite" },
 ];
 
 // Map styling based on selected style
 const getMapStyling = (style: string) => {
-  switch (style) {
-    case "silver":
-      return [
-        { elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
-        { featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
-        { featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
-      ];
-    case "retro":
-      return [
-        { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
-        { featureType: "road", elementType: "geometry", stylers: [{ color: "#f5f1e6" }] },
-        { featureType: "water", elementType: "geometry.fill", stylers: [{ color: "#b9d3c2" }] },
-      ];
-    case "dark":
-      return [
-        { elementType: "geometry", stylers: [{ color: "#212121" }] },
-        { elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
-        { elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
-        { featureType: "road", elementType: "geometry", stylers: [{ color: "#424242" }] },
-        { featureType: "water", elementType: "geometry", stylers: [{ color: "#1a1a1a" }] },
-      ];
-    default:
-      return [];
-  }
+switch (style) {
+case "silver":
+return [
+{ elementType: "geometry", stylers: [{ color: "#f5f5f5" }] },
+{ elementType: "labels.text.fill", stylers: [{ color: "#616161" }] },
+{ elementType: "labels.text.stroke", stylers: [{ color: "#f5f5f5" }] },
+{ featureType: "road", elementType: "geometry", stylers: [{ color: "#ffffff" }] },
+{ featureType: "water", elementType: "geometry", stylers: [{ color: "#c9c9c9" }] },
+];
+case "retro":
+return [
+{ elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
+{ elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
+{ featureType: "road", elementType: "geometry", stylers: [{ color: "#f5f1e6" }] },
+{ featureType: "water", elementType: "geometry.fill", stylers: [{ color: "#b9d3c2" }] },
+];
+case "dark":
+return [
+{ elementType: "geometry", stylers: [{ color: "#212121" }] },
+{ elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
+{ elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+{ featureType: "road", elementType: "geometry", stylers: [{ color: "#424242" }] },
+{ featureType: "water", elementType: "geometry", stylers: [{ color: "#1a1a1a" }] },
+];
+default:
+return [];
+}
 };
 
 // Map component
